@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package prescriptions;
+option java_multiple_files = true;
+option java_package = "via.pro3.prescriptionsgrpc.generated";
+
+service PrescriptionService {
+  rpc CreatePrescription (CreatePrescriptionRequest) returns (CreatePrescriptionResponse);
+  rpc GetPrescription (GetPrescriptionRequest) returns (GetPrescriptionResponse);
+  rpc CheckCredentials (CheckCredentialsRequest) returns (CheckCredentialsResponse);
+}
+
+enum UserRoles {
+  Invalid = 0;
+  Patient = 1;
+  Doctor = 2;
+  Pharmacist = 3;
+}
+
+message CheckCredentialsRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message CheckCredentialsResponse {
+  UserRoles role = 1;
+}
+message Prescription {
+  int32 id = 1;
+  int32 doctor_id = 2;
+  int32 patient_id = 3;
+}
+
+message CreatePrescriptionRequest {
+  int32 doctor_id = 1;
+  int32 patient_id = 2;
+ }
+
+message CreatePrescriptionResponse {
+  Prescription prescription = 1;
+}
+
+message GetPrescriptionRequest {
+  int32 id = 1;
+}
+
+message GetPrescriptionResponse {
+  Prescription prescription = 1;
+}
