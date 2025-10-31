@@ -28,6 +28,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private Prescription() {
+    drugs_ = java.util.Collections.emptyList();
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor
@@ -76,6 +77,47 @@ private static final long serialVersionUID = 0L;
     return patientId_;
   }
 
+  public static final int DRUGS_FIELD_NUMBER = 6;
+  @SuppressWarnings("serial")
+  private java.util.List<via.pro3.prescriptionsgrpc.generated.Drug> drugs_;
+  /**
+   * <code>repeated .prescriptions.Drug drugs = 6;</code>
+   */
+  @java.lang.Override
+  public java.util.List<via.pro3.prescriptionsgrpc.generated.Drug> getDrugsList() {
+    return drugs_;
+  }
+  /**
+   * <code>repeated .prescriptions.Drug drugs = 6;</code>
+   */
+  @java.lang.Override
+  public java.util.List<? extends via.pro3.prescriptionsgrpc.generated.DrugOrBuilder> 
+      getDrugsOrBuilderList() {
+    return drugs_;
+  }
+  /**
+   * <code>repeated .prescriptions.Drug drugs = 6;</code>
+   */
+  @java.lang.Override
+  public int getDrugsCount() {
+    return drugs_.size();
+  }
+  /**
+   * <code>repeated .prescriptions.Drug drugs = 6;</code>
+   */
+  @java.lang.Override
+  public via.pro3.prescriptionsgrpc.generated.Drug getDrugs(int index) {
+    return drugs_.get(index);
+  }
+  /**
+   * <code>repeated .prescriptions.Drug drugs = 6;</code>
+   */
+  @java.lang.Override
+  public via.pro3.prescriptionsgrpc.generated.DrugOrBuilder getDrugsOrBuilder(
+      int index) {
+    return drugs_.get(index);
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -99,6 +141,9 @@ private static final long serialVersionUID = 0L;
     if (patientId_ != 0) {
       output.writeInt32(3, patientId_);
     }
+    for (int i = 0; i < drugs_.size(); i++) {
+      output.writeMessage(6, drugs_.get(i));
+    }
     getUnknownFields().writeTo(output);
   }
 
@@ -119,6 +164,10 @@ private static final long serialVersionUID = 0L;
     if (patientId_ != 0) {
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(3, patientId_);
+    }
+    for (int i = 0; i < drugs_.size(); i++) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(6, drugs_.get(i));
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -141,6 +190,8 @@ private static final long serialVersionUID = 0L;
         != other.getDoctorId()) return false;
     if (getPatientId()
         != other.getPatientId()) return false;
+    if (!getDrugsList()
+        .equals(other.getDrugsList())) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -158,6 +209,10 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getDoctorId();
     hash = (37 * hash) + PATIENT_ID_FIELD_NUMBER;
     hash = (53 * hash) + getPatientId();
+    if (getDrugsCount() > 0) {
+      hash = (37 * hash) + DRUGS_FIELD_NUMBER;
+      hash = (53 * hash) + getDrugsList().hashCode();
+    }
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -292,6 +347,13 @@ private static final long serialVersionUID = 0L;
       id_ = 0;
       doctorId_ = 0;
       patientId_ = 0;
+      if (drugsBuilder_ == null) {
+        drugs_ = java.util.Collections.emptyList();
+      } else {
+        drugs_ = null;
+        drugsBuilder_.clear();
+      }
+      bitField0_ = (bitField0_ & ~0x00000008);
       return this;
     }
 
@@ -318,9 +380,22 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public via.pro3.prescriptionsgrpc.generated.Prescription buildPartial() {
       via.pro3.prescriptionsgrpc.generated.Prescription result = new via.pro3.prescriptionsgrpc.generated.Prescription(this);
+      buildPartialRepeatedFields(result);
       if (bitField0_ != 0) { buildPartial0(result); }
       onBuilt();
       return result;
+    }
+
+    private void buildPartialRepeatedFields(via.pro3.prescriptionsgrpc.generated.Prescription result) {
+      if (drugsBuilder_ == null) {
+        if (((bitField0_ & 0x00000008) != 0)) {
+          drugs_ = java.util.Collections.unmodifiableList(drugs_);
+          bitField0_ = (bitField0_ & ~0x00000008);
+        }
+        result.drugs_ = drugs_;
+      } else {
+        result.drugs_ = drugsBuilder_.build();
+      }
     }
 
     private void buildPartial0(via.pro3.prescriptionsgrpc.generated.Prescription result) {
@@ -356,6 +431,32 @@ private static final long serialVersionUID = 0L;
       }
       if (other.getPatientId() != 0) {
         setPatientId(other.getPatientId());
+      }
+      if (drugsBuilder_ == null) {
+        if (!other.drugs_.isEmpty()) {
+          if (drugs_.isEmpty()) {
+            drugs_ = other.drugs_;
+            bitField0_ = (bitField0_ & ~0x00000008);
+          } else {
+            ensureDrugsIsMutable();
+            drugs_.addAll(other.drugs_);
+          }
+          onChanged();
+        }
+      } else {
+        if (!other.drugs_.isEmpty()) {
+          if (drugsBuilder_.isEmpty()) {
+            drugsBuilder_.dispose();
+            drugsBuilder_ = null;
+            drugs_ = other.drugs_;
+            bitField0_ = (bitField0_ & ~0x00000008);
+            drugsBuilder_ = 
+              com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                 internalGetDrugsFieldBuilder() : null;
+          } else {
+            drugsBuilder_.addAllMessages(other.drugs_);
+          }
+        }
       }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
@@ -398,6 +499,19 @@ private static final long serialVersionUID = 0L;
               bitField0_ |= 0x00000004;
               break;
             } // case 24
+            case 50: {
+              via.pro3.prescriptionsgrpc.generated.Drug m =
+                  input.readMessage(
+                      via.pro3.prescriptionsgrpc.generated.Drug.parser(),
+                      extensionRegistry);
+              if (drugsBuilder_ == null) {
+                ensureDrugsIsMutable();
+                drugs_.add(m);
+              } else {
+                drugsBuilder_.addMessage(m);
+              }
+              break;
+            } // case 50
             default: {
               if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                 done = true; // was an endgroup tag
@@ -509,6 +623,246 @@ private static final long serialVersionUID = 0L;
       patientId_ = 0;
       onChanged();
       return this;
+    }
+
+    private java.util.List<via.pro3.prescriptionsgrpc.generated.Drug> drugs_ =
+      java.util.Collections.emptyList();
+    private void ensureDrugsIsMutable() {
+      if (!((bitField0_ & 0x00000008) != 0)) {
+        drugs_ = new java.util.ArrayList<via.pro3.prescriptionsgrpc.generated.Drug>(drugs_);
+        bitField0_ |= 0x00000008;
+       }
+    }
+
+    private com.google.protobuf.RepeatedFieldBuilder<
+        via.pro3.prescriptionsgrpc.generated.Drug, via.pro3.prescriptionsgrpc.generated.Drug.Builder, via.pro3.prescriptionsgrpc.generated.DrugOrBuilder> drugsBuilder_;
+
+    /**
+     * <code>repeated .prescriptions.Drug drugs = 6;</code>
+     */
+    public java.util.List<via.pro3.prescriptionsgrpc.generated.Drug> getDrugsList() {
+      if (drugsBuilder_ == null) {
+        return java.util.Collections.unmodifiableList(drugs_);
+      } else {
+        return drugsBuilder_.getMessageList();
+      }
+    }
+    /**
+     * <code>repeated .prescriptions.Drug drugs = 6;</code>
+     */
+    public int getDrugsCount() {
+      if (drugsBuilder_ == null) {
+        return drugs_.size();
+      } else {
+        return drugsBuilder_.getCount();
+      }
+    }
+    /**
+     * <code>repeated .prescriptions.Drug drugs = 6;</code>
+     */
+    public via.pro3.prescriptionsgrpc.generated.Drug getDrugs(int index) {
+      if (drugsBuilder_ == null) {
+        return drugs_.get(index);
+      } else {
+        return drugsBuilder_.getMessage(index);
+      }
+    }
+    /**
+     * <code>repeated .prescriptions.Drug drugs = 6;</code>
+     */
+    public Builder setDrugs(
+        int index, via.pro3.prescriptionsgrpc.generated.Drug value) {
+      if (drugsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureDrugsIsMutable();
+        drugs_.set(index, value);
+        onChanged();
+      } else {
+        drugsBuilder_.setMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .prescriptions.Drug drugs = 6;</code>
+     */
+    public Builder setDrugs(
+        int index, via.pro3.prescriptionsgrpc.generated.Drug.Builder builderForValue) {
+      if (drugsBuilder_ == null) {
+        ensureDrugsIsMutable();
+        drugs_.set(index, builderForValue.build());
+        onChanged();
+      } else {
+        drugsBuilder_.setMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .prescriptions.Drug drugs = 6;</code>
+     */
+    public Builder addDrugs(via.pro3.prescriptionsgrpc.generated.Drug value) {
+      if (drugsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureDrugsIsMutable();
+        drugs_.add(value);
+        onChanged();
+      } else {
+        drugsBuilder_.addMessage(value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .prescriptions.Drug drugs = 6;</code>
+     */
+    public Builder addDrugs(
+        int index, via.pro3.prescriptionsgrpc.generated.Drug value) {
+      if (drugsBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        ensureDrugsIsMutable();
+        drugs_.add(index, value);
+        onChanged();
+      } else {
+        drugsBuilder_.addMessage(index, value);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .prescriptions.Drug drugs = 6;</code>
+     */
+    public Builder addDrugs(
+        via.pro3.prescriptionsgrpc.generated.Drug.Builder builderForValue) {
+      if (drugsBuilder_ == null) {
+        ensureDrugsIsMutable();
+        drugs_.add(builderForValue.build());
+        onChanged();
+      } else {
+        drugsBuilder_.addMessage(builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .prescriptions.Drug drugs = 6;</code>
+     */
+    public Builder addDrugs(
+        int index, via.pro3.prescriptionsgrpc.generated.Drug.Builder builderForValue) {
+      if (drugsBuilder_ == null) {
+        ensureDrugsIsMutable();
+        drugs_.add(index, builderForValue.build());
+        onChanged();
+      } else {
+        drugsBuilder_.addMessage(index, builderForValue.build());
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .prescriptions.Drug drugs = 6;</code>
+     */
+    public Builder addAllDrugs(
+        java.lang.Iterable<? extends via.pro3.prescriptionsgrpc.generated.Drug> values) {
+      if (drugsBuilder_ == null) {
+        ensureDrugsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, drugs_);
+        onChanged();
+      } else {
+        drugsBuilder_.addAllMessages(values);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .prescriptions.Drug drugs = 6;</code>
+     */
+    public Builder clearDrugs() {
+      if (drugsBuilder_ == null) {
+        drugs_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000008);
+        onChanged();
+      } else {
+        drugsBuilder_.clear();
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .prescriptions.Drug drugs = 6;</code>
+     */
+    public Builder removeDrugs(int index) {
+      if (drugsBuilder_ == null) {
+        ensureDrugsIsMutable();
+        drugs_.remove(index);
+        onChanged();
+      } else {
+        drugsBuilder_.remove(index);
+      }
+      return this;
+    }
+    /**
+     * <code>repeated .prescriptions.Drug drugs = 6;</code>
+     */
+    public via.pro3.prescriptionsgrpc.generated.Drug.Builder getDrugsBuilder(
+        int index) {
+      return internalGetDrugsFieldBuilder().getBuilder(index);
+    }
+    /**
+     * <code>repeated .prescriptions.Drug drugs = 6;</code>
+     */
+    public via.pro3.prescriptionsgrpc.generated.DrugOrBuilder getDrugsOrBuilder(
+        int index) {
+      if (drugsBuilder_ == null) {
+        return drugs_.get(index);  } else {
+        return drugsBuilder_.getMessageOrBuilder(index);
+      }
+    }
+    /**
+     * <code>repeated .prescriptions.Drug drugs = 6;</code>
+     */
+    public java.util.List<? extends via.pro3.prescriptionsgrpc.generated.DrugOrBuilder> 
+         getDrugsOrBuilderList() {
+      if (drugsBuilder_ != null) {
+        return drugsBuilder_.getMessageOrBuilderList();
+      } else {
+        return java.util.Collections.unmodifiableList(drugs_);
+      }
+    }
+    /**
+     * <code>repeated .prescriptions.Drug drugs = 6;</code>
+     */
+    public via.pro3.prescriptionsgrpc.generated.Drug.Builder addDrugsBuilder() {
+      return internalGetDrugsFieldBuilder().addBuilder(
+          via.pro3.prescriptionsgrpc.generated.Drug.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .prescriptions.Drug drugs = 6;</code>
+     */
+    public via.pro3.prescriptionsgrpc.generated.Drug.Builder addDrugsBuilder(
+        int index) {
+      return internalGetDrugsFieldBuilder().addBuilder(
+          index, via.pro3.prescriptionsgrpc.generated.Drug.getDefaultInstance());
+    }
+    /**
+     * <code>repeated .prescriptions.Drug drugs = 6;</code>
+     */
+    public java.util.List<via.pro3.prescriptionsgrpc.generated.Drug.Builder> 
+         getDrugsBuilderList() {
+      return internalGetDrugsFieldBuilder().getBuilderList();
+    }
+    private com.google.protobuf.RepeatedFieldBuilder<
+        via.pro3.prescriptionsgrpc.generated.Drug, via.pro3.prescriptionsgrpc.generated.Drug.Builder, via.pro3.prescriptionsgrpc.generated.DrugOrBuilder> 
+        internalGetDrugsFieldBuilder() {
+      if (drugsBuilder_ == null) {
+        drugsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+            via.pro3.prescriptionsgrpc.generated.Drug, via.pro3.prescriptionsgrpc.generated.Drug.Builder, via.pro3.prescriptionsgrpc.generated.DrugOrBuilder>(
+                drugs_,
+                ((bitField0_ & 0x00000008) != 0),
+                getParentForChildren(),
+                isClean());
+        drugs_ = null;
+      }
+      return drugsBuilder_;
     }
 
     // @@protoc_insertion_point(builder_scope:prescriptions.Prescription)

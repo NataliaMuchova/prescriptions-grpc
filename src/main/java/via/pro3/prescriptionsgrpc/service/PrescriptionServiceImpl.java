@@ -53,13 +53,12 @@ public class PrescriptionServiceImpl extends PrescriptionServiceGrpc.Prescriptio
   public void checkCredentials(CheckCredentialsRequest request,
                                StreamObserver<CheckCredentialsResponse> responseObserver) {
 
-    UserRoles role = UserRoles.Invalid;
-    String u = request.getUsername();
-    if (u != null) {
-      if (u.startsWith("doc")) role = UserRoles.Doctor;
-      else if (u.startsWith("pat")) role = UserRoles.Patient;
-      else if (u.startsWith("pha")) role = UserRoles.Pharmacist;
-    }
+    int u = request.getUsername();
+    UserRoles role =
+        (u == 1) ? UserRoles.Doctor :
+            (u == 2) ? UserRoles.Patient :
+                (u == 3) ? UserRoles.Pharmacist :
+                    UserRoles.Invalid;
 
     responseObserver.onNext(CheckCredentialsResponse.newBuilder().setRole(role).build());
     responseObserver.onCompleted();

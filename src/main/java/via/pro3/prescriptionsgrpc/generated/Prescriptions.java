@@ -61,6 +61,11 @@ public final class Prescriptions {
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_prescriptions_GetPrescriptionResponse_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_prescriptions_Drug_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_prescriptions_Drug_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -72,28 +77,33 @@ public final class Prescriptions {
     java.lang.String[] descriptorData = {
       "\n\023prescriptions.proto\022\rprescriptions\"=\n\027" +
       "CheckCredentialsRequest\022\020\n\010username\030\001 \001(" +
-      "\t\022\020\n\010password\030\002 \001(\t\"B\n\030CheckCredentialsR" +
+      "\005\022\020\n\010password\030\002 \001(\t\"B\n\030CheckCredentialsR" +
       "esponse\022&\n\004role\030\001 \001(\0162\030.prescriptions.Us" +
-      "erRoles\"A\n\014Prescription\022\n\n\002id\030\001 \001(\005\022\021\n\td" +
-      "octor_id\030\002 \001(\005\022\022\n\npatient_id\030\003 \001(\005\"B\n\031Cr" +
-      "eatePrescriptionRequest\022\021\n\tdoctor_id\030\001 \001" +
-      "(\005\022\022\n\npatient_id\030\002 \001(\005\"O\n\032CreatePrescrip" +
-      "tionResponse\0221\n\014prescription\030\001 \001(\0132\033.pre" +
-      "scriptions.Prescription\"$\n\026GetPrescripti" +
-      "onRequest\022\n\n\002id\030\001 \001(\005\"L\n\027GetPrescription" +
-      "Response\0221\n\014prescription\030\001 \001(\0132\033.prescri" +
-      "ptions.Prescription*A\n\tUserRoles\022\013\n\007Inva" +
-      "lid\020\000\022\013\n\007Patient\020\001\022\n\n\006Doctor\020\002\022\016\n\nPharma" +
-      "cist\020\0032\307\002\n\023PrescriptionService\022i\n\022Create" +
-      "Prescription\022(.prescriptions.CreatePresc" +
-      "riptionRequest\032).prescriptions.CreatePre" +
-      "scriptionResponse\022`\n\017GetPrescription\022%.p" +
-      "rescriptions.GetPrescriptionRequest\032&.pr" +
-      "escriptions.GetPrescriptionResponse\022c\n\020C" +
-      "heckCredentials\022&.prescriptions.CheckCre" +
-      "dentialsRequest\032\'.prescriptions.CheckCre" +
-      "dentialsResponseB(\n$via.pro3.prescriptio" +
-      "nsgrpc.generatedP\001b\006proto3"
+      "erRoles\"e\n\014Prescription\022\n\n\002id\030\001 \001(\005\022\021\n\td" +
+      "octor_id\030\002 \001(\005\022\022\n\npatient_id\030\003 \001(\005\022\"\n\005dr" +
+      "ugs\030\006 \003(\0132\023.prescriptions.Drug\"f\n\031Create" +
+      "PrescriptionRequest\022\021\n\tdoctor_id\030\001 \001(\005\022\022" +
+      "\n\npatient_id\030\002 \001(\005\022\"\n\005drugs\030\003 \003(\0132\023.pres" +
+      "criptions.Drug\"O\n\032CreatePrescriptionResp" +
+      "onse\0221\n\014prescription\030\001 \001(\0132\033.prescriptio" +
+      "ns.Prescription\"$\n\026GetPrescriptionReques" +
+      "t\022\n\n\002id\030\001 \001(\005\"L\n\027GetPrescriptionResponse" +
+      "\0221\n\014prescription\030\001 \001(\0132\033.prescriptions.P" +
+      "rescription\"o\n\004Drug\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030" +
+      "\002 \001(\t\022\023\n\013description\030\003 \001(\t\022\016\n\006amount\030\004 \001" +
+      "(\005\022\032\n\022availability_count\030\005 \001(\005\022\014\n\004note\030\006" +
+      " \001(\t*A\n\tUserRoles\022\013\n\007Invalid\020\000\022\013\n\007Patien" +
+      "t\020\001\022\n\n\006Doctor\020\002\022\016\n\nPharmacist\020\0032\307\002\n\023Pres" +
+      "criptionService\022i\n\022CreatePrescription\022(." +
+      "prescriptions.CreatePrescriptionRequest\032" +
+      ").prescriptions.CreatePrescriptionRespon" +
+      "se\022`\n\017GetPrescription\022%.prescriptions.Ge" +
+      "tPrescriptionRequest\032&.prescriptions.Get" +
+      "PrescriptionResponse\022c\n\020CheckCredentials" +
+      "\022&.prescriptions.CheckCredentialsRequest" +
+      "\032\'.prescriptions.CheckCredentialsRespons" +
+      "eB(\n$via.pro3.prescriptionsgrpc.generate" +
+      "dP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -116,13 +126,13 @@ public final class Prescriptions {
     internal_static_prescriptions_Prescription_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_prescriptions_Prescription_descriptor,
-        new java.lang.String[] { "Id", "DoctorId", "PatientId", });
+        new java.lang.String[] { "Id", "DoctorId", "PatientId", "Drugs", });
     internal_static_prescriptions_CreatePrescriptionRequest_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_prescriptions_CreatePrescriptionRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_prescriptions_CreatePrescriptionRequest_descriptor,
-        new java.lang.String[] { "DoctorId", "PatientId", });
+        new java.lang.String[] { "DoctorId", "PatientId", "Drugs", });
     internal_static_prescriptions_CreatePrescriptionResponse_descriptor =
       getDescriptor().getMessageTypes().get(4);
     internal_static_prescriptions_CreatePrescriptionResponse_fieldAccessorTable = new
@@ -141,6 +151,12 @@ public final class Prescriptions {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_prescriptions_GetPrescriptionResponse_descriptor,
         new java.lang.String[] { "Prescription", });
+    internal_static_prescriptions_Drug_descriptor =
+      getDescriptor().getMessageTypes().get(7);
+    internal_static_prescriptions_Drug_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_prescriptions_Drug_descriptor,
+        new java.lang.String[] { "Id", "Name", "Description", "Amount", "AvailabilityCount", "Note", });
     descriptor.resolveAllFeaturesImmutable();
   }
 

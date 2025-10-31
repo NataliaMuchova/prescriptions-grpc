@@ -27,4 +27,28 @@ public interface PrescriptionOrBuilder extends
    * @return The patientId.
    */
   int getPatientId();
+
+  /**
+   * <code>repeated .prescriptions.Drug drugs = 6;</code>
+   */
+  java.util.List<via.pro3.prescriptionsgrpc.generated.Drug> 
+      getDrugsList();
+  /**
+   * <code>repeated .prescriptions.Drug drugs = 6;</code>
+   */
+  via.pro3.prescriptionsgrpc.generated.Drug getDrugs(int index);
+  /**
+   * <code>repeated .prescriptions.Drug drugs = 6;</code>
+   */
+  int getDrugsCount();
+  /**
+   * <code>repeated .prescriptions.Drug drugs = 6;</code>
+   */
+  java.util.List<? extends via.pro3.prescriptionsgrpc.generated.DrugOrBuilder> 
+      getDrugsOrBuilderList();
+  /**
+   * <code>repeated .prescriptions.Drug drugs = 6;</code>
+   */
+  via.pro3.prescriptionsgrpc.generated.DrugOrBuilder getDrugsOrBuilder(
+      int index);
 }
