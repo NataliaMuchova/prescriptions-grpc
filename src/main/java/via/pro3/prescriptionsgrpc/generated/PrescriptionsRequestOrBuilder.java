@@ -6,13 +6,13 @@
 package via.pro3.prescriptionsgrpc.generated;
 
 @com.google.protobuf.Generated
-public interface GetPrescriptionRequestOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:prescriptions.GetPrescriptionRequest)
+public interface PrescriptionsRequestOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:prescriptions.PrescriptionsRequest)
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>int32 id = 1;</code>
-   * @return The id.
+   * <code>int32 patient_id = 1;</code>
+   * @return The patientId.
    */
-  int getId();
+  int getPatientId();
 }

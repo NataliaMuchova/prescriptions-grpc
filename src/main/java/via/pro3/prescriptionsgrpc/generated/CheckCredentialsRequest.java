@@ -44,15 +44,15 @@ private static final long serialVersionUID = 0L;
             via.pro3.prescriptionsgrpc.generated.CheckCredentialsRequest.class, via.pro3.prescriptionsgrpc.generated.CheckCredentialsRequest.Builder.class);
   }
 
-  public static final int USERNAME_FIELD_NUMBER = 1;
-  private int username_ = 0;
+  public static final int USER_ID_FIELD_NUMBER = 1;
+  private int userId_ = 0;
   /**
-   * <code>int32 username = 1;</code>
-   * @return The username.
+   * <code>int32 user_id = 1;</code>
+   * @return The userId.
    */
   @java.lang.Override
-  public int getUsername() {
-    return username_;
+  public int getUserId() {
+    return userId_;
   }
 
   public static final int PASSWORD_FIELD_NUMBER = 2;
@@ -108,8 +108,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (username_ != 0) {
-      output.writeInt32(1, username_);
+    if (userId_ != 0) {
+      output.writeInt32(1, userId_);
     }
     if (!com.google.protobuf.GeneratedMessage.isStringEmpty(password_)) {
       com.google.protobuf.GeneratedMessage.writeString(output, 2, password_);
@@ -123,9 +123,9 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (username_ != 0) {
+    if (userId_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(1, username_);
+        .computeInt32Size(1, userId_);
     }
     if (!com.google.protobuf.GeneratedMessage.isStringEmpty(password_)) {
       size += com.google.protobuf.GeneratedMessage.computeStringSize(2, password_);
@@ -145,8 +145,8 @@ private static final long serialVersionUID = 0L;
     }
     via.pro3.prescriptionsgrpc.generated.CheckCredentialsRequest other = (via.pro3.prescriptionsgrpc.generated.CheckCredentialsRequest) obj;
 
-    if (getUsername()
-        != other.getUsername()) return false;
+    if (getUserId()
+        != other.getUserId()) return false;
     if (!getPassword()
         .equals(other.getPassword())) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
@@ -160,8 +160,8 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + USERNAME_FIELD_NUMBER;
-    hash = (53 * hash) + getUsername();
+    hash = (37 * hash) + USER_ID_FIELD_NUMBER;
+    hash = (53 * hash) + getUserId();
     hash = (37 * hash) + PASSWORD_FIELD_NUMBER;
     hash = (53 * hash) + getPassword().hashCode();
     hash = (29 * hash) + getUnknownFields().hashCode();
@@ -295,7 +295,7 @@ private static final long serialVersionUID = 0L;
     public Builder clear() {
       super.clear();
       bitField0_ = 0;
-      username_ = 0;
+      userId_ = 0;
       password_ = "";
       return this;
     }
@@ -331,7 +331,7 @@ private static final long serialVersionUID = 0L;
     private void buildPartial0(via.pro3.prescriptionsgrpc.generated.CheckCredentialsRequest result) {
       int from_bitField0_ = bitField0_;
       if (((from_bitField0_ & 0x00000001) != 0)) {
-        result.username_ = username_;
+        result.userId_ = userId_;
       }
       if (((from_bitField0_ & 0x00000002) != 0)) {
         result.password_ = password_;
@@ -350,8 +350,8 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(via.pro3.prescriptionsgrpc.generated.CheckCredentialsRequest other) {
       if (other == via.pro3.prescriptionsgrpc.generated.CheckCredentialsRequest.getDefaultInstance()) return this;
-      if (other.getUsername() != 0) {
-        setUsername(other.getUsername());
+      if (other.getUserId() != 0) {
+        setUserId(other.getUserId());
       }
       if (!other.getPassword().isEmpty()) {
         password_ = other.password_;
@@ -385,7 +385,7 @@ private static final long serialVersionUID = 0L;
               done = true;
               break;
             case 8: {
-              username_ = input.readInt32();
+              userId_ = input.readInt32();
               bitField0_ |= 0x00000001;
               break;
             } // case 8
@@ -411,34 +411,34 @@ private static final long serialVersionUID = 0L;
     }
     private int bitField0_;
 
-    private int username_ ;
+    private int userId_ ;
     /**
-     * <code>int32 username = 1;</code>
-     * @return The username.
+     * <code>int32 user_id = 1;</code>
+     * @return The userId.
      */
     @java.lang.Override
-    public int getUsername() {
-      return username_;
+    public int getUserId() {
+      return userId_;
     }
     /**
-     * <code>int32 username = 1;</code>
-     * @param value The username to set.
+     * <code>int32 user_id = 1;</code>
+     * @param value The userId to set.
      * @return This builder for chaining.
      */
-    public Builder setUsername(int value) {
+    public Builder setUserId(int value) {
 
-      username_ = value;
+      userId_ = value;
       bitField0_ |= 0x00000001;
       onChanged();
       return this;
     }
     /**
-     * <code>int32 username = 1;</code>
+     * <code>int32 user_id = 1;</code>
      * @return This builder for chaining.
      */
-    public Builder clearUsername() {
+    public Builder clearUserId() {
       bitField0_ = (bitField0_ & ~0x00000001);
-      username_ = 0;
+      userId_ = 0;
       onChanged();
       return this;
     }

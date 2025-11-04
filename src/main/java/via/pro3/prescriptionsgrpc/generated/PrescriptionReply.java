@@ -6,13 +6,13 @@
 package via.pro3.prescriptionsgrpc.generated;
 
 /**
- * Protobuf type {@code prescriptions.Prescription}
+ * Protobuf type {@code prescriptions.PrescriptionReply}
  */
 @com.google.protobuf.Generated
-public final class Prescription extends
+public final class PrescriptionReply extends
     com.google.protobuf.GeneratedMessage implements
-    // @@protoc_insertion_point(message_implements:prescriptions.Prescription)
-    PrescriptionOrBuilder {
+    // @@protoc_insertion_point(message_implements:prescriptions.PrescriptionReply)
+    PrescriptionReplyOrBuilder {
 private static final long serialVersionUID = 0L;
   static {
     com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
@@ -21,29 +21,30 @@ private static final long serialVersionUID = 0L;
       /* minor= */ 32,
       /* patch= */ 0,
       /* suffix= */ "",
-      Prescription.class.getName());
+      PrescriptionReply.class.getName());
   }
-  // Use Prescription.newBuilder() to construct.
-  private Prescription(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  // Use PrescriptionReply.newBuilder() to construct.
+  private PrescriptionReply(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
     super(builder);
   }
-  private Prescription() {
+  private PrescriptionReply() {
     drugs_ = java.util.Collections.emptyList();
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_Prescription_descriptor;
+    return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_PrescriptionReply_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_Prescription_fieldAccessorTable
+    return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_PrescriptionReply_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            via.pro3.prescriptionsgrpc.generated.Prescription.class, via.pro3.prescriptionsgrpc.generated.Prescription.Builder.class);
+            via.pro3.prescriptionsgrpc.generated.PrescriptionReply.class, via.pro3.prescriptionsgrpc.generated.PrescriptionReply.Builder.class);
   }
 
+  private int bitField0_;
   public static final int ID_FIELD_NUMBER = 1;
   private int id_ = 0;
   /**
@@ -55,10 +56,21 @@ private static final long serialVersionUID = 0L;
     return id_;
   }
 
-  public static final int DOCTOR_ID_FIELD_NUMBER = 2;
+  public static final int PATIENT_ID_FIELD_NUMBER = 2;
+  private int patientId_ = 0;
+  /**
+   * <code>int32 patient_id = 2;</code>
+   * @return The patientId.
+   */
+  @java.lang.Override
+  public int getPatientId() {
+    return patientId_;
+  }
+
+  public static final int DOCTOR_ID_FIELD_NUMBER = 3;
   private int doctorId_ = 0;
   /**
-   * <code>int32 doctor_id = 2;</code>
+   * <code>int32 doctor_id = 3;</code>
    * @return The doctorId.
    */
   @java.lang.Override
@@ -66,15 +78,56 @@ private static final long serialVersionUID = 0L;
     return doctorId_;
   }
 
-  public static final int PATIENT_ID_FIELD_NUMBER = 3;
-  private int patientId_ = 0;
+  public static final int ISSUE_DATE_FIELD_NUMBER = 4;
+  private com.google.protobuf.Timestamp issueDate_;
   /**
-   * <code>int32 patient_id = 3;</code>
-   * @return The patientId.
+   * <code>.google.protobuf.Timestamp issue_date = 4;</code>
+   * @return Whether the issueDate field is set.
    */
   @java.lang.Override
-  public int getPatientId() {
-    return patientId_;
+  public boolean hasIssueDate() {
+    return ((bitField0_ & 0x00000001) != 0);
+  }
+  /**
+   * <code>.google.protobuf.Timestamp issue_date = 4;</code>
+   * @return The issueDate.
+   */
+  @java.lang.Override
+  public com.google.protobuf.Timestamp getIssueDate() {
+    return issueDate_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : issueDate_;
+  }
+  /**
+   * <code>.google.protobuf.Timestamp issue_date = 4;</code>
+   */
+  @java.lang.Override
+  public com.google.protobuf.TimestampOrBuilder getIssueDateOrBuilder() {
+    return issueDate_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : issueDate_;
+  }
+
+  public static final int EXPIRATION_DATE_FIELD_NUMBER = 5;
+  private com.google.protobuf.Timestamp expirationDate_;
+  /**
+   * <code>.google.protobuf.Timestamp expiration_date = 5;</code>
+   * @return Whether the expirationDate field is set.
+   */
+  @java.lang.Override
+  public boolean hasExpirationDate() {
+    return ((bitField0_ & 0x00000002) != 0);
+  }
+  /**
+   * <code>.google.protobuf.Timestamp expiration_date = 5;</code>
+   * @return The expirationDate.
+   */
+  @java.lang.Override
+  public com.google.protobuf.Timestamp getExpirationDate() {
+    return expirationDate_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : expirationDate_;
+  }
+  /**
+   * <code>.google.protobuf.Timestamp expiration_date = 5;</code>
+   */
+  @java.lang.Override
+  public com.google.protobuf.TimestampOrBuilder getExpirationDateOrBuilder() {
+    return expirationDate_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : expirationDate_;
   }
 
   public static final int DRUGS_FIELD_NUMBER = 6;
@@ -135,11 +188,17 @@ private static final long serialVersionUID = 0L;
     if (id_ != 0) {
       output.writeInt32(1, id_);
     }
-    if (doctorId_ != 0) {
-      output.writeInt32(2, doctorId_);
-    }
     if (patientId_ != 0) {
-      output.writeInt32(3, patientId_);
+      output.writeInt32(2, patientId_);
+    }
+    if (doctorId_ != 0) {
+      output.writeInt32(3, doctorId_);
+    }
+    if (((bitField0_ & 0x00000001) != 0)) {
+      output.writeMessage(4, getIssueDate());
+    }
+    if (((bitField0_ & 0x00000002) != 0)) {
+      output.writeMessage(5, getExpirationDate());
     }
     for (int i = 0; i < drugs_.size(); i++) {
       output.writeMessage(6, drugs_.get(i));
@@ -157,13 +216,21 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(1, id_);
     }
-    if (doctorId_ != 0) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(2, doctorId_);
-    }
     if (patientId_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(3, patientId_);
+        .computeInt32Size(2, patientId_);
+    }
+    if (doctorId_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(3, doctorId_);
+    }
+    if (((bitField0_ & 0x00000001) != 0)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(4, getIssueDate());
+    }
+    if (((bitField0_ & 0x00000002) != 0)) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeMessageSize(5, getExpirationDate());
     }
     for (int i = 0; i < drugs_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
@@ -179,17 +246,27 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof via.pro3.prescriptionsgrpc.generated.Prescription)) {
+    if (!(obj instanceof via.pro3.prescriptionsgrpc.generated.PrescriptionReply)) {
       return super.equals(obj);
     }
-    via.pro3.prescriptionsgrpc.generated.Prescription other = (via.pro3.prescriptionsgrpc.generated.Prescription) obj;
+    via.pro3.prescriptionsgrpc.generated.PrescriptionReply other = (via.pro3.prescriptionsgrpc.generated.PrescriptionReply) obj;
 
     if (getId()
         != other.getId()) return false;
-    if (getDoctorId()
-        != other.getDoctorId()) return false;
     if (getPatientId()
         != other.getPatientId()) return false;
+    if (getDoctorId()
+        != other.getDoctorId()) return false;
+    if (hasIssueDate() != other.hasIssueDate()) return false;
+    if (hasIssueDate()) {
+      if (!getIssueDate()
+          .equals(other.getIssueDate())) return false;
+    }
+    if (hasExpirationDate() != other.hasExpirationDate()) return false;
+    if (hasExpirationDate()) {
+      if (!getExpirationDate()
+          .equals(other.getExpirationDate())) return false;
+    }
     if (!getDrugsList()
         .equals(other.getDrugsList())) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
@@ -205,10 +282,18 @@ private static final long serialVersionUID = 0L;
     hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + ID_FIELD_NUMBER;
     hash = (53 * hash) + getId();
-    hash = (37 * hash) + DOCTOR_ID_FIELD_NUMBER;
-    hash = (53 * hash) + getDoctorId();
     hash = (37 * hash) + PATIENT_ID_FIELD_NUMBER;
     hash = (53 * hash) + getPatientId();
+    hash = (37 * hash) + DOCTOR_ID_FIELD_NUMBER;
+    hash = (53 * hash) + getDoctorId();
+    if (hasIssueDate()) {
+      hash = (37 * hash) + ISSUE_DATE_FIELD_NUMBER;
+      hash = (53 * hash) + getIssueDate().hashCode();
+    }
+    if (hasExpirationDate()) {
+      hash = (37 * hash) + EXPIRATION_DATE_FIELD_NUMBER;
+      hash = (53 * hash) + getExpirationDate().hashCode();
+    }
     if (getDrugsCount() > 0) {
       hash = (37 * hash) + DRUGS_FIELD_NUMBER;
       hash = (53 * hash) + getDrugsList().hashCode();
@@ -218,44 +303,44 @@ private static final long serialVersionUID = 0L;
     return hash;
   }
 
-  public static via.pro3.prescriptionsgrpc.generated.Prescription parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionReply parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.pro3.prescriptionsgrpc.generated.Prescription parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionReply parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.pro3.prescriptionsgrpc.generated.Prescription parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionReply parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.pro3.prescriptionsgrpc.generated.Prescription parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionReply parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.pro3.prescriptionsgrpc.generated.Prescription parseFrom(byte[] data)
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionReply parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.pro3.prescriptionsgrpc.generated.Prescription parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionReply parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.pro3.prescriptionsgrpc.generated.Prescription parseFrom(java.io.InputStream input)
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionReply parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseWithIOException(PARSER, input);
   }
-  public static via.pro3.prescriptionsgrpc.generated.Prescription parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionReply parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -263,26 +348,26 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
-  public static via.pro3.prescriptionsgrpc.generated.Prescription parseDelimitedFrom(java.io.InputStream input)
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionReply parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseDelimitedWithIOException(PARSER, input);
   }
 
-  public static via.pro3.prescriptionsgrpc.generated.Prescription parseDelimitedFrom(
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionReply parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static via.pro3.prescriptionsgrpc.generated.Prescription parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionReply parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseWithIOException(PARSER, input);
   }
-  public static via.pro3.prescriptionsgrpc.generated.Prescription parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionReply parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -295,7 +380,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(via.pro3.prescriptionsgrpc.generated.Prescription prototype) {
+  public static Builder newBuilder(via.pro3.prescriptionsgrpc.generated.PrescriptionReply prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -311,66 +396,84 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code prescriptions.Prescription}
+   * Protobuf type {@code prescriptions.PrescriptionReply}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:prescriptions.Prescription)
-      via.pro3.prescriptionsgrpc.generated.PrescriptionOrBuilder {
+      // @@protoc_insertion_point(builder_implements:prescriptions.PrescriptionReply)
+      via.pro3.prescriptionsgrpc.generated.PrescriptionReplyOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_Prescription_descriptor;
+      return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_PrescriptionReply_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_Prescription_fieldAccessorTable
+      return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_PrescriptionReply_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              via.pro3.prescriptionsgrpc.generated.Prescription.class, via.pro3.prescriptionsgrpc.generated.Prescription.Builder.class);
+              via.pro3.prescriptionsgrpc.generated.PrescriptionReply.class, via.pro3.prescriptionsgrpc.generated.PrescriptionReply.Builder.class);
     }
 
-    // Construct using via.pro3.prescriptionsgrpc.generated.Prescription.newBuilder()
+    // Construct using via.pro3.prescriptionsgrpc.generated.PrescriptionReply.newBuilder()
     private Builder() {
-
+      maybeForceBuilderInitialization();
     }
 
     private Builder(
         com.google.protobuf.GeneratedMessage.BuilderParent parent) {
       super(parent);
-
+      maybeForceBuilderInitialization();
+    }
+    private void maybeForceBuilderInitialization() {
+      if (com.google.protobuf.GeneratedMessage
+              .alwaysUseFieldBuilders) {
+        internalGetIssueDateFieldBuilder();
+        internalGetExpirationDateFieldBuilder();
+        internalGetDrugsFieldBuilder();
+      }
     }
     @java.lang.Override
     public Builder clear() {
       super.clear();
       bitField0_ = 0;
       id_ = 0;
-      doctorId_ = 0;
       patientId_ = 0;
+      doctorId_ = 0;
+      issueDate_ = null;
+      if (issueDateBuilder_ != null) {
+        issueDateBuilder_.dispose();
+        issueDateBuilder_ = null;
+      }
+      expirationDate_ = null;
+      if (expirationDateBuilder_ != null) {
+        expirationDateBuilder_.dispose();
+        expirationDateBuilder_ = null;
+      }
       if (drugsBuilder_ == null) {
         drugs_ = java.util.Collections.emptyList();
       } else {
         drugs_ = null;
         drugsBuilder_.clear();
       }
-      bitField0_ = (bitField0_ & ~0x00000008);
+      bitField0_ = (bitField0_ & ~0x00000020);
       return this;
     }
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_Prescription_descriptor;
+      return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_PrescriptionReply_descriptor;
     }
 
     @java.lang.Override
-    public via.pro3.prescriptionsgrpc.generated.Prescription getDefaultInstanceForType() {
-      return via.pro3.prescriptionsgrpc.generated.Prescription.getDefaultInstance();
+    public via.pro3.prescriptionsgrpc.generated.PrescriptionReply getDefaultInstanceForType() {
+      return via.pro3.prescriptionsgrpc.generated.PrescriptionReply.getDefaultInstance();
     }
 
     @java.lang.Override
-    public via.pro3.prescriptionsgrpc.generated.Prescription build() {
-      via.pro3.prescriptionsgrpc.generated.Prescription result = buildPartial();
+    public via.pro3.prescriptionsgrpc.generated.PrescriptionReply build() {
+      via.pro3.prescriptionsgrpc.generated.PrescriptionReply result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -378,19 +481,19 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public via.pro3.prescriptionsgrpc.generated.Prescription buildPartial() {
-      via.pro3.prescriptionsgrpc.generated.Prescription result = new via.pro3.prescriptionsgrpc.generated.Prescription(this);
+    public via.pro3.prescriptionsgrpc.generated.PrescriptionReply buildPartial() {
+      via.pro3.prescriptionsgrpc.generated.PrescriptionReply result = new via.pro3.prescriptionsgrpc.generated.PrescriptionReply(this);
       buildPartialRepeatedFields(result);
       if (bitField0_ != 0) { buildPartial0(result); }
       onBuilt();
       return result;
     }
 
-    private void buildPartialRepeatedFields(via.pro3.prescriptionsgrpc.generated.Prescription result) {
+    private void buildPartialRepeatedFields(via.pro3.prescriptionsgrpc.generated.PrescriptionReply result) {
       if (drugsBuilder_ == null) {
-        if (((bitField0_ & 0x00000008) != 0)) {
+        if (((bitField0_ & 0x00000020) != 0)) {
           drugs_ = java.util.Collections.unmodifiableList(drugs_);
-          bitField0_ = (bitField0_ & ~0x00000008);
+          bitField0_ = (bitField0_ & ~0x00000020);
         }
         result.drugs_ = drugs_;
       } else {
@@ -398,45 +501,65 @@ private static final long serialVersionUID = 0L;
       }
     }
 
-    private void buildPartial0(via.pro3.prescriptionsgrpc.generated.Prescription result) {
+    private void buildPartial0(via.pro3.prescriptionsgrpc.generated.PrescriptionReply result) {
       int from_bitField0_ = bitField0_;
       if (((from_bitField0_ & 0x00000001) != 0)) {
         result.id_ = id_;
       }
       if (((from_bitField0_ & 0x00000002) != 0)) {
-        result.doctorId_ = doctorId_;
-      }
-      if (((from_bitField0_ & 0x00000004) != 0)) {
         result.patientId_ = patientId_;
       }
+      if (((from_bitField0_ & 0x00000004) != 0)) {
+        result.doctorId_ = doctorId_;
+      }
+      int to_bitField0_ = 0;
+      if (((from_bitField0_ & 0x00000008) != 0)) {
+        result.issueDate_ = issueDateBuilder_ == null
+            ? issueDate_
+            : issueDateBuilder_.build();
+        to_bitField0_ |= 0x00000001;
+      }
+      if (((from_bitField0_ & 0x00000010) != 0)) {
+        result.expirationDate_ = expirationDateBuilder_ == null
+            ? expirationDate_
+            : expirationDateBuilder_.build();
+        to_bitField0_ |= 0x00000002;
+      }
+      result.bitField0_ |= to_bitField0_;
     }
 
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof via.pro3.prescriptionsgrpc.generated.Prescription) {
-        return mergeFrom((via.pro3.prescriptionsgrpc.generated.Prescription)other);
+      if (other instanceof via.pro3.prescriptionsgrpc.generated.PrescriptionReply) {
+        return mergeFrom((via.pro3.prescriptionsgrpc.generated.PrescriptionReply)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(via.pro3.prescriptionsgrpc.generated.Prescription other) {
-      if (other == via.pro3.prescriptionsgrpc.generated.Prescription.getDefaultInstance()) return this;
+    public Builder mergeFrom(via.pro3.prescriptionsgrpc.generated.PrescriptionReply other) {
+      if (other == via.pro3.prescriptionsgrpc.generated.PrescriptionReply.getDefaultInstance()) return this;
       if (other.getId() != 0) {
         setId(other.getId());
+      }
+      if (other.getPatientId() != 0) {
+        setPatientId(other.getPatientId());
       }
       if (other.getDoctorId() != 0) {
         setDoctorId(other.getDoctorId());
       }
-      if (other.getPatientId() != 0) {
-        setPatientId(other.getPatientId());
+      if (other.hasIssueDate()) {
+        mergeIssueDate(other.getIssueDate());
+      }
+      if (other.hasExpirationDate()) {
+        mergeExpirationDate(other.getExpirationDate());
       }
       if (drugsBuilder_ == null) {
         if (!other.drugs_.isEmpty()) {
           if (drugs_.isEmpty()) {
             drugs_ = other.drugs_;
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000020);
           } else {
             ensureDrugsIsMutable();
             drugs_.addAll(other.drugs_);
@@ -449,7 +572,7 @@ private static final long serialVersionUID = 0L;
             drugsBuilder_.dispose();
             drugsBuilder_ = null;
             drugs_ = other.drugs_;
-            bitField0_ = (bitField0_ & ~0x00000008);
+            bitField0_ = (bitField0_ & ~0x00000020);
             drugsBuilder_ = 
               com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                  internalGetDrugsFieldBuilder() : null;
@@ -490,15 +613,29 @@ private static final long serialVersionUID = 0L;
               break;
             } // case 8
             case 16: {
-              doctorId_ = input.readInt32();
+              patientId_ = input.readInt32();
               bitField0_ |= 0x00000002;
               break;
             } // case 16
             case 24: {
-              patientId_ = input.readInt32();
+              doctorId_ = input.readInt32();
               bitField0_ |= 0x00000004;
               break;
             } // case 24
+            case 34: {
+              input.readMessage(
+                  internalGetIssueDateFieldBuilder().getBuilder(),
+                  extensionRegistry);
+              bitField0_ |= 0x00000008;
+              break;
+            } // case 34
+            case 42: {
+              input.readMessage(
+                  internalGetExpirationDateFieldBuilder().getBuilder(),
+                  extensionRegistry);
+              bitField0_ |= 0x00000010;
+              break;
+            } // case 42
             case 50: {
               via.pro3.prescriptionsgrpc.generated.Drug m =
                   input.readMessage(
@@ -561,41 +698,9 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private int doctorId_ ;
-    /**
-     * <code>int32 doctor_id = 2;</code>
-     * @return The doctorId.
-     */
-    @java.lang.Override
-    public int getDoctorId() {
-      return doctorId_;
-    }
-    /**
-     * <code>int32 doctor_id = 2;</code>
-     * @param value The doctorId to set.
-     * @return This builder for chaining.
-     */
-    public Builder setDoctorId(int value) {
-
-      doctorId_ = value;
-      bitField0_ |= 0x00000002;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>int32 doctor_id = 2;</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearDoctorId() {
-      bitField0_ = (bitField0_ & ~0x00000002);
-      doctorId_ = 0;
-      onChanged();
-      return this;
-    }
-
     private int patientId_ ;
     /**
-     * <code>int32 patient_id = 3;</code>
+     * <code>int32 patient_id = 2;</code>
      * @return The patientId.
      */
     @java.lang.Override
@@ -603,34 +708,308 @@ private static final long serialVersionUID = 0L;
       return patientId_;
     }
     /**
-     * <code>int32 patient_id = 3;</code>
+     * <code>int32 patient_id = 2;</code>
      * @param value The patientId to set.
      * @return This builder for chaining.
      */
     public Builder setPatientId(int value) {
 
       patientId_ = value;
-      bitField0_ |= 0x00000004;
+      bitField0_ |= 0x00000002;
       onChanged();
       return this;
     }
     /**
-     * <code>int32 patient_id = 3;</code>
+     * <code>int32 patient_id = 2;</code>
      * @return This builder for chaining.
      */
     public Builder clearPatientId() {
-      bitField0_ = (bitField0_ & ~0x00000004);
+      bitField0_ = (bitField0_ & ~0x00000002);
       patientId_ = 0;
       onChanged();
       return this;
     }
 
+    private int doctorId_ ;
+    /**
+     * <code>int32 doctor_id = 3;</code>
+     * @return The doctorId.
+     */
+    @java.lang.Override
+    public int getDoctorId() {
+      return doctorId_;
+    }
+    /**
+     * <code>int32 doctor_id = 3;</code>
+     * @param value The doctorId to set.
+     * @return This builder for chaining.
+     */
+    public Builder setDoctorId(int value) {
+
+      doctorId_ = value;
+      bitField0_ |= 0x00000004;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>int32 doctor_id = 3;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearDoctorId() {
+      bitField0_ = (bitField0_ & ~0x00000004);
+      doctorId_ = 0;
+      onChanged();
+      return this;
+    }
+
+    private com.google.protobuf.Timestamp issueDate_;
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> issueDateBuilder_;
+    /**
+     * <code>.google.protobuf.Timestamp issue_date = 4;</code>
+     * @return Whether the issueDate field is set.
+     */
+    public boolean hasIssueDate() {
+      return ((bitField0_ & 0x00000008) != 0);
+    }
+    /**
+     * <code>.google.protobuf.Timestamp issue_date = 4;</code>
+     * @return The issueDate.
+     */
+    public com.google.protobuf.Timestamp getIssueDate() {
+      if (issueDateBuilder_ == null) {
+        return issueDate_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : issueDate_;
+      } else {
+        return issueDateBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>.google.protobuf.Timestamp issue_date = 4;</code>
+     */
+    public Builder setIssueDate(com.google.protobuf.Timestamp value) {
+      if (issueDateBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        issueDate_ = value;
+      } else {
+        issueDateBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000008;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp issue_date = 4;</code>
+     */
+    public Builder setIssueDate(
+        com.google.protobuf.Timestamp.Builder builderForValue) {
+      if (issueDateBuilder_ == null) {
+        issueDate_ = builderForValue.build();
+      } else {
+        issueDateBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000008;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp issue_date = 4;</code>
+     */
+    public Builder mergeIssueDate(com.google.protobuf.Timestamp value) {
+      if (issueDateBuilder_ == null) {
+        if (((bitField0_ & 0x00000008) != 0) &&
+          issueDate_ != null &&
+          issueDate_ != com.google.protobuf.Timestamp.getDefaultInstance()) {
+          getIssueDateBuilder().mergeFrom(value);
+        } else {
+          issueDate_ = value;
+        }
+      } else {
+        issueDateBuilder_.mergeFrom(value);
+      }
+      if (issueDate_ != null) {
+        bitField0_ |= 0x00000008;
+        onChanged();
+      }
+      return this;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp issue_date = 4;</code>
+     */
+    public Builder clearIssueDate() {
+      bitField0_ = (bitField0_ & ~0x00000008);
+      issueDate_ = null;
+      if (issueDateBuilder_ != null) {
+        issueDateBuilder_.dispose();
+        issueDateBuilder_ = null;
+      }
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp issue_date = 4;</code>
+     */
+    public com.google.protobuf.Timestamp.Builder getIssueDateBuilder() {
+      bitField0_ |= 0x00000008;
+      onChanged();
+      return internalGetIssueDateFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.google.protobuf.Timestamp issue_date = 4;</code>
+     */
+    public com.google.protobuf.TimestampOrBuilder getIssueDateOrBuilder() {
+      if (issueDateBuilder_ != null) {
+        return issueDateBuilder_.getMessageOrBuilder();
+      } else {
+        return issueDate_ == null ?
+            com.google.protobuf.Timestamp.getDefaultInstance() : issueDate_;
+      }
+    }
+    /**
+     * <code>.google.protobuf.Timestamp issue_date = 4;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
+        internalGetIssueDateFieldBuilder() {
+      if (issueDateBuilder_ == null) {
+        issueDateBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
+                getIssueDate(),
+                getParentForChildren(),
+                isClean());
+        issueDate_ = null;
+      }
+      return issueDateBuilder_;
+    }
+
+    private com.google.protobuf.Timestamp expirationDate_;
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> expirationDateBuilder_;
+    /**
+     * <code>.google.protobuf.Timestamp expiration_date = 5;</code>
+     * @return Whether the expirationDate field is set.
+     */
+    public boolean hasExpirationDate() {
+      return ((bitField0_ & 0x00000010) != 0);
+    }
+    /**
+     * <code>.google.protobuf.Timestamp expiration_date = 5;</code>
+     * @return The expirationDate.
+     */
+    public com.google.protobuf.Timestamp getExpirationDate() {
+      if (expirationDateBuilder_ == null) {
+        return expirationDate_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : expirationDate_;
+      } else {
+        return expirationDateBuilder_.getMessage();
+      }
+    }
+    /**
+     * <code>.google.protobuf.Timestamp expiration_date = 5;</code>
+     */
+    public Builder setExpirationDate(com.google.protobuf.Timestamp value) {
+      if (expirationDateBuilder_ == null) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        expirationDate_ = value;
+      } else {
+        expirationDateBuilder_.setMessage(value);
+      }
+      bitField0_ |= 0x00000010;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp expiration_date = 5;</code>
+     */
+    public Builder setExpirationDate(
+        com.google.protobuf.Timestamp.Builder builderForValue) {
+      if (expirationDateBuilder_ == null) {
+        expirationDate_ = builderForValue.build();
+      } else {
+        expirationDateBuilder_.setMessage(builderForValue.build());
+      }
+      bitField0_ |= 0x00000010;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp expiration_date = 5;</code>
+     */
+    public Builder mergeExpirationDate(com.google.protobuf.Timestamp value) {
+      if (expirationDateBuilder_ == null) {
+        if (((bitField0_ & 0x00000010) != 0) &&
+          expirationDate_ != null &&
+          expirationDate_ != com.google.protobuf.Timestamp.getDefaultInstance()) {
+          getExpirationDateBuilder().mergeFrom(value);
+        } else {
+          expirationDate_ = value;
+        }
+      } else {
+        expirationDateBuilder_.mergeFrom(value);
+      }
+      if (expirationDate_ != null) {
+        bitField0_ |= 0x00000010;
+        onChanged();
+      }
+      return this;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp expiration_date = 5;</code>
+     */
+    public Builder clearExpirationDate() {
+      bitField0_ = (bitField0_ & ~0x00000010);
+      expirationDate_ = null;
+      if (expirationDateBuilder_ != null) {
+        expirationDateBuilder_.dispose();
+        expirationDateBuilder_ = null;
+      }
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>.google.protobuf.Timestamp expiration_date = 5;</code>
+     */
+    public com.google.protobuf.Timestamp.Builder getExpirationDateBuilder() {
+      bitField0_ |= 0x00000010;
+      onChanged();
+      return internalGetExpirationDateFieldBuilder().getBuilder();
+    }
+    /**
+     * <code>.google.protobuf.Timestamp expiration_date = 5;</code>
+     */
+    public com.google.protobuf.TimestampOrBuilder getExpirationDateOrBuilder() {
+      if (expirationDateBuilder_ != null) {
+        return expirationDateBuilder_.getMessageOrBuilder();
+      } else {
+        return expirationDate_ == null ?
+            com.google.protobuf.Timestamp.getDefaultInstance() : expirationDate_;
+      }
+    }
+    /**
+     * <code>.google.protobuf.Timestamp expiration_date = 5;</code>
+     */
+    private com.google.protobuf.SingleFieldBuilder<
+        com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
+        internalGetExpirationDateFieldBuilder() {
+      if (expirationDateBuilder_ == null) {
+        expirationDateBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+            com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
+                getExpirationDate(),
+                getParentForChildren(),
+                isClean());
+        expirationDate_ = null;
+      }
+      return expirationDateBuilder_;
+    }
+
     private java.util.List<via.pro3.prescriptionsgrpc.generated.Drug> drugs_ =
       java.util.Collections.emptyList();
     private void ensureDrugsIsMutable() {
-      if (!((bitField0_ & 0x00000008) != 0)) {
+      if (!((bitField0_ & 0x00000020) != 0)) {
         drugs_ = new java.util.ArrayList<via.pro3.prescriptionsgrpc.generated.Drug>(drugs_);
-        bitField0_ |= 0x00000008;
+        bitField0_ |= 0x00000020;
        }
     }
 
@@ -780,7 +1159,7 @@ private static final long serialVersionUID = 0L;
     public Builder clearDrugs() {
       if (drugsBuilder_ == null) {
         drugs_ = java.util.Collections.emptyList();
-        bitField0_ = (bitField0_ & ~0x00000008);
+        bitField0_ = (bitField0_ & ~0x00000020);
         onChanged();
       } else {
         drugsBuilder_.clear();
@@ -857,7 +1236,7 @@ private static final long serialVersionUID = 0L;
         drugsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
             via.pro3.prescriptionsgrpc.generated.Drug, via.pro3.prescriptionsgrpc.generated.Drug.Builder, via.pro3.prescriptionsgrpc.generated.DrugOrBuilder>(
                 drugs_,
-                ((bitField0_ & 0x00000008) != 0),
+                ((bitField0_ & 0x00000020) != 0),
                 getParentForChildren(),
                 isClean());
         drugs_ = null;
@@ -865,23 +1244,23 @@ private static final long serialVersionUID = 0L;
       return drugsBuilder_;
     }
 
-    // @@protoc_insertion_point(builder_scope:prescriptions.Prescription)
+    // @@protoc_insertion_point(builder_scope:prescriptions.PrescriptionReply)
   }
 
-  // @@protoc_insertion_point(class_scope:prescriptions.Prescription)
-  private static final via.pro3.prescriptionsgrpc.generated.Prescription DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:prescriptions.PrescriptionReply)
+  private static final via.pro3.prescriptionsgrpc.generated.PrescriptionReply DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new via.pro3.prescriptionsgrpc.generated.Prescription();
+    DEFAULT_INSTANCE = new via.pro3.prescriptionsgrpc.generated.PrescriptionReply();
   }
 
-  public static via.pro3.prescriptionsgrpc.generated.Prescription getDefaultInstance() {
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionReply getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<Prescription>
-      PARSER = new com.google.protobuf.AbstractParser<Prescription>() {
+  private static final com.google.protobuf.Parser<PrescriptionReply>
+      PARSER = new com.google.protobuf.AbstractParser<PrescriptionReply>() {
     @java.lang.Override
-    public Prescription parsePartialFrom(
+    public PrescriptionReply parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -900,17 +1279,17 @@ private static final long serialVersionUID = 0L;
     }
   };
 
-  public static com.google.protobuf.Parser<Prescription> parser() {
+  public static com.google.protobuf.Parser<PrescriptionReply> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<Prescription> getParserForType() {
+  public com.google.protobuf.Parser<PrescriptionReply> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public via.pro3.prescriptionsgrpc.generated.Prescription getDefaultInstanceForType() {
+  public via.pro3.prescriptionsgrpc.generated.PrescriptionReply getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

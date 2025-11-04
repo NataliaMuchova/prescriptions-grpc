@@ -3,16 +3,16 @@ package via.pro3.prescriptionsgrpc.service;
 import io.grpc.stub.StreamObserver;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
-import via.pro3.prescriptionsgrpc.entities.Doctor;
-import via.pro3.prescriptionsgrpc.entities.Patient;
-import via.pro3.prescriptionsgrpc.entities.Prescription;
+import via.pro3.prescriptionsgrpc.entities.*;
 import via.pro3.prescriptionsgrpc.generated.*;
-import via.pro3.prescriptionsgrpc.repository.DoctorRepository;
+import via.pro3.prescriptionsgrpc.repository.IDatabaseDoctorRepository;
 import via.pro3.prescriptionsgrpc.repository.IDatabasePrescriptionRepository;
-import via.pro3.prescriptionsgrpc.repository.PatientRepository;
+import via.pro3.prescriptionsgrpc.repository.IDatabasePatientRepository;
+import via.pro3.prescriptionsgrpc.repository.IDatabaseUserRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @GRpcService
@@ -22,13 +22,13 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
   private IDatabasePrescriptionRepository prescriptionRepository;
 
   @Autowired
-  private DoctorRepository doctorRepository;
+  private IDatabaseDoctorRepository doctorRepository;
 
   @Autowired
-  private PatientRepository patientRepository;
+  private IDatabasePatientRepository patientRepository;
 
-  public PrescriptionServiceImpl() {
-  }
+  @Autowired
+  private IDatabaseUserRepository userRepository;
 
   @Override
   public void createPrescription(CreatePrescriptionRequest request,
@@ -82,9 +82,10 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
                                io.grpc.stub.StreamObserver<CheckCredentialsReply> responseObserver) {
     long cpr = Long.parseLong(String.valueOf(request.getUserId()));
 
-    boolean doctorValid = doctorRepository
-        .findByUser_CprAndUser_Password(cpr, request.getPassword())
-        .isPresent();
+    User doctor = userRepository
+          .findById(new UserId(cpr, "doctor")).orElse(null);
+
+    boolean doctorValid = doctor != null && doctor.getPassword().equals(request.getPassword());
 
     if (doctorValid) {
       CheckCredentialsReply reply = CheckCredentialsReply.newBuilder()
@@ -95,9 +96,10 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
       return;
     }
 
-    boolean patientValid = patientRepository
-        .findByUser_CprAndUser_Password(cpr, request.getPassword())
-        .isPresent();
+    User patient = userRepository
+        .findById(new UserId(cpr, "patient")).orElse(null);
+
+    boolean patientValid = patient != null && patient.getPassword().equals(request.getPassword());
 
     if (patientValid) {
       CheckCredentialsReply reply = CheckCredentialsReply.newBuilder()

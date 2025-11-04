@@ -44,26 +44,26 @@ private static final long serialVersionUID = 0L;
             via.pro3.prescriptionsgrpc.generated.CreatePrescriptionRequest.class, via.pro3.prescriptionsgrpc.generated.CreatePrescriptionRequest.Builder.class);
   }
 
-  public static final int DOCTOR_ID_FIELD_NUMBER = 1;
-  private int doctorId_ = 0;
-  /**
-   * <code>int32 doctor_id = 1;</code>
-   * @return The doctorId.
-   */
-  @java.lang.Override
-  public int getDoctorId() {
-    return doctorId_;
-  }
-
-  public static final int PATIENT_ID_FIELD_NUMBER = 2;
+  public static final int PATIENT_ID_FIELD_NUMBER = 1;
   private int patientId_ = 0;
   /**
-   * <code>int32 patient_id = 2;</code>
+   * <code>int32 patient_id = 1;</code>
    * @return The patientId.
    */
   @java.lang.Override
   public int getPatientId() {
     return patientId_;
+  }
+
+  public static final int DOCTOR_ID_FIELD_NUMBER = 2;
+  private int doctorId_ = 0;
+  /**
+   * <code>int32 doctor_id = 2;</code>
+   * @return The doctorId.
+   */
+  @java.lang.Override
+  public int getDoctorId() {
+    return doctorId_;
   }
 
   public static final int DRUGS_FIELD_NUMBER = 3;
@@ -121,11 +121,11 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (doctorId_ != 0) {
-      output.writeInt32(1, doctorId_);
-    }
     if (patientId_ != 0) {
-      output.writeInt32(2, patientId_);
+      output.writeInt32(1, patientId_);
+    }
+    if (doctorId_ != 0) {
+      output.writeInt32(2, doctorId_);
     }
     for (int i = 0; i < drugs_.size(); i++) {
       output.writeMessage(3, drugs_.get(i));
@@ -139,13 +139,13 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (doctorId_ != 0) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(1, doctorId_);
-    }
     if (patientId_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(2, patientId_);
+        .computeInt32Size(1, patientId_);
+    }
+    if (doctorId_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(2, doctorId_);
     }
     for (int i = 0; i < drugs_.size(); i++) {
       size += com.google.protobuf.CodedOutputStream
@@ -166,10 +166,10 @@ private static final long serialVersionUID = 0L;
     }
     via.pro3.prescriptionsgrpc.generated.CreatePrescriptionRequest other = (via.pro3.prescriptionsgrpc.generated.CreatePrescriptionRequest) obj;
 
-    if (getDoctorId()
-        != other.getDoctorId()) return false;
     if (getPatientId()
         != other.getPatientId()) return false;
+    if (getDoctorId()
+        != other.getDoctorId()) return false;
     if (!getDrugsList()
         .equals(other.getDrugsList())) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
@@ -183,10 +183,10 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + DOCTOR_ID_FIELD_NUMBER;
-    hash = (53 * hash) + getDoctorId();
     hash = (37 * hash) + PATIENT_ID_FIELD_NUMBER;
     hash = (53 * hash) + getPatientId();
+    hash = (37 * hash) + DOCTOR_ID_FIELD_NUMBER;
+    hash = (53 * hash) + getDoctorId();
     if (getDrugsCount() > 0) {
       hash = (37 * hash) + DRUGS_FIELD_NUMBER;
       hash = (53 * hash) + getDrugsList().hashCode();
@@ -322,8 +322,8 @@ private static final long serialVersionUID = 0L;
     public Builder clear() {
       super.clear();
       bitField0_ = 0;
-      doctorId_ = 0;
       patientId_ = 0;
+      doctorId_ = 0;
       if (drugsBuilder_ == null) {
         drugs_ = java.util.Collections.emptyList();
       } else {
@@ -378,10 +378,10 @@ private static final long serialVersionUID = 0L;
     private void buildPartial0(via.pro3.prescriptionsgrpc.generated.CreatePrescriptionRequest result) {
       int from_bitField0_ = bitField0_;
       if (((from_bitField0_ & 0x00000001) != 0)) {
-        result.doctorId_ = doctorId_;
+        result.patientId_ = patientId_;
       }
       if (((from_bitField0_ & 0x00000002) != 0)) {
-        result.patientId_ = patientId_;
+        result.doctorId_ = doctorId_;
       }
     }
 
@@ -397,11 +397,11 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(via.pro3.prescriptionsgrpc.generated.CreatePrescriptionRequest other) {
       if (other == via.pro3.prescriptionsgrpc.generated.CreatePrescriptionRequest.getDefaultInstance()) return this;
-      if (other.getDoctorId() != 0) {
-        setDoctorId(other.getDoctorId());
-      }
       if (other.getPatientId() != 0) {
         setPatientId(other.getPatientId());
+      }
+      if (other.getDoctorId() != 0) {
+        setDoctorId(other.getDoctorId());
       }
       if (drugsBuilder_ == null) {
         if (!other.drugs_.isEmpty()) {
@@ -456,12 +456,12 @@ private static final long serialVersionUID = 0L;
               done = true;
               break;
             case 8: {
-              doctorId_ = input.readInt32();
+              patientId_ = input.readInt32();
               bitField0_ |= 0x00000001;
               break;
             } // case 8
             case 16: {
-              patientId_ = input.readInt32();
+              doctorId_ = input.readInt32();
               bitField0_ |= 0x00000002;
               break;
             } // case 16
@@ -495,41 +495,9 @@ private static final long serialVersionUID = 0L;
     }
     private int bitField0_;
 
-    private int doctorId_ ;
-    /**
-     * <code>int32 doctor_id = 1;</code>
-     * @return The doctorId.
-     */
-    @java.lang.Override
-    public int getDoctorId() {
-      return doctorId_;
-    }
-    /**
-     * <code>int32 doctor_id = 1;</code>
-     * @param value The doctorId to set.
-     * @return This builder for chaining.
-     */
-    public Builder setDoctorId(int value) {
-
-      doctorId_ = value;
-      bitField0_ |= 0x00000001;
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>int32 doctor_id = 1;</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearDoctorId() {
-      bitField0_ = (bitField0_ & ~0x00000001);
-      doctorId_ = 0;
-      onChanged();
-      return this;
-    }
-
     private int patientId_ ;
     /**
-     * <code>int32 patient_id = 2;</code>
+     * <code>int32 patient_id = 1;</code>
      * @return The patientId.
      */
     @java.lang.Override
@@ -537,24 +505,56 @@ private static final long serialVersionUID = 0L;
       return patientId_;
     }
     /**
-     * <code>int32 patient_id = 2;</code>
+     * <code>int32 patient_id = 1;</code>
      * @param value The patientId to set.
      * @return This builder for chaining.
      */
     public Builder setPatientId(int value) {
 
       patientId_ = value;
+      bitField0_ |= 0x00000001;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>int32 patient_id = 1;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearPatientId() {
+      bitField0_ = (bitField0_ & ~0x00000001);
+      patientId_ = 0;
+      onChanged();
+      return this;
+    }
+
+    private int doctorId_ ;
+    /**
+     * <code>int32 doctor_id = 2;</code>
+     * @return The doctorId.
+     */
+    @java.lang.Override
+    public int getDoctorId() {
+      return doctorId_;
+    }
+    /**
+     * <code>int32 doctor_id = 2;</code>
+     * @param value The doctorId to set.
+     * @return This builder for chaining.
+     */
+    public Builder setDoctorId(int value) {
+
+      doctorId_ = value;
       bitField0_ |= 0x00000002;
       onChanged();
       return this;
     }
     /**
-     * <code>int32 patient_id = 2;</code>
+     * <code>int32 doctor_id = 2;</code>
      * @return This builder for chaining.
      */
-    public Builder clearPatientId() {
+    public Builder clearDoctorId() {
       bitField0_ = (bitField0_ & ~0x00000002);
-      patientId_ = 0;
+      doctorId_ = 0;
       onChanged();
       return this;
     }

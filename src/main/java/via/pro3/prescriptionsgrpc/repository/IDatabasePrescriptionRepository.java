@@ -7,7 +7,7 @@ import via.pro3.prescriptionsgrpc.entities.Prescription;
 import java.util.List;
 
 @Repository public interface IDatabasePrescriptionRepository
-    extends PrescriptionRepository<Prescription>, JpaRepository<Prescription, Integer>
+    extends JpaRepository<Prescription, Integer>
 {
   List<Prescription> findByPatient_Id(Integer patientId);
 

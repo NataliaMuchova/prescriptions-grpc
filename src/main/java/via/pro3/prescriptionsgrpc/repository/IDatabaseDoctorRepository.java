@@ -7,7 +7,6 @@ import via.pro3.prescriptionsgrpc.entities.Doctor;
 import java.util.Optional;
 
 @Repository
-public interface DoctorRepository extends PrescriptionRepository <Doctor>, JpaRepository<Doctor, Integer> {
-  Optional<Doctor> findByUser_CprAndUser_Password(Long cpr, String password);
+public interface IDatabaseDoctorRepository extends JpaRepository<Doctor, Integer> {
 
 }

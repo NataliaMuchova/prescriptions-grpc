@@ -6,13 +6,13 @@
 package via.pro3.prescriptionsgrpc.generated;
 
 /**
- * Protobuf type {@code prescriptions.CheckCredentialsResponse}
+ * Protobuf type {@code prescriptions.CheckCredentialsReply}
  */
 @com.google.protobuf.Generated
-public final class CheckCredentialsResponse extends
+public final class CheckCredentialsReply extends
     com.google.protobuf.GeneratedMessage implements
-    // @@protoc_insertion_point(message_implements:prescriptions.CheckCredentialsResponse)
-    CheckCredentialsResponseOrBuilder {
+    // @@protoc_insertion_point(message_implements:prescriptions.CheckCredentialsReply)
+    CheckCredentialsReplyOrBuilder {
 private static final long serialVersionUID = 0L;
   static {
     com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
@@ -21,27 +21,27 @@ private static final long serialVersionUID = 0L;
       /* minor= */ 32,
       /* patch= */ 0,
       /* suffix= */ "",
-      CheckCredentialsResponse.class.getName());
+      CheckCredentialsReply.class.getName());
   }
-  // Use CheckCredentialsResponse.newBuilder() to construct.
-  private CheckCredentialsResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  // Use CheckCredentialsReply.newBuilder() to construct.
+  private CheckCredentialsReply(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
     super(builder);
   }
-  private CheckCredentialsResponse() {
+  private CheckCredentialsReply() {
     role_ = 0;
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_CheckCredentialsResponse_descriptor;
+    return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_CheckCredentialsReply_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_CheckCredentialsResponse_fieldAccessorTable
+    return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_CheckCredentialsReply_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse.class, via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse.Builder.class);
+            via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply.class, via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply.Builder.class);
   }
 
   public static final int ROLE_FIELD_NUMBER = 1;
@@ -102,10 +102,10 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse)) {
+    if (!(obj instanceof via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply)) {
       return super.equals(obj);
     }
-    via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse other = (via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse) obj;
+    via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply other = (via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply) obj;
 
     if (role_ != other.role_) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
@@ -126,44 +126,44 @@ private static final long serialVersionUID = 0L;
     return hash;
   }
 
-  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse parseFrom(byte[] data)
+  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse parseFrom(java.io.InputStream input)
+  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseWithIOException(PARSER, input);
   }
-  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -171,26 +171,26 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
-  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse parseDelimitedFrom(java.io.InputStream input)
+  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseDelimitedWithIOException(PARSER, input);
   }
 
-  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse parseDelimitedFrom(
+  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseWithIOException(PARSER, input);
   }
-  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -203,7 +203,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse prototype) {
+  public static Builder newBuilder(via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -219,26 +219,26 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code prescriptions.CheckCredentialsResponse}
+   * Protobuf type {@code prescriptions.CheckCredentialsReply}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:prescriptions.CheckCredentialsResponse)
-      via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponseOrBuilder {
+      // @@protoc_insertion_point(builder_implements:prescriptions.CheckCredentialsReply)
+      via.pro3.prescriptionsgrpc.generated.CheckCredentialsReplyOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_CheckCredentialsResponse_descriptor;
+      return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_CheckCredentialsReply_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_CheckCredentialsResponse_fieldAccessorTable
+      return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_CheckCredentialsReply_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse.class, via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse.Builder.class);
+              via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply.class, via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply.Builder.class);
     }
 
-    // Construct using via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse.newBuilder()
+    // Construct using via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply.newBuilder()
     private Builder() {
 
     }
@@ -259,17 +259,17 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_CheckCredentialsResponse_descriptor;
+      return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_CheckCredentialsReply_descriptor;
     }
 
     @java.lang.Override
-    public via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse getDefaultInstanceForType() {
-      return via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse.getDefaultInstance();
+    public via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply getDefaultInstanceForType() {
+      return via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply.getDefaultInstance();
     }
 
     @java.lang.Override
-    public via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse build() {
-      via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse result = buildPartial();
+    public via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply build() {
+      via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -277,14 +277,14 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse buildPartial() {
-      via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse result = new via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse(this);
+    public via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply buildPartial() {
+      via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply result = new via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply(this);
       if (bitField0_ != 0) { buildPartial0(result); }
       onBuilt();
       return result;
     }
 
-    private void buildPartial0(via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse result) {
+    private void buildPartial0(via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply result) {
       int from_bitField0_ = bitField0_;
       if (((from_bitField0_ & 0x00000001) != 0)) {
         result.role_ = role_;
@@ -293,16 +293,16 @@ private static final long serialVersionUID = 0L;
 
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse) {
-        return mergeFrom((via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse)other);
+      if (other instanceof via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply) {
+        return mergeFrom((via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse other) {
-      if (other == via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse.getDefaultInstance()) return this;
+    public Builder mergeFrom(via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply other) {
+      if (other == via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply.getDefaultInstance()) return this;
       if (other.role_ != 0) {
         setRoleValue(other.getRoleValue());
       }
@@ -405,23 +405,23 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    // @@protoc_insertion_point(builder_scope:prescriptions.CheckCredentialsResponse)
+    // @@protoc_insertion_point(builder_scope:prescriptions.CheckCredentialsReply)
   }
 
-  // @@protoc_insertion_point(class_scope:prescriptions.CheckCredentialsResponse)
-  private static final via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:prescriptions.CheckCredentialsReply)
+  private static final via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse();
+    DEFAULT_INSTANCE = new via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply();
   }
 
-  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse getDefaultInstance() {
+  public static via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<CheckCredentialsResponse>
-      PARSER = new com.google.protobuf.AbstractParser<CheckCredentialsResponse>() {
+  private static final com.google.protobuf.Parser<CheckCredentialsReply>
+      PARSER = new com.google.protobuf.AbstractParser<CheckCredentialsReply>() {
     @java.lang.Override
-    public CheckCredentialsResponse parsePartialFrom(
+    public CheckCredentialsReply parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -440,17 +440,17 @@ private static final long serialVersionUID = 0L;
     }
   };
 
-  public static com.google.protobuf.Parser<CheckCredentialsResponse> parser() {
+  public static com.google.protobuf.Parser<CheckCredentialsReply> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<CheckCredentialsResponse> getParserForType() {
+  public com.google.protobuf.Parser<CheckCredentialsReply> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public via.pro3.prescriptionsgrpc.generated.CheckCredentialsResponse getDefaultInstanceForType() {
+  public via.pro3.prescriptionsgrpc.generated.CheckCredentialsReply getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 

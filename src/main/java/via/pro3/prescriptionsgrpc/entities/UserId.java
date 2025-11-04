@@ -2,6 +2,7 @@ package via.pro3.prescriptionsgrpc.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.IdClass;
 import org.hibernate.Hibernate;
 
 import java.io.Serializable;
@@ -13,6 +14,17 @@ import java.util.Objects;
     @Column(name = "role", nullable = false, length = 50) private String role;
 
     @Column(name = "cpr", nullable = false) private Long cpr;
+
+    public UserId(long cpr, String role)
+    {
+        this.cpr = cpr;
+        this.role = role;
+    }
+
+    public UserId()
+    {
+
+    }
 
     public String getRole()
     {

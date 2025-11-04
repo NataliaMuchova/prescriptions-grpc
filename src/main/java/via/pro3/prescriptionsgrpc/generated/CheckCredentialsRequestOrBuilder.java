@@ -11,10 +11,10 @@ public interface CheckCredentialsRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>int32 username = 1;</code>
-   * @return The username.
+   * <code>int32 user_id = 1;</code>
+   * @return The userId.
    */
-  int getUsername();
+  int getUserId();
 
   /**
    * <code>string password = 2;</code>
