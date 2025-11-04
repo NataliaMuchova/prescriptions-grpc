@@ -1,16 +1,16 @@
 package via.pro3.prescriptionsgrpc.service;
 
+import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import via.pro3.prescriptionsgrpc.entities.*;
+import via.pro3.prescriptionsgrpc.entities.Drug;
 import via.pro3.prescriptionsgrpc.generated.*;
-import via.pro3.prescriptionsgrpc.repository.IDatabaseDoctorRepository;
-import via.pro3.prescriptionsgrpc.repository.IDatabasePrescriptionRepository;
-import via.pro3.prescriptionsgrpc.repository.IDatabasePatientRepository;
-import via.pro3.prescriptionsgrpc.repository.IDatabaseUserRepository;
+import via.pro3.prescriptionsgrpc.repository.*;
 
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,6 +30,9 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
   @Autowired
   private IDatabaseUserRepository userRepository;
 
+  @Autowired
+  private IDatabaseDrugRepository drugRepository;
+
   @Override
   public void createPrescription(CreatePrescriptionRequest request,
                                  StreamObserver<PrescriptionReply> responseObserver) {
@@ -44,13 +47,35 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
     p.setExpirationDate(LocalDate.now().plusMonths(1));
 
     p = prescriptionRepository.save(p);
+//here drug impl
+//    Drug drug = drugRepository.findById(drug.getId());
+    Drug drug = new Drug();
+    drug.setName(drug.getName());
+    drug.setDescription(drug.getDescription());
+    drug.setAmount(drug.getAmount());
+
+    drug = drugRepository.save(drug);
+
+    //prescriptionDrug??
+
+    //set reply date
+    Timestamp issueTs = Timestamp.newBuilder()
+        .setSeconds(p.getIssueDate().atStartOfDay(ZoneOffset.UTC).toEpochSecond())
+        .setNanos(0)
+        .build();
+    Timestamp expTs = Timestamp.newBuilder()
+        .setSeconds(p.getExpirationDate().atStartOfDay(ZoneOffset.UTC).toEpochSecond())
+        .setNanos(0)
+        .build();
 
     PrescriptionReply reply = PrescriptionReply.newBuilder()
         .setId(p.getId())
         .setDoctorId(p.getDoctor().getId())
         .setPatientId(p.getPatient().getId())
+        .setIssueDate(issueTs)
+        .setExpirationDate(expTs)
         .build();
-//set reply date
+
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
