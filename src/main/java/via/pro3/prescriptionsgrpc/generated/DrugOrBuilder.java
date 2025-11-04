@@ -41,6 +41,10 @@ public interface DrugOrBuilder extends
       getDescriptionBytes();
 
   /**
+   * <pre>
+   * drug all above
+   * </pre>
+   *
    * <code>int32 amount = 4;</code>
    * @return The amount.
    */
@@ -53,11 +57,19 @@ public interface DrugOrBuilder extends
   int getAvailabilityCount();
 
   /**
+   * <pre>
+   * prescription drug all above
+   * </pre>
+   *
    * <code>string note = 6;</code>
    * @return The note.
    */
   java.lang.String getNote();
   /**
+   * <pre>
+   * prescription drug all above
+   * </pre>
+   *
    * <code>string note = 6;</code>
    * @return The bytes for note.
    */

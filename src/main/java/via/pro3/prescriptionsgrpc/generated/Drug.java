@@ -138,6 +138,10 @@ private static final long serialVersionUID = 0L;
   public static final int AMOUNT_FIELD_NUMBER = 4;
   private int amount_ = 0;
   /**
+   * <pre>
+   * drug all above
+   * </pre>
+   *
    * <code>int32 amount = 4;</code>
    * @return The amount.
    */
@@ -161,6 +165,10 @@ private static final long serialVersionUID = 0L;
   @SuppressWarnings("serial")
   private volatile java.lang.Object note_ = "";
   /**
+   * <pre>
+   * prescription drug all above
+   * </pre>
+   *
    * <code>string note = 6;</code>
    * @return The note.
    */
@@ -178,6 +186,10 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
+   * <pre>
+   * prescription drug all above
+   * </pre>
+   *
    * <code>string note = 6;</code>
    * @return The bytes for note.
    */
@@ -785,6 +797,10 @@ private static final long serialVersionUID = 0L;
 
     private int amount_ ;
     /**
+     * <pre>
+     * drug all above
+     * </pre>
+     *
      * <code>int32 amount = 4;</code>
      * @return The amount.
      */
@@ -793,6 +809,10 @@ private static final long serialVersionUID = 0L;
       return amount_;
     }
     /**
+     * <pre>
+     * drug all above
+     * </pre>
+     *
      * <code>int32 amount = 4;</code>
      * @param value The amount to set.
      * @return This builder for chaining.
@@ -805,6 +825,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     * <pre>
+     * drug all above
+     * </pre>
+     *
      * <code>int32 amount = 4;</code>
      * @return This builder for chaining.
      */
@@ -849,6 +873,10 @@ private static final long serialVersionUID = 0L;
 
     private java.lang.Object note_ = "";
     /**
+     * <pre>
+     * prescription drug all above
+     * </pre>
+     *
      * <code>string note = 6;</code>
      * @return The note.
      */
@@ -865,6 +893,10 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     * <pre>
+     * prescription drug all above
+     * </pre>
+     *
      * <code>string note = 6;</code>
      * @return The bytes for note.
      */
@@ -882,6 +914,10 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
+     * <pre>
+     * prescription drug all above
+     * </pre>
+     *
      * <code>string note = 6;</code>
      * @param value The note to set.
      * @return This builder for chaining.
@@ -895,6 +931,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     * <pre>
+     * prescription drug all above
+     * </pre>
+     *
      * <code>string note = 6;</code>
      * @return This builder for chaining.
      */
@@ -905,6 +945,10 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
+     * <pre>
+     * prescription drug all above
+     * </pre>
+     *
      * <code>string note = 6;</code>
      * @param value The bytes for note to set.
      * @return This builder for chaining.

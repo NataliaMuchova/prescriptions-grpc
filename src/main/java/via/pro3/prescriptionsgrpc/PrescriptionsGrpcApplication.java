@@ -13,16 +13,7 @@ import java.io.IOException;
 public class PrescriptionsGrpcApplication {
 
   public static void main(String[] args) {
-      try{
-          Server server = ServerBuilder.forPort(3004)
-              .addService(new PrescriptionServiceImpl())
-              .build();
-          server.start();
-          System.out.println("Server started, listening on " + server.getPort());
-          server.awaitTermination();
-      }catch(IOException | InterruptedException ioe){
-          System.out.println("Caught exception: " + ioe);
-      }
+      SpringApplication.run(PrescriptionsGrpcApplication.class, args);
   }
 
 }
