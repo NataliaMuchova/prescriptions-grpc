@@ -9,7 +9,6 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 
 @Repository
-public interface IDatabaseUserRepository extends JpaRepository<User, Integer>
+public interface IDatabaseUserRepository extends JpaRepository<User, UserId>
 {
-    Optional<User> findById(UserId userId);
 }

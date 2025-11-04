@@ -45,9 +45,9 @@ message Drug {
   int32 id = 1;
   string name = 2;
   string description = 3;
-  int32 amount = 4;
+  int32 amount = 4; //drug all above
   int32 availability_count = 5;
-  string note = 6;
+  string note = 6; //prescription drug all above
 }
 
 message PrescriptionReply {

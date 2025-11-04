@@ -50,7 +50,7 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
         .setDoctorId(p.getDoctor().getId())
         .setPatientId(p.getPatient().getId())
         .build();
-
+//set reply date
     responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
