@@ -2,65 +2,116 @@ package via.pro3.prescriptionsgrpc.service;
 
 import io.grpc.stub.StreamObserver;
 import org.lognet.springboot.grpc.GRpcService;
+import org.springframework.beans.factory.annotation.Autowired;
+import via.pro3.prescriptionsgrpc.entities.Doctor;
+import via.pro3.prescriptionsgrpc.entities.Patient;
+import via.pro3.prescriptionsgrpc.entities.Prescription;
 import via.pro3.prescriptionsgrpc.generated.*;
+import via.pro3.prescriptionsgrpc.repository.DoctorRepository;
+import via.pro3.prescriptionsgrpc.repository.IDatabasePrescriptionRepository;
+import via.pro3.prescriptionsgrpc.repository.PatientRepository;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @GRpcService
-public class PrescriptionServiceImpl extends PrescriptionServiceGrpc.PrescriptionServiceImplBase {
+public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
 
-  private int nextId = 1;
-  private final Map<Integer, Prescription> store = new ConcurrentHashMap<>();
+  @Autowired
+  private IDatabasePrescriptionRepository prescriptionRepository;
+
+  @Autowired
+  private DoctorRepository doctorRepository;
+
+  @Autowired
+  private PatientRepository patientRepository;
+
+  public PrescriptionServiceImpl() {
+  }
 
   @Override
   public void createPrescription(CreatePrescriptionRequest request,
-                                 StreamObserver<CreatePrescriptionResponse> responseObserver) {
+                                 StreamObserver<PrescriptionReply> responseObserver) {
+    Prescription p = new Prescription();
 
-    int id = nextId++;
+    Doctor doctor = doctorRepository.findById(request.getDoctorId()).orElse(null);
+    Patient patient = patientRepository.findById(request.getPatientId()).orElse(null);
 
-    Prescription prescription = Prescription.newBuilder()
-        .setId(id)
-        .setDoctorId(request.getDoctorId())
-        .setPatientId(request.getPatientId())
+    p.setDoctor(doctor);
+    p.setPatient(patient);
+    p.setIssueDate(LocalDate.now());
+    p.setExpirationDate(LocalDate.now().plusMonths(1));
+
+    p = prescriptionRepository.save(p);
+
+    PrescriptionReply reply = PrescriptionReply.newBuilder()
+        .setId(p.getId())
+        .setDoctorId(p.getDoctor().getId())
+        .setPatientId(p.getPatient().getId())
         .build();
 
-    store.put(id, prescription);
-
-    CreatePrescriptionResponse response = CreatePrescriptionResponse.newBuilder()
-        .setPrescription(prescription)
-        .build();
-
-    responseObserver.onNext(response);
+    responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
 
   @Override
-  public void getPrescription(GetPrescriptionRequest request,
-                              StreamObserver<GetPrescriptionResponse> responseObserver) {
+  public void getPrescriptions(PrescriptionsRequest request,
+                               StreamObserver<GetPrescriptionsReply> responseObserver) {
+    List<Prescription> prescriptions =
+        prescriptionRepository.findByPatient_Id(request.getPatientId());
 
-    Prescription prescription = store.get(request.getId());
+    List<PrescriptionReply> items = prescriptions.stream()
+        .map(p -> PrescriptionReply.newBuilder()
+            .setId(p.getId())
+            .setDoctorId(p.getDoctor().getId())
+            .setPatientId(p.getPatient().getId())
+            .build())
+        .collect(Collectors.toList());
 
-    GetPrescriptionResponse response = GetPrescriptionResponse.newBuilder()
-        .setPrescription(prescription != null ? prescription : Prescription.getDefaultInstance())
+    GetPrescriptionsReply reply = GetPrescriptionsReply.newBuilder()
+        .addAllPrescriptions(items)
         .build();
 
-    responseObserver.onNext(response);
+    responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
 
   @Override
   public void checkCredentials(CheckCredentialsRequest request,
-                               StreamObserver<CheckCredentialsResponse> responseObserver) {
+                               io.grpc.stub.StreamObserver<CheckCredentialsReply> responseObserver) {
+    long cpr = Long.parseLong(String.valueOf(request.getUserId()));
 
-    int u = request.getUsername();
-    UserRoles role =
-        (u == 1) ? UserRoles.Doctor :
-            (u == 2) ? UserRoles.Patient :
-                (u == 3) ? UserRoles.Pharmacist :
-                    UserRoles.Invalid;
+    boolean doctorValid = doctorRepository
+        .findByUser_CprAndUser_Password(cpr, request.getPassword())
+        .isPresent();
 
-    responseObserver.onNext(CheckCredentialsResponse.newBuilder().setRole(role).build());
+    if (doctorValid) {
+      CheckCredentialsReply reply = CheckCredentialsReply.newBuilder()
+          .setRole(UserRoles.Doctor)
+          .build();
+      responseObserver.onNext(reply);
+      responseObserver.onCompleted();
+      return;
+    }
+
+    boolean patientValid = patientRepository
+        .findByUser_CprAndUser_Password(cpr, request.getPassword())
+        .isPresent();
+
+    if (patientValid) {
+      CheckCredentialsReply reply = CheckCredentialsReply.newBuilder()
+          .setRole(UserRoles.Patient)
+          .build();
+      responseObserver.onNext(reply);
+      responseObserver.onCompleted();
+      return;
+    }
+
+    CheckCredentialsReply reply = CheckCredentialsReply.newBuilder()
+        .setRole(UserRoles.Invalid)
+        .build();
+    responseObserver.onNext(reply);
     responseObserver.onCompleted();
   }
 }
