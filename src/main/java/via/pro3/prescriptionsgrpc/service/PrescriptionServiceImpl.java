@@ -9,6 +9,7 @@ import via.pro3.prescriptionsgrpc.entities.Drug;
 import via.pro3.prescriptionsgrpc.generated.*;
 import via.pro3.prescriptionsgrpc.repository.*;
 
+import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -198,6 +199,47 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
 
         CheckCredentialsReply reply = CheckCredentialsReply.newBuilder().setRole(UserRoles.Invalid).build();
         responseObserver.onNext(reply);
+        responseObserver.onCompleted();
+    }
+
+    @Override public void createUser(CreateUserRequest request,
+        StreamObserver<CreateUserReply> responseObserver)
+    {
+        //checks if user exists, without this you could continuously
+        //create new users on 1 cpr to overwrite others
+        //error that is sent does not properly send to invoker
+        //should create a task for error responses in grpc
+        if(userRepository.existsById(new UserId(request.getCpr(), User.Roles.PATIENT.role))){
+            responseObserver.onError(new SQLException("User already exists"));
+            return;
+        }
+
+        User user = new User(
+            request.getName(),
+            request.getSurname(),
+            request.getPassword(),
+            request.getPhone(),
+            request.getCpr()
+        );
+
+        //useful for any generated fields (in this case role being set to patient)
+        User created = userRepository.save(user);
+
+        //to be changed, when patient and doctor table is removed
+        Patient patient = patientRepository.save(new Patient(created, request.getGender(), convertToLocalDate(request.getBirthday())));
+
+        CreateUserReply response = CreateUserReply.newBuilder()
+            .setName(created.getName())
+            .setSurname(created.getSurname())
+            .setPassword(created.getPassword())
+            .setPhone(created.getPhone())
+            .setCpr(created.getId().getCpr())
+            .setRole(UserRoles.Patient)
+            .setGender(patient.getGender())
+            .setBirthday(convertToTimestamp(patient.getBirthday()))
+            .build();
+
+        responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
 }
