@@ -17,6 +17,38 @@ import jakarta.persistence.Table;
 
     @Column(name = "phone", length = 20) private String phone;
 
+    public enum Roles
+    {
+        PATIENT("patient"),
+        DOCTOR("doctor");
+
+        public final String role;
+
+        Roles(String role)
+        {
+            this.role = role;
+        }
+
+
+    }
+
+    public User(String name, String surname, String password, String phone, long cpr, Roles role)
+    {
+        this.id = new UserId(cpr, role.role);
+        this.name = name;
+        this.surname = surname;
+        this.password = password;
+        this.phone = phone;
+    }
+
+    public User(String name, String surname, String password, String phone, long cpr){
+        this(name, surname, password, phone, cpr, Roles.PATIENT);
+    }
+
+    public User(){
+
+    }
+
     public UserId getId()
     {
         return id;

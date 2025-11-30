@@ -16,6 +16,16 @@ import java.time.LocalDate;
 
     @Column(name = "birthday") private LocalDate birthday;
 
+    public Patient(User user, String gender, LocalDate birthday){
+        this.user = user;
+        this.gender = gender;
+        this.birthday = birthday;
+    }
+
+    public Patient(){
+
+    }
+
     public Integer getId()
     {
         return id;
