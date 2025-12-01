@@ -4,66 +4,66 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
-@Entity @Table(name = "prescription", schema = "hospital") public class Prescription
-{
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "id", nullable = false) private Integer id;
+@Entity
+@Table(name = "prescription", schema = "hospital")
+public class Prescription {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
-    @Column(name = "expiration_date") private LocalDate expirationDate;
+    @Column(name = "expiration_date")
+    private LocalDate expirationDate;
 
-    @Column(name = "issue_date") private LocalDate issueDate;
+    @Column(name = "issue_date")
+    private LocalDate issueDate;
 
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "patient_id") private Patient patient;
+    @ManyToOne
+    @JoinColumn(name = "doctor_cpr")
+    private User doctor;
 
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "doctor_id") private Doctor doctor;
+    @ManyToOne
+    @JoinColumn(name = "patient_cpr")
+    private User patient;
 
-    public Integer getId()
-    {
-        return id;
-    }
-
-    public void setId(Integer id)
-    {
-        this.id = id;
-    }
-
-    public LocalDate getExpirationDate()
-    {
-        return expirationDate;
-    }
-
-    public void setExpirationDate(LocalDate expirationDate)
-    {
-        this.expirationDate = expirationDate;
-    }
-
-    public LocalDate getIssueDate()
-    {
-        return issueDate;
-    }
-
-    public void setIssueDate(LocalDate issueDate)
-    {
-        this.issueDate = issueDate;
-    }
-
-    public Patient getPatient()
-    {
+    public User getPatient() {
         return patient;
     }
 
-    public void setPatient(Patient patient)
-    {
+    public void setPatient(User patient) {
         this.patient = patient;
     }
 
-    public Doctor getDoctor()
-    {
+    public User getDoctor() {
         return doctor;
     }
 
-    public void setDoctor(Doctor doctor)
-    {
+    public void setDoctor(User doctor) {
         this.doctor = doctor;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public LocalDate getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(LocalDate expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public LocalDate getIssueDate() {
+        return issueDate;
+    }
+
+    public void setIssueDate(LocalDate issueDate) {
+        this.issueDate = issueDate;
     }
 
 }
