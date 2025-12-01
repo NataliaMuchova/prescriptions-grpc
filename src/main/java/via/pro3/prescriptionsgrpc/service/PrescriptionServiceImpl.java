@@ -9,7 +9,9 @@ import via.pro3.prescriptionsgrpc.entities.Drug;
 import via.pro3.prescriptionsgrpc.generated.*;
 import via.pro3.prescriptionsgrpc.repository.*;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,10 +24,6 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
 
   private IDatabasePrescriptionRepository prescriptionRepository;
 
-  private IDatabaseDoctorRepository doctorRepository;
-
-  private IDatabasePatientRepository patientRepository;
-
   private IDatabaseUserRepository userRepository;
 
   private IDatabasePrescriptionDrugRepository prescriptionDrugRepository;
@@ -34,24 +32,40 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
   private IDatabaseDrugRepository drugRepository;
 
     @Autowired public PrescriptionServiceImpl(IDatabasePrescriptionRepository prescriptionRepository,
-        IDatabaseDoctorRepository doctorRepository, IDatabasePatientRepository patientRepository,
         IDatabaseUserRepository userRepository, IDatabasePrescriptionDrugRepository prescriptionDrugRepository)
     {
         this.prescriptionRepository = prescriptionRepository;
-        this.doctorRepository = doctorRepository;
-        this.patientRepository = patientRepository;
         this.userRepository = userRepository;
         this.prescriptionDrugRepository = prescriptionDrugRepository;
     }
+    private LocalDate convertToLocalDate(Timestamp timestamp) {
+        Instant instant = Instant.ofEpochSecond(timestamp.getSeconds(), timestamp.getNanos());
+        LocalDate time = instant.atZone(ZoneId.systemDefault()).toLocalDate();
+        return time;
+    }
 
+    private Timestamp convertToTimestamp(LocalDate date)
+    {
+        Instant instant = date.atStartOfDay(ZoneId.systemDefault()).toInstant();
+
+        return Timestamp.newBuilder().setSeconds(instant.getEpochSecond()).setNanos(instant.getNano()).build();
+    }
   @Override
   public void createPrescription(CreatePrescriptionRequest request,
                                  StreamObserver<PrescriptionReply> responseObserver) {
     Prescription p = new Prescription();
 
-    Doctor doctor = doctorRepository.findByUserId(new UserId(request.getDoctorId(), "doctor"));
-    Patient patient = patientRepository.findByUserId(new UserId(request.getPatientId(), "patient"));
+    User doctor = userRepository.findById(request.getDoctorId()).orElse(null);
+    User patient = userRepository.findById(request.getPatientId()).orElse(null);
 
+    if(doctor==null || patient==null){
+            responseObserver.onError(new NullPointerException("doctor or patient is null"));
+        return;
+    }
+    if(doctor.getRole().equals("doctor")){
+          responseObserver.onError(new IllegalAccessException("Doctor is not doctoooor"));
+          return;
+      }
     p.setDoctor(doctor);
     p.setPatient(patient);
     p.setIssueDate(LocalDate.now());
@@ -95,8 +109,8 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
 
     PrescriptionReply reply = PrescriptionReply.newBuilder()
         .setId(p.getId())
-        .setDoctorId(p.getDoctor().getId())
-        .setPatientId(p.getPatient().getId())
+        .setDoctorId(Math.toIntExact(p.getDoctor().getId()))
+        .setPatientId(Math.toIntExact(p.getPatient().getId()))
         .setIssueDate(issueTs)
         .setExpirationDate(expTs)
         .addAllDrugs(request.getDrugsList())
@@ -109,17 +123,39 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
   @Override
   public void getPrescriptions(PrescriptionsRequest request,
                                StreamObserver<GetPrescriptionsReply> responseObserver) {
-        Patient patient = patientRepository.findByUserId(new UserId(request.getPatientId(), "patient"));
+
+        long patientCpr = request.getPatientId();
+        User patient = userRepository.findById((int) patientCpr).orElse(null);
+
+        if(patient==null){
+            GetPrescriptionsReply emptyReply = GetPrescriptionsReply.newBuilder().build();
+            responseObserver.onNext(emptyReply);
+            responseObserver.onError(new NullPointerException("patient is null"));
+            return;
+        }
 
     List<Prescription> prescriptions =
-        prescriptionRepository.findByPatient_Id(patient.getId());
+        prescriptionRepository.findByPatient_Id(Math.toIntExact(patientCpr));
 
     //where drugs?
+      //TODO!!!!: IN PROTO CHANGES INT32 INTO INT64. DELETE MATH.TOINTEXACT
     List<PrescriptionReply> items = prescriptions.stream()
         .map(p -> PrescriptionReply.newBuilder()
             .setId(p.getId())
-            .setDoctorId(p.getDoctor().getId())
-            .setPatientId(p.getPatient().getId())
+            .setIssueDate(convertToTimestamp(p.getIssueDate()))
+                .setExpirationDate(convertToTimestamp(p.getExpirationDate()))
+                .addAllDrugs(drugRepository.findByPrescriptionId(p.getId()).stream().map(drug -> via.pro3.prescriptionsgrpc.generated.Drug.newBuilder()
+                        .setDescription(drug.getDescription())
+                        .setAmount(drug.getAmount())
+                        .setName(drug.getName())
+                        .setId(drug.getId())
+                        .setAvailabilityCount(1)
+                        .setNote("")
+                        .build())
+                        .toList())
+
+            .setDoctorId(Math.toIntExact(p.getDoctor().getId()))
+            .setPatientId(Math.toIntExact(p.getPatient().getId()))
             .build())
         .collect(Collectors.toList());
 
@@ -134,9 +170,9 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
     @Override public void checkCredentials(
         CheckCredentialsRequest request, io.grpc.stub.StreamObserver<CheckCredentialsReply> responseObserver)
     {
-        long cpr = Long.parseLong(String.valueOf(request.getUserId()));
+        long cpr = request.getUserId();
 
-        User doctor = userRepository.findById(new UserId(cpr, "doctor")).orElse(null);
+        User doctor = userRepository.findById((int) cpr).orElse(null);
 
         boolean doctorValid = doctor != null && doctor.getPassword().equals(request.getPassword());
 
@@ -148,7 +184,7 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
             return;
         }
 
-        User patient = userRepository.findById(new UserId(cpr, "patient")).orElse(null);
+        User patient = userRepository.findById((int) cpr).orElse(null);
 
         boolean patientValid = patient != null && patient.getPassword().equals(request.getPassword());
 

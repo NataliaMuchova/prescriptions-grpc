@@ -11,4 +11,6 @@ import java.util.List;
 
 @Repository
 public interface IDatabaseDrugRepository extends JpaRepository<Drug, Integer> {
+    @Query( value= "SELECT drug.id, drug.name, drug.description, drug.amount FROM drug inner join hospital.prescription_drug pd on drug.id = pd.drug_id inner join hospital.prescription p on p.id = pd.prescription_id WHERE p.id = ?", nativeQuery = true)
+     List<Drug> findByPrescriptionId(int id);
 }
