@@ -4,15 +4,14 @@ DROP SCHEMA IF EXISTS "hospital" CASCADE;
 CREATE SCHEMA "hospital";
 
 CREATE TABLE "user"(
-    PRIMARY KEY (cpr),
+    cpr bigint PRIMARY KEY,
     role varchar(50) CHECK (role IN ('patient', 'doctor', 'pharmacist')),
     name varchar(100),
     surname varchar(100),
-    cpr bigint,
     password varchar(50),
     phone varchar(20),
     birthday DATE, -- birthday and gender moved to user from patient table that no longer exist
-    gender char(1) CHECK (gender IN ('M', 'F'))
+    gender char(1)
      -- how should we handle a person registered as both doctor/pharmacist and patient? how should our log in look like in front end in relation to this issue?
     -- if u just log in to the system with cpr, and it logs you into your role that will not work with our architecture?
     );
