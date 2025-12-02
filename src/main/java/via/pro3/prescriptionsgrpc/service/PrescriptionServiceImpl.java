@@ -23,11 +23,11 @@ import java.util.stream.Collectors;
 @GRpcService
 public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
 
-  private IDatabasePrescriptionRepository prescriptionRepository;
+  private final IDatabasePrescriptionRepository prescriptionRepository;
 
-  private IDatabaseUserRepository userRepository;
+  private final IDatabaseUserRepository userRepository;
 
-  private IDatabasePrescriptionDrugRepository prescriptionDrugRepository;
+  private final IDatabasePrescriptionDrugRepository prescriptionDrugRepository;
 
   @Autowired
   private IDatabaseDrugRepository drugRepository;
@@ -39,6 +39,7 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
         this.userRepository = userRepository;
         this.prescriptionDrugRepository = prescriptionDrugRepository;
     }
+
     private LocalDate convertToLocalDate(Timestamp timestamp) {
         Instant instant = Instant.ofEpochSecond(timestamp.getSeconds(), timestamp.getNanos());
         LocalDate time = instant.atZone(ZoneId.systemDefault()).toLocalDate();
@@ -51,6 +52,17 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
 
         return Timestamp.newBuilder().setSeconds(instant.getEpochSecond()).setNanos(instant.getNano()).build();
     }
+
+    public static UserRoles roleForString(String value) {
+        switch (value) {
+            case "patient": return UserRoles.Patient;
+            case "doctor": return UserRoles.Doctor;
+            case "pharmacist": return UserRoles.Pharmacist;
+            case null, default:
+                return UserRoles.Invalid;
+        }
+    }
+
   @Override
   public void createPrescription(CreatePrescriptionRequest request,
                                  StreamObserver<PrescriptionReply> responseObserver) {
@@ -209,7 +221,7 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
         //create new users on 1 cpr to overwrite others
         //error that is sent does not properly send to invoker
         //should create a task for error responses in grpc
-        if(userRepository.existsById(new UserId(request.getCpr(), User.Roles.PATIENT.role))){
+        if(userRepository.existsById((int) request.getCpr())){
             responseObserver.onError(new SQLException("User already exists"));
             return;
         }
@@ -219,24 +231,24 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
             request.getSurname(),
             request.getPassword(),
             request.getPhone(),
-            request.getCpr()
+            request.getCpr(),
+            User.Roles.PATIENT,
+            convertToLocalDate(request.getBirthday()),
+            request.getGender()
         );
 
         //useful for any generated fields (in this case role being set to patient)
         User created = userRepository.save(user);
-
-        //to be changed, when patient and doctor table is removed
-        Patient patient = patientRepository.save(new Patient(created, request.getGender(), convertToLocalDate(request.getBirthday())));
 
         CreateUserReply response = CreateUserReply.newBuilder()
             .setName(created.getName())
             .setSurname(created.getSurname())
             .setPassword(created.getPassword())
             .setPhone(created.getPhone())
-            .setCpr(created.getId().getCpr())
-            .setRole(UserRoles.Patient)
-            .setGender(patient.getGender())
-            .setBirthday(convertToTimestamp(patient.getBirthday()))
+            .setCpr(created.getId())
+            .setRole(roleForString(created.getRole()))
+            .setGender(created.getGender())
+            .setBirthday(convertToTimestamp(created.getBirthday()))
             .build();
 
         responseObserver.onNext(response);

@@ -52,17 +52,24 @@ public class User {
 
     }
 
-    public User(String name, String surname, String password, String phone, long cpr, Roles role)
+    public User(String name, String surname, String password, String phone, long cpr, Roles role, LocalDate birthday, String gender)
     {
-        this.id = new UserId(cpr, role.role);
+        this.id = cpr;
         this.name = name;
         this.surname = surname;
         this.password = password;
         this.phone = phone;
+        this.role = role.role;
+        this.birthday = birthday;
+        this.gender = gender;
+    }
+
+    public User(String name, String surname, String password, String phone, long cpr, String gender){
+        this(name, surname, password, phone, cpr, Roles.PATIENT, LocalDate.now(), gender);
     }
 
     public User(String name, String surname, String password, String phone, long cpr){
-        this(name, surname, password, phone, cpr, Roles.PATIENT);
+        this(name, surname, password, phone, cpr, Roles.PATIENT,  LocalDate.now(), null);
     }
 
     public User(){
