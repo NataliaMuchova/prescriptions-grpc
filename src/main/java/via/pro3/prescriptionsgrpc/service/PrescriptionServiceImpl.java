@@ -172,25 +172,17 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
     {
         long cpr = request.getUserId();
 
-        User doctor = userRepository.findById((int) cpr).orElse(null);
+        User user = userRepository.findById((int) cpr).orElse(null);
 
-        boolean doctorValid = doctor != null && doctor.getPassword().equals(request.getPassword());
+        if (user != null || !user.getPassword().equals(request.getPassword()))
 
-        if (doctorValid)
         {
-            CheckCredentialsReply reply = CheckCredentialsReply.newBuilder().setRole(UserRoles.Doctor).build();
-            responseObserver.onNext(reply);
-            responseObserver.onCompleted();
-            return;
-        }
-
-        User patient = userRepository.findById((int) cpr).orElse(null);
-
-        boolean patientValid = patient != null && patient.getPassword().equals(request.getPassword());
-
-        if (patientValid)
-        {
-            CheckCredentialsReply reply = CheckCredentialsReply.newBuilder().setRole(UserRoles.Patient).build();
+            UserRoles role = UserRoles.Patient;
+            if(user.getRole().equals("doctor"))
+            {
+                role = UserRoles.Doctor;
+            }
+            CheckCredentialsReply reply = CheckCredentialsReply.newBuilder().setRole(role).build();
             responseObserver.onNext(reply);
             responseObserver.onCompleted();
             return;
