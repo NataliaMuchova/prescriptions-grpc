@@ -1,6 +1,7 @@
 package via.pro3.prescriptionsgrpc.entities;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -34,6 +35,46 @@ public class User {
 
     @Column(name = "gender", length = Integer.MAX_VALUE)
     private String gender;
+
+
+    public enum Roles
+    {
+        PATIENT("patient"),
+        DOCTOR("doctor");
+
+        public final String role;
+
+        Roles(String role)
+        {
+            this.role = role;
+        }
+
+
+    }
+
+    public User(String name, String surname, String password, String phone, long cpr, Roles role, LocalDate birthday, String gender)
+    {
+        this.id = cpr;
+        this.name = name;
+        this.surname = surname;
+        this.password = password;
+        this.phone = phone;
+        this.role = role.role;
+        this.birthday = birthday;
+        this.gender = gender;
+    }
+
+    public User(String name, String surname, String password, String phone, long cpr, String gender){
+        this(name, surname, password, phone, cpr, Roles.PATIENT, LocalDate.now(), gender);
+    }
+
+    public User(String name, String surname, String password, String phone, long cpr){
+        this(name, surname, password, phone, cpr, Roles.PATIENT,  LocalDate.now(), null);
+    }
+
+    public User(){
+
+    }
 
     public Long getId() {
         return id;

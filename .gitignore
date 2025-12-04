@@ -34,3 +34,5 @@ build/
 
 ### ignore application.properties to use them as environment variables
 application.properties
+
+**/src/main/java/**/generated
