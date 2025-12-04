@@ -50,6 +50,19 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
 
         return Timestamp.newBuilder().setSeconds(instant.getEpochSecond()).setNanos(instant.getNano()).build();
     }
+
+    private UserRoles getUserRole(User user){
+        UserRoles role = switch (user.getRole())
+        {
+            case "patient" -> UserRoles.Patient;
+            case "doctor" -> UserRoles.Doctor;
+            case "pharmacist" -> UserRoles.Pharmacist;
+            case null, default -> UserRoles.Invalid;
+        };
+
+        return role;
+    }
+
   @Override
   public void createPrescription(CreatePrescriptionRequest request,
                                  StreamObserver<PrescriptionReply> responseObserver) {
@@ -176,12 +189,8 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
 
         if (user != null && user.getPassword().equals(request.getPassword()))
         {
-            //todo: switch, default role invalid instead of patient, check for pharmacist too
-            UserRoles role = UserRoles.Patient;
-            if(user.getRole().equals("doctor"))
-            {
-                role = UserRoles.Doctor;
-            }
+            UserRoles role = getUserRole(user);
+
             CheckCredentialsReply reply = CheckCredentialsReply.newBuilder().setRole(role).build();
             responseObserver.onNext(reply);
             responseObserver.onCompleted();
