@@ -32,35 +32,35 @@ public final class Prescriptions {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_prescriptions_CheckCredentialsRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_prescriptions_CheckCredentialsResponse_descriptor;
+    internal_static_prescriptions_CheckCredentialsReply_descriptor;
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_prescriptions_CheckCredentialsResponse_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_prescriptions_Prescription_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_prescriptions_Prescription_fieldAccessorTable;
+      internal_static_prescriptions_CheckCredentialsReply_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
     internal_static_prescriptions_CreatePrescriptionRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_prescriptions_CreatePrescriptionRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_prescriptions_CreatePrescriptionResponse_descriptor;
+    internal_static_prescriptions_PrescriptionsRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_prescriptions_CreatePrescriptionResponse_fieldAccessorTable;
+      internal_static_prescriptions_PrescriptionsRequest_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_prescriptions_GetPrescriptionRequest_descriptor;
+    internal_static_prescriptions_GetPrescriptionsReply_descriptor;
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_prescriptions_GetPrescriptionRequest_fieldAccessorTable;
+      internal_static_prescriptions_GetPrescriptionsReply_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_prescriptions_GetPrescriptionResponse_descriptor;
+    internal_static_prescriptions_Drug_descriptor;
   static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_prescriptions_GetPrescriptionResponse_fieldAccessorTable;
+      internal_static_prescriptions_Drug_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_prescriptions_PrescriptionReply_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_prescriptions_PrescriptionReply_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -70,78 +70,86 @@ public final class Prescriptions {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\023prescriptions.proto\022\rprescriptions\"=\n\027" +
-      "CheckCredentialsRequest\022\020\n\010username\030\001 \001(" +
-      "\t\022\020\n\010password\030\002 \001(\t\"B\n\030CheckCredentialsR" +
-      "esponse\022&\n\004role\030\001 \001(\0162\030.prescriptions.Us" +
-      "erRoles\"A\n\014Prescription\022\n\n\002id\030\001 \001(\005\022\021\n\td" +
-      "octor_id\030\002 \001(\005\022\022\n\npatient_id\030\003 \001(\005\"B\n\031Cr" +
-      "eatePrescriptionRequest\022\021\n\tdoctor_id\030\001 \001" +
-      "(\005\022\022\n\npatient_id\030\002 \001(\005\"O\n\032CreatePrescrip" +
-      "tionResponse\0221\n\014prescription\030\001 \001(\0132\033.pre" +
-      "scriptions.Prescription\"$\n\026GetPrescripti" +
-      "onRequest\022\n\n\002id\030\001 \001(\005\"L\n\027GetPrescription" +
-      "Response\0221\n\014prescription\030\001 \001(\0132\033.prescri" +
-      "ptions.Prescription*A\n\tUserRoles\022\013\n\007Inva" +
-      "lid\020\000\022\013\n\007Patient\020\001\022\n\n\006Doctor\020\002\022\016\n\nPharma" +
-      "cist\020\0032\307\002\n\023PrescriptionService\022i\n\022Create" +
-      "Prescription\022(.prescriptions.CreatePresc" +
-      "riptionRequest\032).prescriptions.CreatePre" +
-      "scriptionResponse\022`\n\017GetPrescription\022%.p" +
-      "rescriptions.GetPrescriptionRequest\032&.pr" +
-      "escriptions.GetPrescriptionResponse\022c\n\020C" +
-      "heckCredentials\022&.prescriptions.CheckCre" +
-      "dentialsRequest\032\'.prescriptions.CheckCre" +
-      "dentialsResponseB(\n$via.pro3.prescriptio" +
-      "nsgrpc.generatedP\001b\006proto3"
+      "\n\023prescriptions.proto\022\rprescriptions\032\037go" +
+      "ogle/protobuf/timestamp.proto\"<\n\027CheckCr" +
+      "edentialsRequest\022\017\n\007user_id\030\001 \001(\005\022\020\n\010pas" +
+      "sword\030\002 \001(\t\"?\n\025CheckCredentialsReply\022&\n\004" +
+      "role\030\001 \001(\0162\030.prescriptions.UserRoles\"f\n\031" +
+      "CreatePrescriptionRequest\022\022\n\npatient_id\030" +
+      "\001 \001(\005\022\021\n\tdoctor_id\030\002 \001(\005\022\"\n\005drugs\030\003 \003(\0132" +
+      "\023.prescriptions.Drug\"*\n\024PrescriptionsReq" +
+      "uest\022\022\n\npatient_id\030\001 \001(\005\"P\n\025GetPrescript" +
+      "ionsReply\0227\n\rprescriptions\030\001 \003(\0132 .presc" +
+      "riptions.PrescriptionReply\"o\n\004Drug\022\n\n\002id" +
+      "\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\023\n\013description\030\003 \001(" +
+      "\t\022\016\n\006amount\030\004 \001(\005\022\032\n\022availability_count\030" +
+      "\005 \001(\005\022\014\n\004note\030\006 \001(\t\"\317\001\n\021PrescriptionRepl" +
+      "y\022\n\n\002id\030\001 \001(\005\022\022\n\npatient_id\030\002 \001(\005\022\021\n\tdoc" +
+      "tor_id\030\003 \001(\005\022.\n\nissue_date\030\004 \001(\0132\032.googl" +
+      "e.protobuf.Timestamp\0223\n\017expiration_date\030" +
+      "\005 \001(\0132\032.google.protobuf.Timestamp\022\"\n\005dru" +
+      "gs\030\006 \003(\0132\023.prescriptions.Drug*A\n\tUserRol" +
+      "es\022\013\n\007Invalid\020\000\022\013\n\007Patient\020\001\022\n\n\006Doctor\020\002" +
+      "\022\016\n\nPharmacist\020\0032\255\002\n\010Hospital\022]\n\020GetPres" +
+      "criptions\022#.prescriptions.PrescriptionsR" +
+      "equest\032$.prescriptions.GetPrescriptionsR" +
+      "eply\022`\n\022CreatePrescription\022(.prescriptio" +
+      "ns.CreatePrescriptionRequest\032 .prescript" +
+      "ions.PrescriptionReply\022`\n\020CheckCredentia" +
+      "ls\022&.prescriptions.CheckCredentialsReque" +
+      "st\032$.prescriptions.CheckCredentialsReply" +
+      "B(\n$via.pro3.prescriptionsgrpc.generated" +
+      "P\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          com.google.protobuf.TimestampProto.getDescriptor(),
         });
     internal_static_prescriptions_CheckCredentialsRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_prescriptions_CheckCredentialsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_prescriptions_CheckCredentialsRequest_descriptor,
-        new java.lang.String[] { "Username", "Password", });
-    internal_static_prescriptions_CheckCredentialsResponse_descriptor =
+        new java.lang.String[] { "UserId", "Password", });
+    internal_static_prescriptions_CheckCredentialsReply_descriptor =
       getDescriptor().getMessageTypes().get(1);
-    internal_static_prescriptions_CheckCredentialsResponse_fieldAccessorTable = new
+    internal_static_prescriptions_CheckCredentialsReply_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_prescriptions_CheckCredentialsResponse_descriptor,
+        internal_static_prescriptions_CheckCredentialsReply_descriptor,
         new java.lang.String[] { "Role", });
-    internal_static_prescriptions_Prescription_descriptor =
-      getDescriptor().getMessageTypes().get(2);
-    internal_static_prescriptions_Prescription_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_prescriptions_Prescription_descriptor,
-        new java.lang.String[] { "Id", "DoctorId", "PatientId", });
     internal_static_prescriptions_CreatePrescriptionRequest_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(2);
     internal_static_prescriptions_CreatePrescriptionRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_prescriptions_CreatePrescriptionRequest_descriptor,
-        new java.lang.String[] { "DoctorId", "PatientId", });
-    internal_static_prescriptions_CreatePrescriptionResponse_descriptor =
+        new java.lang.String[] { "PatientId", "DoctorId", "Drugs", });
+    internal_static_prescriptions_PrescriptionsRequest_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_prescriptions_PrescriptionsRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_prescriptions_PrescriptionsRequest_descriptor,
+        new java.lang.String[] { "PatientId", });
+    internal_static_prescriptions_GetPrescriptionsReply_descriptor =
       getDescriptor().getMessageTypes().get(4);
-    internal_static_prescriptions_CreatePrescriptionResponse_fieldAccessorTable = new
+    internal_static_prescriptions_GetPrescriptionsReply_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_prescriptions_CreatePrescriptionResponse_descriptor,
-        new java.lang.String[] { "Prescription", });
-    internal_static_prescriptions_GetPrescriptionRequest_descriptor =
+        internal_static_prescriptions_GetPrescriptionsReply_descriptor,
+        new java.lang.String[] { "Prescriptions", });
+    internal_static_prescriptions_Drug_descriptor =
       getDescriptor().getMessageTypes().get(5);
-    internal_static_prescriptions_GetPrescriptionRequest_fieldAccessorTable = new
+    internal_static_prescriptions_Drug_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_prescriptions_GetPrescriptionRequest_descriptor,
-        new java.lang.String[] { "Id", });
-    internal_static_prescriptions_GetPrescriptionResponse_descriptor =
+        internal_static_prescriptions_Drug_descriptor,
+        new java.lang.String[] { "Id", "Name", "Description", "Amount", "AvailabilityCount", "Note", });
+    internal_static_prescriptions_PrescriptionReply_descriptor =
       getDescriptor().getMessageTypes().get(6);
-    internal_static_prescriptions_GetPrescriptionResponse_fieldAccessorTable = new
+    internal_static_prescriptions_PrescriptionReply_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_prescriptions_GetPrescriptionResponse_descriptor,
-        new java.lang.String[] { "Prescription", });
+        internal_static_prescriptions_PrescriptionReply_descriptor,
+        new java.lang.String[] { "Id", "PatientId", "DoctorId", "IssueDate", "ExpirationDate", "Drugs", });
     descriptor.resolveAllFeaturesImmutable();
+    com.google.protobuf.TimestampProto.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

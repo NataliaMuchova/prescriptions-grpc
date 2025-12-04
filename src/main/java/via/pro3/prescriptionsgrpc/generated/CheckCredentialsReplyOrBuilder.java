@@ -6,8 +6,8 @@
 package via.pro3.prescriptionsgrpc.generated;
 
 @com.google.protobuf.Generated
-public interface CheckCredentialsResponseOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:prescriptions.CheckCredentialsResponse)
+public interface CheckCredentialsReplyOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:prescriptions.CheckCredentialsReply)
     com.google.protobuf.MessageOrBuilder {
 
   /**

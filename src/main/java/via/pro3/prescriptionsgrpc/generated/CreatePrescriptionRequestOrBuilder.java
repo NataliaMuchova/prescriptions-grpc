@@ -11,14 +11,38 @@ public interface CreatePrescriptionRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>int32 doctor_id = 1;</code>
+   * <code>int32 patient_id = 1;</code>
+   * @return The patientId.
+   */
+  int getPatientId();
+
+  /**
+   * <code>int32 doctor_id = 2;</code>
    * @return The doctorId.
    */
   int getDoctorId();
 
   /**
-   * <code>int32 patient_id = 2;</code>
-   * @return The patientId.
+   * <code>repeated .prescriptions.Drug drugs = 3;</code>
    */
-  int getPatientId();
+  java.util.List<via.pro3.prescriptionsgrpc.generated.Drug> 
+      getDrugsList();
+  /**
+   * <code>repeated .prescriptions.Drug drugs = 3;</code>
+   */
+  via.pro3.prescriptionsgrpc.generated.Drug getDrugs(int index);
+  /**
+   * <code>repeated .prescriptions.Drug drugs = 3;</code>
+   */
+  int getDrugsCount();
+  /**
+   * <code>repeated .prescriptions.Drug drugs = 3;</code>
+   */
+  java.util.List<? extends via.pro3.prescriptionsgrpc.generated.DrugOrBuilder> 
+      getDrugsOrBuilderList();
+  /**
+   * <code>repeated .prescriptions.Drug drugs = 3;</code>
+   */
+  via.pro3.prescriptionsgrpc.generated.DrugOrBuilder getDrugsOrBuilder(
+      int index);
 }

@@ -6,13 +6,13 @@
 package via.pro3.prescriptionsgrpc.generated;
 
 /**
- * Protobuf type {@code prescriptions.GetPrescriptionRequest}
+ * Protobuf type {@code prescriptions.PrescriptionsRequest}
  */
 @com.google.protobuf.Generated
-public final class GetPrescriptionRequest extends
+public final class PrescriptionsRequest extends
     com.google.protobuf.GeneratedMessage implements
-    // @@protoc_insertion_point(message_implements:prescriptions.GetPrescriptionRequest)
-    GetPrescriptionRequestOrBuilder {
+    // @@protoc_insertion_point(message_implements:prescriptions.PrescriptionsRequest)
+    PrescriptionsRequestOrBuilder {
 private static final long serialVersionUID = 0L;
   static {
     com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
@@ -21,37 +21,37 @@ private static final long serialVersionUID = 0L;
       /* minor= */ 32,
       /* patch= */ 0,
       /* suffix= */ "",
-      GetPrescriptionRequest.class.getName());
+      PrescriptionsRequest.class.getName());
   }
-  // Use GetPrescriptionRequest.newBuilder() to construct.
-  private GetPrescriptionRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+  // Use PrescriptionsRequest.newBuilder() to construct.
+  private PrescriptionsRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
     super(builder);
   }
-  private GetPrescriptionRequest() {
+  private PrescriptionsRequest() {
   }
 
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_GetPrescriptionRequest_descriptor;
+    return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_PrescriptionsRequest_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_GetPrescriptionRequest_fieldAccessorTable
+    return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_PrescriptionsRequest_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest.class, via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest.Builder.class);
+            via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest.class, via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest.Builder.class);
   }
 
-  public static final int ID_FIELD_NUMBER = 1;
-  private int id_ = 0;
+  public static final int PATIENT_ID_FIELD_NUMBER = 1;
+  private int patientId_ = 0;
   /**
-   * <code>int32 id = 1;</code>
-   * @return The id.
+   * <code>int32 patient_id = 1;</code>
+   * @return The patientId.
    */
   @java.lang.Override
-  public int getId() {
-    return id_;
+  public int getPatientId() {
+    return patientId_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -68,8 +68,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (id_ != 0) {
-      output.writeInt32(1, id_);
+    if (patientId_ != 0) {
+      output.writeInt32(1, patientId_);
     }
     getUnknownFields().writeTo(output);
   }
@@ -80,9 +80,9 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (id_ != 0) {
+    if (patientId_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(1, id_);
+        .computeInt32Size(1, patientId_);
     }
     size += getUnknownFields().getSerializedSize();
     memoizedSize = size;
@@ -94,13 +94,13 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest)) {
+    if (!(obj instanceof via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest)) {
       return super.equals(obj);
     }
-    via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest other = (via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest) obj;
+    via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest other = (via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest) obj;
 
-    if (getId()
-        != other.getId()) return false;
+    if (getPatientId()
+        != other.getPatientId()) return false;
     if (!getUnknownFields().equals(other.getUnknownFields())) return false;
     return true;
   }
@@ -112,51 +112,51 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + ID_FIELD_NUMBER;
-    hash = (53 * hash) + getId();
+    hash = (37 * hash) + PATIENT_ID_FIELD_NUMBER;
+    hash = (53 * hash) + getPatientId();
     hash = (29 * hash) + getUnknownFields().hashCode();
     memoizedHashCode = hash;
     return hash;
   }
 
-  public static via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest parseFrom(byte[] data)
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest parseFrom(java.io.InputStream input)
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseWithIOException(PARSER, input);
   }
-  public static via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -164,26 +164,26 @@ private static final long serialVersionUID = 0L;
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
 
-  public static via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest parseDelimitedFrom(java.io.InputStream input)
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseDelimitedWithIOException(PARSER, input);
   }
 
-  public static via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest parseDelimitedFrom(
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessage
         .parseWithIOException(PARSER, input);
   }
-  public static via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest parseFrom(
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -196,7 +196,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest prototype) {
+  public static Builder newBuilder(via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -212,26 +212,26 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code prescriptions.GetPrescriptionRequest}
+   * Protobuf type {@code prescriptions.PrescriptionsRequest}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:prescriptions.GetPrescriptionRequest)
-      via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequestOrBuilder {
+      // @@protoc_insertion_point(builder_implements:prescriptions.PrescriptionsRequest)
+      via.pro3.prescriptionsgrpc.generated.PrescriptionsRequestOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_GetPrescriptionRequest_descriptor;
+      return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_PrescriptionsRequest_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_GetPrescriptionRequest_fieldAccessorTable
+      return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_PrescriptionsRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest.class, via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest.Builder.class);
+              via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest.class, via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest.Builder.class);
     }
 
-    // Construct using via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest.newBuilder()
+    // Construct using via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest.newBuilder()
     private Builder() {
 
     }
@@ -245,24 +245,24 @@ private static final long serialVersionUID = 0L;
     public Builder clear() {
       super.clear();
       bitField0_ = 0;
-      id_ = 0;
+      patientId_ = 0;
       return this;
     }
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_GetPrescriptionRequest_descriptor;
+      return via.pro3.prescriptionsgrpc.generated.Prescriptions.internal_static_prescriptions_PrescriptionsRequest_descriptor;
     }
 
     @java.lang.Override
-    public via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest getDefaultInstanceForType() {
-      return via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest.getDefaultInstance();
+    public via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest getDefaultInstanceForType() {
+      return via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest.getDefaultInstance();
     }
 
     @java.lang.Override
-    public via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest build() {
-      via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest result = buildPartial();
+    public via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest build() {
+      via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -270,34 +270,34 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest buildPartial() {
-      via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest result = new via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest(this);
+    public via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest buildPartial() {
+      via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest result = new via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest(this);
       if (bitField0_ != 0) { buildPartial0(result); }
       onBuilt();
       return result;
     }
 
-    private void buildPartial0(via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest result) {
+    private void buildPartial0(via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest result) {
       int from_bitField0_ = bitField0_;
       if (((from_bitField0_ & 0x00000001) != 0)) {
-        result.id_ = id_;
+        result.patientId_ = patientId_;
       }
     }
 
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest) {
-        return mergeFrom((via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest)other);
+      if (other instanceof via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest) {
+        return mergeFrom((via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest other) {
-      if (other == via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest.getDefaultInstance()) return this;
-      if (other.getId() != 0) {
-        setId(other.getId());
+    public Builder mergeFrom(via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest other) {
+      if (other == via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest.getDefaultInstance()) return this;
+      if (other.getPatientId() != 0) {
+        setPatientId(other.getPatientId());
       }
       this.mergeUnknownFields(other.getUnknownFields());
       onChanged();
@@ -326,7 +326,7 @@ private static final long serialVersionUID = 0L;
               done = true;
               break;
             case 8: {
-              id_ = input.readInt32();
+              patientId_ = input.readInt32();
               bitField0_ |= 0x00000001;
               break;
             } // case 8
@@ -347,55 +347,55 @@ private static final long serialVersionUID = 0L;
     }
     private int bitField0_;
 
-    private int id_ ;
+    private int patientId_ ;
     /**
-     * <code>int32 id = 1;</code>
-     * @return The id.
+     * <code>int32 patient_id = 1;</code>
+     * @return The patientId.
      */
     @java.lang.Override
-    public int getId() {
-      return id_;
+    public int getPatientId() {
+      return patientId_;
     }
     /**
-     * <code>int32 id = 1;</code>
-     * @param value The id to set.
+     * <code>int32 patient_id = 1;</code>
+     * @param value The patientId to set.
      * @return This builder for chaining.
      */
-    public Builder setId(int value) {
+    public Builder setPatientId(int value) {
 
-      id_ = value;
+      patientId_ = value;
       bitField0_ |= 0x00000001;
       onChanged();
       return this;
     }
     /**
-     * <code>int32 id = 1;</code>
+     * <code>int32 patient_id = 1;</code>
      * @return This builder for chaining.
      */
-    public Builder clearId() {
+    public Builder clearPatientId() {
       bitField0_ = (bitField0_ & ~0x00000001);
-      id_ = 0;
+      patientId_ = 0;
       onChanged();
       return this;
     }
 
-    // @@protoc_insertion_point(builder_scope:prescriptions.GetPrescriptionRequest)
+    // @@protoc_insertion_point(builder_scope:prescriptions.PrescriptionsRequest)
   }
 
-  // @@protoc_insertion_point(class_scope:prescriptions.GetPrescriptionRequest)
-  private static final via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:prescriptions.PrescriptionsRequest)
+  private static final via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest();
+    DEFAULT_INSTANCE = new via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest();
   }
 
-  public static via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest getDefaultInstance() {
+  public static via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<GetPrescriptionRequest>
-      PARSER = new com.google.protobuf.AbstractParser<GetPrescriptionRequest>() {
+  private static final com.google.protobuf.Parser<PrescriptionsRequest>
+      PARSER = new com.google.protobuf.AbstractParser<PrescriptionsRequest>() {
     @java.lang.Override
-    public GetPrescriptionRequest parsePartialFrom(
+    public PrescriptionsRequest parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -414,17 +414,17 @@ private static final long serialVersionUID = 0L;
     }
   };
 
-  public static com.google.protobuf.Parser<GetPrescriptionRequest> parser() {
+  public static com.google.protobuf.Parser<PrescriptionsRequest> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<GetPrescriptionRequest> getParserForType() {
+  public com.google.protobuf.Parser<PrescriptionsRequest> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public via.pro3.prescriptionsgrpc.generated.GetPrescriptionRequest getDefaultInstanceForType() {
+  public via.pro3.prescriptionsgrpc.generated.PrescriptionsRequest getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 
