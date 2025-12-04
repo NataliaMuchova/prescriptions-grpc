@@ -1,9 +1,10 @@
 syntax = "proto3";
 
-package hospital;
 option java_multiple_files = true;
 option java_package = "via.pro3.prescriptionsgrpc.generated";
 import "google/protobuf/timestamp.proto";
+
+package hospital;
 
 enum UserRoles {
   Invalid = 0;

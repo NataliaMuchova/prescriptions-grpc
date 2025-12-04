@@ -62,6 +62,18 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
                 return UserRoles.Invalid;
         }
     }
+    
+    private UserRoles getUserRole(User user){
+        UserRoles role = switch (user.getRole())
+        {
+            case "patient" -> UserRoles.Patient;
+            case "doctor" -> UserRoles.Doctor;
+            case "pharmacist" -> UserRoles.Pharmacist;
+            case null, default -> UserRoles.Invalid;
+        };
+
+        return role;
+    }
 
   @Override
   public void createPrescription(CreatePrescriptionRequest request,
@@ -185,25 +197,13 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
     {
         long cpr = request.getUserId();
 
-        User doctor = userRepository.findById((int) cpr).orElse(null);
+        User user = userRepository.findById((int) cpr).orElse(null);
 
-        boolean doctorValid = doctor != null && doctor.getPassword().equals(request.getPassword());
-
-        if (doctorValid)
+        if (user != null && user.getPassword().equals(request.getPassword()))
         {
-            CheckCredentialsReply reply = CheckCredentialsReply.newBuilder().setRole(UserRoles.Doctor).build();
-            responseObserver.onNext(reply);
-            responseObserver.onCompleted();
-            return;
-        }
+            UserRoles role = getUserRole(user);
 
-        User patient = userRepository.findById((int) cpr).orElse(null);
-
-        boolean patientValid = patient != null && patient.getPassword().equals(request.getPassword());
-
-        if (patientValid)
-        {
-            CheckCredentialsReply reply = CheckCredentialsReply.newBuilder().setRole(UserRoles.Patient).build();
+            CheckCredentialsReply reply = CheckCredentialsReply.newBuilder().setRole(role).build();
             responseObserver.onNext(reply);
             responseObserver.onCompleted();
             return;
