@@ -174,9 +174,9 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
 
         User user = userRepository.findById((int) cpr).orElse(null);
 
-        if (user != null || !user.getPassword().equals(request.getPassword()))
-
+        if (user != null && user.getPassword().equals(request.getPassword()))
         {
+            //todo: switch, default role invalid instead of patient, check for pharmacist too
             UserRoles role = UserRoles.Patient;
             if(user.getRole().equals("doctor"))
             {
