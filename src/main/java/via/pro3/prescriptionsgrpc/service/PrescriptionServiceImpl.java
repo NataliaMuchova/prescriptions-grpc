@@ -97,7 +97,7 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
 
           //TODO: make drug creation possible
           //below error shows up when attempting to create prescription with new drug id,
-          //it works properly if id already exists
+          //it works properly if id already exists, no clue whats going on rly
           //Row was updated or deleted by another transaction (or unsaved-value mapping was incorrect)
           drugRepository.saveAndFlush(drugToSave);
 
@@ -164,13 +164,13 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
             .setId(p.getId())
             .setIssueDate(convertToTimestamp(p.getIssueDate()))
                 .setExpirationDate(convertToTimestamp(p.getExpirationDate()))
-                .addAllDrugs(drugRepository.findByPrescriptionId(p.getId()).stream().map(drug -> via.pro3.prescriptionsgrpc.generated.Drug.newBuilder()
-                        .setDescription(drug.getDescription())
-                        .setAmount(drug.getAmount())
-                        .setName(drug.getName())
-                        .setId(drug.getId())
-                        .setAvailabilityCount(1)
-                        .setNote("")
+                .addAllDrugs(prescriptionDrugRepository.findByPrescription(p).stream().map(prescriptionDrug -> via.pro3.prescriptionsgrpc.generated.Drug.newBuilder()
+                        .setDescription(prescriptionDrug.getDrug().getDescription())
+                        .setAmount(prescriptionDrug.getDrug().getAmount())
+                        .setName(prescriptionDrug.getDrug().getName())
+                        .setId(prescriptionDrug.getDrug().getId())
+                        .setAvailabilityCount(prescriptionDrug.getAvailabilityCount())
+                        .setNote(prescriptionDrug.getNote())
                         .build())
                         .toList())
 
