@@ -1,12 +1,9 @@
 package via.pro3.prescriptionsgrpc.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "\"user\"", schema = "hospital")
@@ -36,6 +33,8 @@ public class User {
     @Column(name = "gender", length = Integer.MAX_VALUE)
     private String gender;
 
+    @OneToMany(mappedBy = "patient")
+    private Set<Prescription> prescriptions;
 
     public enum Roles
     {
