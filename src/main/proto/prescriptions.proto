@@ -16,10 +16,28 @@ enum UserRoles {
 service Hospital {
   rpc GetPrescriptions (PrescriptionsRequest) returns (GetPrescriptionsReply);
   rpc CreatePrescription (CreatePrescriptionRequest) returns (PrescriptionReply);
+  rpc UpdatePrescription (UpdatePrescriptionRequest) returns (UpdatePrescriptionReply);
   rpc CheckCredentials (CheckCredentialsRequest) returns (CheckCredentialsReply);
   rpc CreateUser (CreateUserRequest) returns (CreateUserReply);
   rpc GetDrugStorage (GetDrugRequest) returns (GetDrugReply);
   rpc CreateDrugStorage (CreateDrugRequest) returns (CreateDrugReply);
+  rpc UpdateDrugStorage (UpdateDrugRequest) returns (UpdateDrugReply);
+}
+
+message UpdateDrugRequest {
+  string name = 1;
+  int32 id = 2;
+  int32 stock = 3;
+  double price = 4;
+  int32 reorderLevel = 5;
+}
+
+message UpdateDrugReply {
+  string name = 1;
+  int32 id = 2;
+  int32 stock = 3;
+  double price = 4;
+  int32 reorderLevel = 5;
 }
 
 message CreateDrugRequest {
@@ -77,6 +95,24 @@ message CheckCredentialsRequest {
 
 message CheckCredentialsReply {
   UserRoles role = 1;
+}
+
+message UpdatePrescriptionRequest {
+  int32 id = 1;
+  int64 patient_id = 2;
+  int64 doctor_id = 3;
+  google.protobuf.Timestamp issue_date = 4;
+  google.protobuf.Timestamp expiration_date = 5;
+  repeated Drug drugs = 6;
+}
+
+message UpdatePrescriptionReply {
+  int32 id = 1;
+  int64 patient_id = 2;
+  int64 doctor_id = 3;
+  google.protobuf.Timestamp issue_date = 4;
+  google.protobuf.Timestamp expiration_date = 5;
+  repeated Drug drugs = 6;
 }
 
 message CreatePrescriptionRequest {

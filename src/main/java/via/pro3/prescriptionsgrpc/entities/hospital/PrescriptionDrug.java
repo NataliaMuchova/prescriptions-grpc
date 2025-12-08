@@ -24,6 +24,18 @@ public class PrescriptionDrug {
     @JoinColumn(name = "prescription_id")
     private Prescription prescription;
 
+    public PrescriptionDrug(){
+
+    }
+
+    public PrescriptionDrug(Drug drug, String note, Integer availabilityCount, Prescription prescription)
+    {
+        this.drug = drug;
+        this.note = note;
+        this.availabilityCount = availabilityCount;
+        this.prescription = prescription;
+    }
+
     public Integer getId() {
         return id;
     }
