@@ -29,6 +29,8 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
 
   private final IDatabasePrescriptionDrugRepository prescriptionDrugRepository;
 
+  private final IPharmacyDrugRepository drugStorage = new TempPharmacyDrugRepoImpl();
+
   @Autowired
   private IDatabaseDrugRepository drugRepository;
 
@@ -252,6 +254,51 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
             .build();
 
         responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override public void getDrugStorage(GetDrugRequest request,
+        StreamObserver<GetDrugReply> responseObserver)
+    {
+        via.pro3.prescriptionsgrpc.entities.pharmacy.Drug drug = drugStorage.findById(
+            request.getId()).orElse(null);
+
+        if (drug == null)
+        {
+            GetDrugReply reply = GetDrugReply.newBuilder()
+                .setId("0")
+                .setStock(0)
+                .setPrice(0)
+                .build();
+
+            responseObserver.onNext(reply);
+            responseObserver.onCompleted();
+            return;
+        }
+
+        GetDrugReply reply = GetDrugReply.newBuilder()
+            .setId(drug.getId())
+            .setStock(drug.getStock())
+            .setPrice(drug.getPrice())
+            .build();
+
+        responseObserver.onNext(reply);
+        responseObserver.onCompleted();
+    }
+
+    @Override public void createDrugStorage(CreateDrugRequest request,
+        StreamObserver<CreateDrugReply> responseObserver)
+    {
+        via.pro3.prescriptionsgrpc.entities.pharmacy.Drug created = drugStorage.save(new via.pro3.prescriptionsgrpc.entities.pharmacy.Drug(
+            request.getId(), request.getStock(), request.getPrice()));
+
+        CreateDrugReply reply = CreateDrugReply.newBuilder()
+            .setId(created.getId())
+            .setStock(created.getStock())
+            .setPrice(created.getPrice())
+            .build();
+
+        responseObserver.onNext(reply);
         responseObserver.onCompleted();
     }
 }
