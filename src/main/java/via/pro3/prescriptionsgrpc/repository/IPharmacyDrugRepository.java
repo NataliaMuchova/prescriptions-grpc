@@ -1,11 +1,11 @@
 package via.pro3.prescriptionsgrpc.repository;
 
-import via.pro3.prescriptionsgrpc.entities.pharmacy.Drug;
+import org.springframework.data.jpa.repository.JpaRepository;
+import via.pro3.prescriptionsgrpc.entities.hospital.User;
+import via.pro3.prescriptionsgrpc.entities.pharmacy.PharmacyDrug;
 
 import java.util.Optional;
 
-public interface IPharmacyDrugRepository
-{
-    Optional<Drug> findById(String id);
-    Drug save(Drug drug);
+public interface IPharmacyDrugRepository extends JpaRepository<PharmacyDrug, Integer> {
+
 }

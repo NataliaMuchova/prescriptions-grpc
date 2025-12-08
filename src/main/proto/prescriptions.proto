@@ -23,25 +23,30 @@ service Hospital {
 }
 
 message CreateDrugRequest {
-  string id = 1;
+  string name = 1;
   int32 stock = 2;
   double price = 3;
+  int32 reorderLevel = 4;
 }
 
 message CreateDrugReply {
-  string id = 1;
-  int32 stock = 2;
-  double price = 3;
+  string name = 1;
+  int32 id = 2;
+  int32 stock = 3;
+  double price = 4;
+  int32 reorderLevel = 5;
 }
 
 message GetDrugRequest {
-  string id = 1;
+  int32 id = 1;
 }
 
 message GetDrugReply {
-  string id = 1;
-  int32 stock = 2;
-  double price = 3;
+  string name = 1;
+  int32 id = 2;
+  int32 stock = 3;
+  double price = 4;
+  int32 reorderLevel = 5;
 }
 
 message CreateUserRequest {

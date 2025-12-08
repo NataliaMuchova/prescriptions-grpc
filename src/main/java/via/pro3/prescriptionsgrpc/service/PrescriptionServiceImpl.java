@@ -4,8 +4,11 @@ import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
-import via.pro3.prescriptionsgrpc.entities.*;
-import via.pro3.prescriptionsgrpc.entities.Drug;
+import via.pro3.prescriptionsgrpc.entities.hospital.Drug;
+import via.pro3.prescriptionsgrpc.entities.hospital.Prescription;
+import via.pro3.prescriptionsgrpc.entities.hospital.PrescriptionDrug;
+import via.pro3.prescriptionsgrpc.entities.hospital.User;
+import via.pro3.prescriptionsgrpc.entities.pharmacy.PharmacyDrug;
 import via.pro3.prescriptionsgrpc.generated.*;
 import via.pro3.prescriptionsgrpc.repository.*;
 
@@ -15,9 +18,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @GRpcService
@@ -29,17 +30,18 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
 
   private final IDatabasePrescriptionDrugRepository prescriptionDrugRepository;
 
-  private final IPharmacyDrugRepository drugStorage = new TempPharmacyDrugRepoImpl();
+  private final IPharmacyDrugRepository drugStorageRepository;
 
-  @Autowired
-  private IDatabaseDrugRepository drugRepository;
+  private final IDatabaseDrugRepository drugRepository;
 
     @Autowired public PrescriptionServiceImpl(IDatabasePrescriptionRepository prescriptionRepository,
-        IDatabaseUserRepository userRepository, IDatabasePrescriptionDrugRepository prescriptionDrugRepository)
+        IDatabaseUserRepository userRepository, IDatabasePrescriptionDrugRepository prescriptionDrugRepository, IPharmacyDrugRepository drugStorageRepository, IDatabaseDrugRepository drugRepository)
     {
         this.prescriptionRepository = prescriptionRepository;
         this.userRepository = userRepository;
         this.prescriptionDrugRepository = prescriptionDrugRepository;
+        this.drugStorageRepository = drugStorageRepository;
+        this.drugRepository = drugRepository;
     }
 
     private LocalDate convertToLocalDate(Timestamp timestamp) {
@@ -260,15 +262,17 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
     @Override public void getDrugStorage(GetDrugRequest request,
         StreamObserver<GetDrugReply> responseObserver)
     {
-        via.pro3.prescriptionsgrpc.entities.pharmacy.Drug drug = drugStorage.findById(
+        PharmacyDrug drug = drugStorageRepository.findById(
             request.getId()).orElse(null);
 
         if (drug == null)
         {
             GetDrugReply reply = GetDrugReply.newBuilder()
-                .setId("0")
+                .setName("0")
+                .setId(0)
                 .setStock(0)
                 .setPrice(0)
+                .setReorderLevel(0)
                 .build();
 
             responseObserver.onNext(reply);
@@ -277,9 +281,11 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
         }
 
         GetDrugReply reply = GetDrugReply.newBuilder()
+            .setName(drug.getName())
             .setId(drug.getId())
             .setStock(drug.getStock())
             .setPrice(drug.getPrice())
+            .setReorderLevel(drug.getReorderLevel())
             .build();
 
         responseObserver.onNext(reply);
@@ -289,13 +295,15 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
     @Override public void createDrugStorage(CreateDrugRequest request,
         StreamObserver<CreateDrugReply> responseObserver)
     {
-        via.pro3.prescriptionsgrpc.entities.pharmacy.Drug created = drugStorage.save(new via.pro3.prescriptionsgrpc.entities.pharmacy.Drug(
-            request.getId(), request.getStock(), request.getPrice()));
+        PharmacyDrug created = drugStorageRepository.save(new PharmacyDrug(
+            request.getName(), request.getStock(), request.getPrice(), request.getReorderLevel()));
 
         CreateDrugReply reply = CreateDrugReply.newBuilder()
+            .setName(created.getName())
             .setId(created.getId())
             .setStock(created.getStock())
             .setPrice(created.getPrice())
+            .setReorderLevel(created.getReorderLevel())
             .build();
 
         responseObserver.onNext(reply);
