@@ -3,6 +3,7 @@ package via.pro3.prescriptionsgrpc.entities.hospital;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "prescription", schema = "hospital")
@@ -25,6 +26,9 @@ public class Prescription {
     @ManyToOne
     @JoinColumn(name = "patient_cpr")
     private User patient;
+
+    @OneToMany(mappedBy = "prescription")
+    private Set<PrescriptionDrug> prescriptionDrugs;
 
     public User getPatient() {
         return patient;
@@ -66,4 +70,13 @@ public class Prescription {
         this.issueDate = issueDate;
     }
 
+    public Set<PrescriptionDrug> getPrescriptionDrugs()
+    {
+        return prescriptionDrugs;
+    }
+
+    public void setPrescriptionDrugs(Set<PrescriptionDrug> prescriptionDrugs)
+    {
+        this.prescriptionDrugs = prescriptionDrugs;
+    }
 }

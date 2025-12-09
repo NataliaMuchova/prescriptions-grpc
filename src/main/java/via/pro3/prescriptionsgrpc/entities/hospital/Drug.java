@@ -2,6 +2,8 @@ package via.pro3.prescriptionsgrpc.entities.hospital;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "drug", schema = "hospital")
 public class Drug {
@@ -18,6 +20,21 @@ public class Drug {
 
     @Column(name = "amount")
     private Integer amount;
+
+    @OneToMany(mappedBy = "drug")
+    private Set<PrescriptionDrug> prescriptionDrugs;
+
+    public Drug(int id, String name, String description, int amount)
+    {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.amount = amount;
+    }
+
+    public Drug(){
+
+    }
 
     public Integer getId() {
         return id;

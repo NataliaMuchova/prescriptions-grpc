@@ -8,6 +8,10 @@ import via.pro3.prescriptionsgrpc.entities.hospital.Drug;
 import via.pro3.prescriptionsgrpc.entities.hospital.Prescription;
 import via.pro3.prescriptionsgrpc.entities.hospital.PrescriptionDrug;
 import via.pro3.prescriptionsgrpc.entities.hospital.User;
+import via.pro3.prescriptionsgrpc.entities.hospital.Drug;
+import via.pro3.prescriptionsgrpc.entities.hospital.Prescription;
+import via.pro3.prescriptionsgrpc.entities.hospital.PrescriptionDrug;
+import via.pro3.prescriptionsgrpc.entities.hospital.User;
 import via.pro3.prescriptionsgrpc.entities.pharmacy.PharmacyDrug;
 import via.pro3.prescriptionsgrpc.generated.*;
 import via.pro3.prescriptionsgrpc.repository.*;
@@ -16,6 +20,7 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.*;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,16 +63,6 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
 
         return Timestamp.newBuilder().setSeconds(instant.getEpochSecond()).setNanos(instant.getNano()).build();
     }
-
-    public static UserRoles roleForString(String value) {
-        switch (value) {
-            case "patient": return UserRoles.Patient;
-            case "doctor": return UserRoles.Doctor;
-            case "pharmacist": return UserRoles.Pharmacist;
-            case null, default:
-                return UserRoles.Invalid;
-        }
-    }
     
     private UserRoles getUserRole(User user){
         UserRoles role = switch (user.getRole())
@@ -84,71 +79,78 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
   @Override
   public void createPrescription(CreatePrescriptionRequest request,
                                  StreamObserver<PrescriptionReply> responseObserver) {
-    Prescription p = new Prescription();
+      User doctor = userRepository.findById(request.getDoctorId()).orElse(null);
+      User patient = userRepository.findById(request.getPatientId()).orElse(null);
 
-    User doctor = userRepository.findById(request.getDoctorId()).orElse(null);
-    User patient = userRepository.findById(request.getPatientId()).orElse(null);
+      if(doctor==null || patient==null){
+          System.out.println("doctor or patient not found");
+          responseObserver.onError(new NullPointerException("doctor or patient is null"));
+          return;
+      }
 
-    if(doctor==null || patient==null){
-            responseObserver.onError(new NullPointerException("doctor or patient is null"));
-        return;
-    }
-    if(!doctor.getRole().equals("doctor")){
+      if(!doctor.getRole().equals("doctor")){
+          System.out.println("doctor role not found");
           responseObserver.onError(new IllegalAccessException("Doctor is not doctoooor"));
           return;
       }
-    p.setDoctor(doctor);
-    p.setPatient(patient);
-    p.setIssueDate(LocalDate.now());
-    p.setExpirationDate(LocalDate.now().plusMonths(1));
 
-    p = prescriptionRepository.save(p);
-//here drug impl
-//    Drug drug = drugRepository.findById(drug.getId());
-      List<Drug> drugs = new ArrayList<>();
-      List<PrescriptionDrug> prescriptionDrugs = new ArrayList<>();
-      //replyDrugs for later, when we generate ids instead of sending ready-made ones
-      List<via.pro3.prescriptionsgrpc.generated.Drug> replyDrugs = new ArrayList<>();
-    for(via.pro3.prescriptionsgrpc.generated.Drug drug : request.getDrugsList()){
-        Drug drugToSave = new Drug();
-        drugToSave.setName(drug.getName());
-        drugToSave.setDescription(drug.getDescription());
-        drugToSave.setAmount(drug.getAmount());
-        drugs.add(drugToSave);
+      Prescription p = new Prescription();
 
-        //prescriptionDrug??
-        PrescriptionDrug prescriptionDrug = new PrescriptionDrug();
-        prescriptionDrug.setPrescription(p);
-        prescriptionDrug.setDrug(drugToSave);
-        prescriptionDrug.setNote(drug.getNote());
-        prescriptionDrug.setAvailabilityCount(drug.getAvailabilityCount());
-        prescriptionDrugs.add(prescriptionDrug);
-    }
+      Set<Drug> drugs = new HashSet<>();
 
-    List<Drug> savedDrugs = drugRepository.saveAll(drugs);
-    List<PrescriptionDrug> savedPrescriptionDrugs = prescriptionDrugRepository.saveAll(prescriptionDrugs);
+      Set<PrescriptionDrug> prescriptionDrugs = new HashSet<>();
 
-    //set reply date
-    Timestamp issueTs = Timestamp.newBuilder()
-        .setSeconds(p.getIssueDate().atStartOfDay(ZoneOffset.UTC).toEpochSecond())
-        .setNanos(0)
-        .build();
-    Timestamp expTs = Timestamp.newBuilder()
-        .setSeconds(p.getExpirationDate().atStartOfDay(ZoneOffset.UTC).toEpochSecond())
-        .setNanos(0)
-        .build();
+      for(via.pro3.prescriptionsgrpc.generated.Drug drug : request.getDrugsList()){
+          Drug drugToSave = new Drug(
+              drug.getId(),
+              drug.getName(),
+              drug.getDescription(),
+              drug.getAmount()
+          );
 
-    PrescriptionReply reply = PrescriptionReply.newBuilder()
-        .setId(p.getId())
-        .setDoctorId(Math.toIntExact(p.getDoctor().getId()))
-        .setPatientId(Math.toIntExact(p.getPatient().getId()))
-        .setIssueDate(issueTs)
-        .setExpirationDate(expTs)
-        .addAllDrugs(request.getDrugsList())
-        .build();
+          //TODO: make drug creation possible
+          //below error shows up when attempting to create prescription with new drug id,
+          //it works properly if id already exists, no clue whats going on rly
+          //Row was updated or deleted by another transaction (or unsaved-value mapping was incorrect)
+          drugRepository.saveAndFlush(drugToSave);
 
-    responseObserver.onNext(reply);
-    responseObserver.onCompleted();
+          drugs.add(drugToSave);
+
+          PrescriptionDrug prescriptionDrug = new PrescriptionDrug(
+              drugToSave,
+              p,
+              drug.getNote(),
+              drug.getAvailabilityCount()
+          );
+
+          prescriptionDrugs.add(prescriptionDrug);
+      }
+
+      //drugRepository.saveAll(drugs);
+
+      p.setDoctor(doctor);
+      p.setPatient(patient);
+      p.setIssueDate(LocalDate.now());
+      p.setExpirationDate(LocalDate.now().plusMonths(1));
+      p.setPrescriptionDrugs(prescriptionDrugs);
+      Prescription created = prescriptionRepository.save(p);
+
+      prescriptionDrugRepository.saveAll(prescriptionDrugs);
+
+      Timestamp issueDate = convertToTimestamp(p.getIssueDate());
+      Timestamp expirationDate = convertToTimestamp(p.getExpirationDate());
+
+      PrescriptionReply reply = PrescriptionReply.newBuilder()
+          .setId(created.getId())
+          .setDoctorId(created.getDoctor().getId().intValue())
+          .setPatientId(created.getPatient().getId().intValue())
+          .setExpirationDate(expirationDate)
+          .setIssueDate(issueDate)
+          .addAllDrugs(request.getDrugsList())
+          .build();
+
+      responseObserver.onNext(reply);
+      responseObserver.onCompleted();
   }
 
   @Override
@@ -175,13 +177,13 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
             .setId(p.getId())
             .setIssueDate(convertToTimestamp(p.getIssueDate()))
                 .setExpirationDate(convertToTimestamp(p.getExpirationDate()))
-                .addAllDrugs(drugRepository.findByPrescriptionId(p.getId()).stream().map(drug -> via.pro3.prescriptionsgrpc.generated.Drug.newBuilder()
-                        .setDescription(drug.getDescription())
-                        .setAmount(drug.getAmount())
-                        .setName(drug.getName())
-                        .setId(drug.getId())
-                        .setAvailabilityCount(1)
-                        .setNote("")
+                .addAllDrugs(prescriptionDrugRepository.findByPrescription(p).stream().map(prescriptionDrug -> via.pro3.prescriptionsgrpc.generated.Drug.newBuilder()
+                        .setDescription(prescriptionDrug.getDrug().getDescription())
+                        .setAmount(prescriptionDrug.getDrug().getAmount())
+                        .setName(prescriptionDrug.getDrug().getName())
+                        .setId(prescriptionDrug.getDrug().getId())
+                        .setAvailabilityCount(prescriptionDrug.getAvailabilityCount())
+                        .setNote(prescriptionDrug.getNote())
                         .build())
                         .toList())
 
@@ -339,7 +341,7 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
             .setPassword(created.getPassword())
             .setPhone(created.getPhone())
             .setCpr(created.getId())
-            .setRole(roleForString(created.getRole()))
+            .setRole(getUserRole(created))
             .setGender(created.getGender())
             .setBirthday(convertToTimestamp(created.getBirthday()))
             .build();
