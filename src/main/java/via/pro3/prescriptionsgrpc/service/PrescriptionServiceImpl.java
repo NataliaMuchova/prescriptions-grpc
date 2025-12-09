@@ -8,6 +8,11 @@ import via.pro3.prescriptionsgrpc.entities.hospital.Drug;
 import via.pro3.prescriptionsgrpc.entities.hospital.Prescription;
 import via.pro3.prescriptionsgrpc.entities.hospital.PrescriptionDrug;
 import via.pro3.prescriptionsgrpc.entities.hospital.User;
+import via.pro3.prescriptionsgrpc.entities.hospital.Drug;
+import via.pro3.prescriptionsgrpc.entities.hospital.Prescription;
+import via.pro3.prescriptionsgrpc.entities.hospital.PrescriptionDrug;
+import via.pro3.prescriptionsgrpc.entities.hospital.User;
+import via.pro3.prescriptionsgrpc.entities.pharmacy.PharmacyDrug;
 import via.pro3.prescriptionsgrpc.generated.*;
 import via.pro3.prescriptionsgrpc.repository.*;
 
@@ -16,6 +21,11 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @GRpcService
@@ -27,15 +37,18 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
 
   private final IDatabasePrescriptionDrugRepository prescriptionDrugRepository;
 
-  @Autowired
-  private IDatabaseDrugRepository drugRepository;
+  private final IPharmacyDrugRepository drugStorageRepository;
+
+  private final IDatabaseDrugRepository drugRepository;
 
     @Autowired public PrescriptionServiceImpl(IDatabasePrescriptionRepository prescriptionRepository,
-        IDatabaseUserRepository userRepository, IDatabasePrescriptionDrugRepository prescriptionDrugRepository)
+        IDatabaseUserRepository userRepository, IDatabasePrescriptionDrugRepository prescriptionDrugRepository, IPharmacyDrugRepository drugStorageRepository, IDatabaseDrugRepository drugRepository)
     {
         this.prescriptionRepository = prescriptionRepository;
         this.userRepository = userRepository;
         this.prescriptionDrugRepository = prescriptionDrugRepository;
+        this.drugStorageRepository = drugStorageRepository;
+        this.drugRepository = drugRepository;
     }
 
     private LocalDate convertToLocalDate(Timestamp timestamp) {
@@ -187,6 +200,93 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
     responseObserver.onCompleted();
   }
 
+    @Override public void updatePrescription(UpdatePrescriptionRequest request,
+        StreamObserver<UpdatePrescriptionReply> responseObserver)
+    {
+        Prescription found = prescriptionRepository.findById(request.getId()).orElse(null);
+
+        try{
+            User doctor = userRepository.findById((int) request.getDoctorId()).orElse(null);
+            User patient = userRepository.findById((int) request.getPatientId()).orElse(null);
+
+            List<PrescriptionDrug> oldPrescriptionDrugs = prescriptionDrugRepository.findByPrescription(found);
+
+            //make sure new doctor is still a doctor
+            if(getUserRole(doctor) != UserRoles.Doctor){
+                responseObserver.onError(new IllegalAccessException("Doctor is not doctoooor"));
+                return;
+            }
+
+            //update prescription
+            found.setDoctor(doctor);
+            found.setPatient(patient);
+            found.setExpirationDate(convertToLocalDate(request.getExpirationDate()));
+            found.setIssueDate(convertToLocalDate(request.getIssueDate()));
+
+            //now we save updated prescription, and operate on updated properties in case of
+            //generated values being different
+            Prescription updated = prescriptionRepository.save(found);
+
+            //we build a partial reply, without drugs
+            UpdatePrescriptionReply noDrugReply = UpdatePrescriptionReply.newBuilder()
+                .setId(updated.getId())
+                .setIssueDate(convertToTimestamp(updated.getIssueDate()))
+                .setExpirationDate(convertToTimestamp(updated.getExpirationDate()))
+                .setDoctorId(updated.getDoctor().getId())
+                .setPatientId(updated.getPatient().getId())
+                .buildPartial();
+
+            //since drugs in the request are a combination of prescriptiondrugs and drugs
+            //we seperate them here to create new prescriptiondrug connections
+            List<PrescriptionDrug> newPrescriptionDrugs = new ArrayList<>();
+
+            List<via.pro3.prescriptionsgrpc.generated.Drug> replyDrugs = new ArrayList<>();
+
+            for(via.pro3.prescriptionsgrpc.generated.Drug drug : request.getDrugsList()){
+                Drug foundDrug = drugRepository.findById(drug.getId()).orElseThrow();
+
+                newPrescriptionDrugs.add(new PrescriptionDrug(
+                    foundDrug,
+                    drug.getNote(),
+                    drug.getAvailabilityCount(),
+                    updated
+                ));
+                //founddrug refers to drug table, we use drug variable when its a value related to
+                //prescriptiondrug
+                replyDrugs.add(via.pro3.prescriptionsgrpc.generated.Drug.newBuilder()
+                    .setId(foundDrug.getId())
+                    .setNote(drug.getNote())
+                    .setDescription(foundDrug.getDescription())
+                    .setAvailabilityCount(drug.getAvailabilityCount())
+                    .setAmount(foundDrug.getAmount())
+                    .setName(foundDrug.getName())
+                    .build());
+            }
+
+            //delete all prescriptiondrugs, so we can create them again with new given drugs (ids in the future)
+            prescriptionDrugRepository.deleteAll(oldPrescriptionDrugs);
+
+            //if no problems with drugs, replace old with new
+            prescriptionDrugRepository.saveAll(newPrescriptionDrugs);
+
+            //build reply with previous reply that has no drugs (you cannot set them after)
+            //add drugs at the end
+            UpdatePrescriptionReply reply = UpdatePrescriptionReply.newBuilder()
+                .setId(noDrugReply.getId())
+                .setIssueDate(noDrugReply.getIssueDate())
+                .setExpirationDate(noDrugReply.getExpirationDate())
+                .setDoctorId(noDrugReply.getDoctorId())
+                .setPatientId(noDrugReply.getPatientId())
+                .addAllDrugs(replyDrugs)
+                .build();
+
+            responseObserver.onNext(reply);
+            responseObserver.onCompleted();
+        }catch(NullPointerException | NoSuchElementException e){
+            responseObserver.onError(e);
+        }
+    }
+
     @Override public void checkCredentials(
         CheckCredentialsRequest request, io.grpc.stub.StreamObserver<CheckCredentialsReply> responseObserver)
     {
@@ -248,5 +348,84 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();
+    }
+
+    @Override public void getDrugStorage(GetDrugRequest request,
+        StreamObserver<GetDrugReply> responseObserver)
+    {
+        PharmacyDrug drug = drugStorageRepository.findById(
+            request.getId()).orElse(null);
+
+        if (drug == null)
+        {
+            GetDrugReply reply = GetDrugReply.newBuilder()
+                .setName("0")
+                .setId(0)
+                .setStock(0)
+                .setPrice(0)
+                .setReorderLevel(0)
+                .build();
+
+            responseObserver.onNext(reply);
+            responseObserver.onCompleted();
+            return;
+        }
+
+        GetDrugReply reply = GetDrugReply.newBuilder()
+            .setName(drug.getName())
+            .setId(drug.getId())
+            .setStock(drug.getStock())
+            .setPrice(drug.getPrice())
+            .setReorderLevel(drug.getReorderLevel())
+            .build();
+
+        responseObserver.onNext(reply);
+        responseObserver.onCompleted();
+    }
+
+    @Override public void createDrugStorage(CreateDrugRequest request,
+        StreamObserver<CreateDrugReply> responseObserver)
+    {
+        PharmacyDrug created = drugStorageRepository.save(new PharmacyDrug(
+            request.getName(), request.getStock(), request.getPrice(), request.getReorderLevel()));
+
+        CreateDrugReply reply = CreateDrugReply.newBuilder()
+            .setName(created.getName())
+            .setId(created.getId())
+            .setStock(created.getStock())
+            .setPrice(created.getPrice())
+            .setReorderLevel(created.getReorderLevel())
+            .build();
+
+        responseObserver.onNext(reply);
+        responseObserver.onCompleted();
+    }
+
+    @Override public void updateDrugStorage(UpdateDrugRequest request,
+        StreamObserver<UpdateDrugReply> responseObserver)
+    {
+        PharmacyDrug found = drugStorageRepository.findById(request.getId()).orElse(null);
+
+        try {
+            found.setStock(request.getStock());
+            found.setPrice(request.getPrice());
+            found.setReorderLevel(request.getReorderLevel());
+            found.setName(request.getName());
+
+            drugStorageRepository.save(found);
+
+            UpdateDrugReply reply = UpdateDrugReply.newBuilder()
+                .setName(found.getName())
+                .setId(found.getId())
+                .setStock(found.getStock())
+                .setPrice(found.getPrice())
+                .setReorderLevel(found.getReorderLevel())
+                .build();
+
+            responseObserver.onNext(reply);
+            responseObserver.onCompleted();
+        }catch(NullPointerException e){
+            responseObserver.onError(e);
+        }
     }
 }

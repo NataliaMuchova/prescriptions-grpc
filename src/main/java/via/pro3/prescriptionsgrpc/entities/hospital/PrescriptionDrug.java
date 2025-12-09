@@ -36,6 +36,14 @@ public class PrescriptionDrug {
 
     }
 
+    public PrescriptionDrug(Drug drug, String note, Integer availabilityCount, Prescription prescription)
+    {
+        this.drug = drug;
+        this.note = note;
+        this.availabilityCount = availabilityCount;
+        this.prescription = prescription;
+    }
+
     public Integer getId() {
         return id;
     }
