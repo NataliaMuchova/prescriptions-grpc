@@ -1,4 +1,4 @@
-package via.pro3.prescriptionsgrpc.entities;
+package via.pro3.prescriptionsgrpc.entities.hospital;
 
 import jakarta.persistence.*;
 

@@ -1,7 +1,6 @@
-package via.pro3.prescriptionsgrpc.entities;
+package via.pro3.prescriptionsgrpc.entities.hospital;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
