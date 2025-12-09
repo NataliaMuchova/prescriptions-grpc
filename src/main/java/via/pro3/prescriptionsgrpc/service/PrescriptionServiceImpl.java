@@ -2,11 +2,12 @@ package via.pro3.prescriptionsgrpc.service;
 
 import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
-import jakarta.persistence.EntityManager;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
-import via.pro3.prescriptionsgrpc.entities.*;
-import via.pro3.prescriptionsgrpc.entities.Drug;
+import via.pro3.prescriptionsgrpc.entities.hospital.Drug;
+import via.pro3.prescriptionsgrpc.entities.hospital.Prescription;
+import via.pro3.prescriptionsgrpc.entities.hospital.PrescriptionDrug;
+import via.pro3.prescriptionsgrpc.entities.hospital.User;
 import via.pro3.prescriptionsgrpc.generated.*;
 import via.pro3.prescriptionsgrpc.repository.*;
 
@@ -14,7 +15,6 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Collectors;
 
