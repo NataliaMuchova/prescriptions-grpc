@@ -8,40 +8,23 @@ import java.util.Set;
 @Table(name = "drug", schema = "hospital")
 public class Drug {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Integer id;
-
     @Column(name = "name", length = 100)
     private String name;
 
     @Column(name = "description", length = 200)
     private String description;
 
-    @Column(name = "amount")
-    private Integer amount;
-
     @OneToMany(mappedBy = "drug")
     private Set<PrescriptionDrug> prescriptionDrugs;
 
-    public Drug(int id, String name, String description, int amount)
+    public Drug(String name, String description)
     {
-        this.id = id;
         this.name = name;
         this.description = description;
-        this.amount = amount;
     }
 
     public Drug(){
 
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -58,14 +41,6 @@ public class Drug {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
     }
 
 }

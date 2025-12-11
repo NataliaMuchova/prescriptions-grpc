@@ -63,7 +63,7 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
 
         return Timestamp.newBuilder().setSeconds(instant.getEpochSecond()).setNanos(instant.getNano()).build();
     }
-    
+
     private UserRoles getUserRole(User user){
         UserRoles role = switch (user.getRole())
         {
@@ -102,10 +102,8 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
 
       for(via.pro3.prescriptionsgrpc.generated.Drug drug : request.getDrugsList()){
           Drug drugToSave = new Drug(
-              drug.getId(),
               drug.getName(),
-              drug.getDescription(),
-              drug.getAmount()
+              drug.getDescription()
           );
 
           //TODO: make drug creation possible
@@ -120,7 +118,8 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
               drugToSave,
               p,
               drug.getNote(),
-              drug.getAvailabilityCount()
+              drug.getAvailabilityCount(),
+              drug.getStartingAmount()
           );
 
           prescriptionDrugs.add(prescriptionDrug);
@@ -179,11 +178,10 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
                 .setExpirationDate(convertToTimestamp(p.getExpirationDate()))
                 .addAllDrugs(prescriptionDrugRepository.findByPrescription(p).stream().map(prescriptionDrug -> via.pro3.prescriptionsgrpc.generated.Drug.newBuilder()
                         .setDescription(prescriptionDrug.getDrug().getDescription())
-                        .setAmount(prescriptionDrug.getDrug().getAmount())
                         .setName(prescriptionDrug.getDrug().getName())
-                        .setId(prescriptionDrug.getDrug().getId())
                         .setAvailabilityCount(prescriptionDrug.getAvailabilityCount())
                         .setNote(prescriptionDrug.getNote())
+                        .setStartingAmount(prescriptionDrug.getStartingAmount())
                         .build())
                         .toList())
 
@@ -243,22 +241,22 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
             List<via.pro3.prescriptionsgrpc.generated.Drug> replyDrugs = new ArrayList<>();
 
             for(via.pro3.prescriptionsgrpc.generated.Drug drug : request.getDrugsList()){
-                Drug foundDrug = drugRepository.findById(drug.getId()).orElseThrow();
+                Drug foundDrug = drugRepository.findById(drug.getName()).orElseThrow();
 
                 newPrescriptionDrugs.add(new PrescriptionDrug(
                     foundDrug,
+                    updated,
                     drug.getNote(),
                     drug.getAvailabilityCount(),
-                    updated
+                    drug.getStartingAmount()
                 ));
                 //founddrug refers to drug table, we use drug variable when its a value related to
                 //prescriptiondrug
                 replyDrugs.add(via.pro3.prescriptionsgrpc.generated.Drug.newBuilder()
-                    .setId(foundDrug.getId())
                     .setNote(drug.getNote())
                     .setDescription(foundDrug.getDescription())
                     .setAvailabilityCount(drug.getAvailabilityCount())
-                    .setAmount(foundDrug.getAmount())
+                    .setStartingAmount(drug.getStartingAmount())
                     .setName(foundDrug.getName())
                     .build());
             }
