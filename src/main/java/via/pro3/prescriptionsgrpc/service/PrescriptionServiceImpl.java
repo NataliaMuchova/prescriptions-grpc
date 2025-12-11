@@ -1,13 +1,10 @@
 package via.pro3.prescriptionsgrpc.service;
 
+import com.google.protobuf.Empty;
 import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
-import via.pro3.prescriptionsgrpc.entities.hospital.Drug;
-import via.pro3.prescriptionsgrpc.entities.hospital.Prescription;
-import via.pro3.prescriptionsgrpc.entities.hospital.PrescriptionDrug;
-import via.pro3.prescriptionsgrpc.entities.hospital.User;
 import via.pro3.prescriptionsgrpc.entities.hospital.Drug;
 import via.pro3.prescriptionsgrpc.entities.hospital.Prescription;
 import via.pro3.prescriptionsgrpc.entities.hospital.PrescriptionDrug;
@@ -348,34 +345,27 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
         responseObserver.onCompleted();
     }
 
-    @Override public void getDrugStorage(GetDrugRequest request,
-        StreamObserver<GetDrugReply> responseObserver)
+    @Override public void getDrugStorage(Empty request,
+                                         StreamObserver<GetDrugStorageReply> responseObserver)
     {
-        PharmacyDrug drug = drugStorageRepository.findById(
-            request.getId()).orElse(null);
+        List<PharmacyDrug> all = drugStorageRepository.findAll();
+        List<DrugList> items =all.stream().map(pd ->{
+          Drug hospitalDrug = drugRepository.findById(pd.getName()).orElse(null);
+          String description = hospitalDrug != null ? hospitalDrug.getDescription():"";
+          return DrugList.newBuilder()
+              .setName(pd.getName())
+              .setId(pd.getId())
+              .setStock(pd.getStock())
+              .setPrice(pd.getPrice())
+              .setReorderLevel(pd.getReorderLevel())
+              .setDescription(description)
+              .build();
+        })
+            .toList();
 
-        if (drug == null)
-        {
-            GetDrugReply reply = GetDrugReply.newBuilder()
-                .setName("0")
-                .setId(0)
-                .setStock(0)
-                .setPrice(0)
-                .setReorderLevel(0)
-                .build();
-
-            responseObserver.onNext(reply);
-            responseObserver.onCompleted();
-            return;
-        }
-
-        GetDrugReply reply = GetDrugReply.newBuilder()
-            .setName(drug.getName())
-            .setId(drug.getId())
-            .setStock(drug.getStock())
-            .setPrice(drug.getPrice())
-            .setReorderLevel(drug.getReorderLevel())
-            .build();
+        GetDrugStorageReply reply = GetDrugStorageReply.newBuilder()
+              .addAllDrugs(items)
+              .build();
 
         responseObserver.onNext(reply);
         responseObserver.onCompleted();
