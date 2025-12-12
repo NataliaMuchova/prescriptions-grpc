@@ -345,6 +345,36 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
         responseObserver.onCompleted();
     }
 
+  @Override public void getUser(GetUserRequest request, StreamObserver<GetUserReply> responseObserver)
+  {
+    try {
+      long cpr = request.getCpr();
+
+      User user = userRepository.findById((int) cpr).orElse(null);
+
+      if (user == null) {
+        responseObserver.onError(new NoSuchElementException("User not found with CPR: " + cpr));
+        return;
+      }
+
+      GetUserReply reply = GetUserReply.newBuilder()
+          .setName(user.getName())
+          .setSurname(user.getSurname())
+          .setPhone(user.getPhone())
+          .setCpr(user.getId())
+          .setGender(user.getGender())
+          .setBirthday(convertToTimestamp(user.getBirthday()))
+          .setRole(String.valueOf(getUserRole(user)))
+          .build();
+
+      responseObserver.onNext(reply);
+      responseObserver.onCompleted();
+    }
+    catch (Exception e) {
+      responseObserver.onError(e);
+    }
+  }
+
     @Override public void getDrugStorage(Empty request,
                                          StreamObserver<GetDrugStorageReply> responseObserver)
     {

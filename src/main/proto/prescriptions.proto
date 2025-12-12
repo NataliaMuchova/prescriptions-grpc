@@ -20,6 +20,7 @@ service Hospital {
   rpc UpdatePrescription (UpdatePrescriptionRequest) returns (UpdatePrescriptionReply);
   rpc CheckCredentials (CheckCredentialsRequest) returns (CheckCredentialsReply);
   rpc CreateUser (CreateUserRequest) returns (CreateUserReply);
+  rpc GetUser (GetUserRequest) returns (GetUserReply);
   rpc GetDrugStorage (google.protobuf.Empty) returns (GetDrugStorageReply);
   rpc CreateDrugStorage (CreateDrugRequest) returns (CreateDrugReply);
   rpc UpdateDrugStorage (UpdateDrugRequest) returns (UpdateDrugReply);
@@ -92,6 +93,20 @@ message CreateUserReply {
   string gender = 6;
   google.protobuf.Timestamp birthday = 7;
   UserRoles role = 8;
+}
+
+message GetUserReply {
+  int64 cpr = 1;
+  string name = 2;
+  string surname = 3;
+  string phone = 4;
+  string gender = 5;
+  google.protobuf.Timestamp birthday = 6;
+  string role = 7;
+}
+
+message GetUserRequest {
+  int64 cpr = 1;
 }
 
 message CheckCredentialsRequest {
