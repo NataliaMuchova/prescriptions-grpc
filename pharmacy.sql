@@ -38,7 +38,7 @@ CREATE TABLE pharmacy.pharmacist
     cpr         BIGINT NOT NULL,
     name        VARCHAR(100),
     surname     VARCHAR(100),
-    password    VARCHAR(50),
+    password    VARCHAR(100),
     phone       VARCHAR(20),
     birthday    date,
     gender      TEXT,

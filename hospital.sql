@@ -8,7 +8,7 @@ CREATE TABLE "user"(
     role varchar(50) CHECK (role IN ('patient', 'doctor', 'pharmacist')),
     name varchar(100),
     surname varchar(100),
-    password varchar(50),
+    password varchar(100),
     phone varchar(20),
     birthday DATE, -- birthday and gender moved to user from patient table that no longer exist
     gender char(1)
