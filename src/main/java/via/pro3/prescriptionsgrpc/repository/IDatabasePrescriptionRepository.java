@@ -9,6 +9,6 @@ import java.util.List;
 @Repository public interface IDatabasePrescriptionRepository
     extends JpaRepository<Prescription, Integer>
 {
-  List<Prescription> findByPatient_Id(Integer patientId);
+  List<Prescription> findByPatient_Id(Long patientId);
 
 }
