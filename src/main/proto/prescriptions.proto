@@ -27,7 +27,7 @@ service Hospital {
 
 message UpdateDrugRequest {
   string name = 1;
-  int32 id = 2;
+  string description = 2;
   int32 stock = 3;
   double price = 4;
   int32 reorderLevel = 5;
@@ -35,7 +35,7 @@ message UpdateDrugRequest {
 
 message UpdateDrugReply {
   string name = 1;
-  int32 id = 2;
+  string description = 2;
   int32 stock = 3;
   double price = 4;
   int32 reorderLevel = 5;
@@ -43,22 +43,19 @@ message UpdateDrugReply {
 
 message CreateDrugRequest {
   string name = 1;
-  int32 stock = 2;
-  double price = 3;
-  int32 reorderLevel = 4;
-}
-
-message CreateDrugReply {
-  string name = 1;
-  int32 id = 2;
+  string description = 2;
   int32 stock = 3;
   double price = 4;
   int32 reorderLevel = 5;
 }
 
-//message GetDrugRequest {
-//  int32 id = 1;
-//}
+message CreateDrugReply {
+  string name = 1;
+  string description = 2;
+  int32 stock = 3;
+  double price = 4;
+  int32 reorderLevel = 5;
+}
 
 message DrugList {
   string name = 1;
@@ -109,7 +106,7 @@ message UpdatePrescriptionRequest {
   int64 doctor_id = 3;
   google.protobuf.Timestamp issue_date = 4;
   google.protobuf.Timestamp expiration_date = 5;
-  repeated Drug drugs = 6;
+  repeated CreatePrescriptionDrug drugs = 6;
 }
 
 message UpdatePrescriptionReply {
@@ -124,7 +121,15 @@ message UpdatePrescriptionReply {
 message CreatePrescriptionRequest {
   int32 patient_id = 1;
   int32 doctor_id = 2;
-  repeated Drug drugs = 3;
+  google.protobuf.Timestamp expiration_date = 3;
+  repeated CreatePrescriptionDrug drugs = 4;
+}
+
+message CreatePrescriptionDrug {
+  string name = 1;
+  string note = 2;
+  int32 availability_count = 3;
+  int32 starting_amount = 4;
 }
 
 message PrescriptionsRequest {
