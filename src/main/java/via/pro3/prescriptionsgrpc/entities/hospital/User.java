@@ -36,11 +36,11 @@ public class User {
     @Column(name = "gender", length = Integer.MAX_VALUE)
     private String gender;
 
-
     public enum Roles
     {
         PATIENT("patient"),
-        DOCTOR("doctor");
+        DOCTOR("doctor"),
+        PHARMACIST("pharmacist");
 
         public final String role;
 
@@ -48,9 +48,7 @@ public class User {
         {
             this.role = role;
         }
-
-
-    }
+        }
 
     public User(String name, String surname, String password, String phone, long cpr, Roles role, LocalDate birthday, String gender)
     {

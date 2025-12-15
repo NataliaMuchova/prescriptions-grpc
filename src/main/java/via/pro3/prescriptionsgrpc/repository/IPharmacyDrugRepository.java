@@ -6,6 +6,6 @@ import via.pro3.prescriptionsgrpc.entities.pharmacy.PharmacyDrug;
 
 import java.util.Optional;
 
-public interface IPharmacyDrugRepository extends JpaRepository<PharmacyDrug, Integer> {
+public interface IPharmacyDrugRepository extends JpaRepository<PharmacyDrug, String> {
 
 }
