@@ -181,7 +181,7 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
                                StreamObserver<GetPrescriptionsReply> responseObserver) {
 
         long patientCpr = request.getPatientId();
-        User patient = userRepository.findById((int) patientCpr).orElse(null);
+        User patient = userRepository.findById(patientCpr).orElse(null);
 
         if(patient==null){
             GetPrescriptionsReply emptyReply = GetPrescriptionsReply.newBuilder().build();
@@ -191,10 +191,8 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
         }
 
     List<Prescription> prescriptions =
-        prescriptionRepository.findByPatient_Id(Math.toIntExact(patientCpr));
+        prescriptionRepository.findByPatient_Id(patientCpr);
 
-    //where drugs?
-      //TODO!!!!: IN PROTO CHANGES INT32 INTO INT64. DELETE MATH.TOINTEXACT
     List<PrescriptionReply> items = prescriptions.stream()
         .map(p -> PrescriptionReply.newBuilder()
             .setId(p.getId())
@@ -209,8 +207,8 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
                         .build())
                         .toList())
 
-            .setDoctorId(Math.toIntExact(p.getDoctor().getId()))
-            .setPatientId(Math.toIntExact(p.getPatient().getId()))
+            .setDoctorId(p.getDoctor().getId())
+            .setPatientId(p.getPatient().getId())
             .build())
         .collect(Collectors.toList());
 
@@ -228,8 +226,8 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
         Prescription found = prescriptionRepository.findById(request.getId()).orElse(null);
 
         try{
-            User doctor = userRepository.findById((int) request.getDoctorId()).orElse(null);
-            User patient = userRepository.findById((int) request.getPatientId()).orElse(null);
+            User doctor = userRepository.findById(request.getDoctorId()).orElse(null);
+            User patient = userRepository.findById(request.getPatientId()).orElse(null);
 
             List<PrescriptionDrug> oldPrescriptionDrugs = prescriptionDrugRepository.findByPrescription(found);
 
@@ -323,7 +321,7 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
     {
         long cpr = request.getUserId();
 
-        User user = userRepository.findById((int) cpr).orElse(null);
+        User user = userRepository.findById(cpr).orElse(null);
 
         if (user != null && user.getPassword().equals(request.getPassword()))
         {
@@ -347,7 +345,7 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
         //create new users on 1 cpr to overwrite others
         //error that is sent does not properly send to invoker
         //should create a task for error responses in grpc
-        if(userRepository.existsById((int) request.getCpr())){
+        if(userRepository.existsById(request.getCpr())){
             responseObserver.onError(new SQLException("User already exists"));
             return;
         }
