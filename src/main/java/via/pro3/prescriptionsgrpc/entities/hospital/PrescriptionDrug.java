@@ -24,24 +24,29 @@ public class PrescriptionDrug {
     @Column(name = "availability_count")
     private Integer availabilityCount;
 
-    public PrescriptionDrug(Drug drug, Prescription prescription, String note, int availabilityCount)
+    @Column (name = "starting_amount")
+    private Integer startingAmount;
+
+    public PrescriptionDrug(Drug drug, Prescription prescription, String note, int availabilityCount, int startingAmount)
     {
         this.drug = drug;
         this.prescription = prescription;
         this.note = note;
         this.availabilityCount = availabilityCount;
+        this.startingAmount = startingAmount;
     }
 
     public PrescriptionDrug(){
 
     }
 
-    public PrescriptionDrug(Drug drug, String note, Integer availabilityCount, Prescription prescription)
+    public PrescriptionDrug(Drug drug, String note, Integer availabilityCount, Prescription prescription, int startingAmount)
     {
         this.drug = drug;
         this.note = note;
         this.availabilityCount = availabilityCount;
         this.prescription = prescription;
+        this.startingAmount = startingAmount;
     }
 
     public Integer getId() {
@@ -79,5 +84,14 @@ public class PrescriptionDrug {
     public void setPrescription(Prescription p)
     {
         this.prescription = p;
+    }
+
+    public Integer getStartingAmount() {
+    return startingAmount;
+    }
+
+    public void setStartingAmount(Integer startingAmount)
+    {
+      this.startingAmount = startingAmount;
     }
 }

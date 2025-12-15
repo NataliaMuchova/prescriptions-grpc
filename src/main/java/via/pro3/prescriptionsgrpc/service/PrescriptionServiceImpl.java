@@ -1,13 +1,10 @@
 package via.pro3.prescriptionsgrpc.service;
 
+import com.google.protobuf.Empty;
 import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
-import via.pro3.prescriptionsgrpc.entities.hospital.Drug;
-import via.pro3.prescriptionsgrpc.entities.hospital.Prescription;
-import via.pro3.prescriptionsgrpc.entities.hospital.PrescriptionDrug;
-import via.pro3.prescriptionsgrpc.entities.hospital.User;
 import via.pro3.prescriptionsgrpc.entities.hospital.Drug;
 import via.pro3.prescriptionsgrpc.entities.hospital.Prescription;
 import via.pro3.prescriptionsgrpc.entities.hospital.PrescriptionDrug;
@@ -63,7 +60,7 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
 
         return Timestamp.newBuilder().setSeconds(instant.getEpochSecond()).setNanos(instant.getNano()).build();
     }
-    
+
     private UserRoles getUserRole(User user){
         UserRoles role = switch (user.getRole())
         {
@@ -102,10 +99,8 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
 
       for(via.pro3.prescriptionsgrpc.generated.Drug drug : request.getDrugsList()){
           Drug drugToSave = new Drug(
-              drug.getId(),
               drug.getName(),
-              drug.getDescription(),
-              drug.getAmount()
+              drug.getDescription()
           );
 
           //TODO: make drug creation possible
@@ -120,7 +115,8 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
               drugToSave,
               p,
               drug.getNote(),
-              drug.getAvailabilityCount()
+              drug.getAvailabilityCount(),
+              drug.getStartingAmount()
           );
 
           prescriptionDrugs.add(prescriptionDrug);
@@ -179,11 +175,10 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
                 .setExpirationDate(convertToTimestamp(p.getExpirationDate()))
                 .addAllDrugs(prescriptionDrugRepository.findByPrescription(p).stream().map(prescriptionDrug -> via.pro3.prescriptionsgrpc.generated.Drug.newBuilder()
                         .setDescription(prescriptionDrug.getDrug().getDescription())
-                        .setAmount(prescriptionDrug.getDrug().getAmount())
                         .setName(prescriptionDrug.getDrug().getName())
-                        .setId(prescriptionDrug.getDrug().getId())
                         .setAvailabilityCount(prescriptionDrug.getAvailabilityCount())
                         .setNote(prescriptionDrug.getNote())
+                        .setStartingAmount(prescriptionDrug.getStartingAmount())
                         .build())
                         .toList())
 
@@ -243,22 +238,22 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
             List<via.pro3.prescriptionsgrpc.generated.Drug> replyDrugs = new ArrayList<>();
 
             for(via.pro3.prescriptionsgrpc.generated.Drug drug : request.getDrugsList()){
-                Drug foundDrug = drugRepository.findById(drug.getId()).orElseThrow();
+                Drug foundDrug = drugRepository.findById(drug.getName()).orElseThrow();
 
                 newPrescriptionDrugs.add(new PrescriptionDrug(
                     foundDrug,
+                    updated,
                     drug.getNote(),
                     drug.getAvailabilityCount(),
-                    updated
+                    drug.getStartingAmount()
                 ));
                 //founddrug refers to drug table, we use drug variable when its a value related to
                 //prescriptiondrug
                 replyDrugs.add(via.pro3.prescriptionsgrpc.generated.Drug.newBuilder()
-                    .setId(foundDrug.getId())
                     .setNote(drug.getNote())
                     .setDescription(foundDrug.getDescription())
                     .setAvailabilityCount(drug.getAvailabilityCount())
-                    .setAmount(foundDrug.getAmount())
+                    .setStartingAmount(drug.getStartingAmount())
                     .setName(foundDrug.getName())
                     .build());
             }
@@ -350,34 +345,27 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
         responseObserver.onCompleted();
     }
 
-    @Override public void getDrugStorage(GetDrugRequest request,
-        StreamObserver<GetDrugReply> responseObserver)
+    @Override public void getDrugStorage(Empty request,
+                                         StreamObserver<GetDrugStorageReply> responseObserver)
     {
-        PharmacyDrug drug = drugStorageRepository.findById(
-            request.getId()).orElse(null);
+        List<PharmacyDrug> all = drugStorageRepository.findAll();
+        List<DrugList> items =all.stream().map(pd ->{
+          Drug hospitalDrug = drugRepository.findById(pd.getName()).orElse(null);
+          String description = hospitalDrug != null ? hospitalDrug.getDescription():"";
+          return DrugList.newBuilder()
+              .setName(pd.getName())
+              .setId(pd.getId())
+              .setStock(pd.getStock())
+              .setPrice(pd.getPrice())
+              .setReorderLevel(pd.getReorderLevel())
+              .setDescription(description)
+              .build();
+        })
+            .toList();
 
-        if (drug == null)
-        {
-            GetDrugReply reply = GetDrugReply.newBuilder()
-                .setName("0")
-                .setId(0)
-                .setStock(0)
-                .setPrice(0)
-                .setReorderLevel(0)
-                .build();
-
-            responseObserver.onNext(reply);
-            responseObserver.onCompleted();
-            return;
-        }
-
-        GetDrugReply reply = GetDrugReply.newBuilder()
-            .setName(drug.getName())
-            .setId(drug.getId())
-            .setStock(drug.getStock())
-            .setPrice(drug.getPrice())
-            .setReorderLevel(drug.getReorderLevel())
-            .build();
+        GetDrugStorageReply reply = GetDrugStorageReply.newBuilder()
+              .addAllDrugs(items)
+              .build();
 
         responseObserver.onNext(reply);
         responseObserver.onCompleted();

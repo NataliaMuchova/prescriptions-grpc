@@ -3,6 +3,7 @@ syntax = "proto3";
 option java_multiple_files = true;
 option java_package = "via.pro3.prescriptionsgrpc.generated";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 
 package hospital;
 
@@ -19,7 +20,7 @@ service Hospital {
   rpc UpdatePrescription (UpdatePrescriptionRequest) returns (UpdatePrescriptionReply);
   rpc CheckCredentials (CheckCredentialsRequest) returns (CheckCredentialsReply);
   rpc CreateUser (CreateUserRequest) returns (CreateUserReply);
-  rpc GetDrugStorage (GetDrugRequest) returns (GetDrugReply);
+  rpc GetDrugStorage (google.protobuf.Empty) returns (GetDrugStorageReply);
   rpc CreateDrugStorage (CreateDrugRequest) returns (CreateDrugReply);
   rpc UpdateDrugStorage (UpdateDrugRequest) returns (UpdateDrugReply);
 }
@@ -55,16 +56,21 @@ message CreateDrugReply {
   int32 reorderLevel = 5;
 }
 
-message GetDrugRequest {
-  int32 id = 1;
-}
+//message GetDrugRequest {
+//  int32 id = 1;
+//}
 
-message GetDrugReply {
+message DrugList {
   string name = 1;
   int32 id = 2;
   int32 stock = 3;
   double price = 4;
   int32 reorderLevel = 5;
+  string description = 6;
+}
+
+message GetDrugStorageReply{
+  repeated DrugList drugs = 1;
 }
 
 message CreateUserRequest {
@@ -130,12 +136,11 @@ message GetPrescriptionsReply {
 }
 
 message Drug {
-  int32 id = 1;
-  string name = 2;
-  string description = 3;
-  int32 amount = 4;
-  int32 availability_count = 5;
-  string note = 6;
+  string name = 1;
+  string description = 2;
+  int32 availability_count = 3;
+  string note = 4;
+  int32 starting_amount = 5;
 }
 
 message PrescriptionReply {
