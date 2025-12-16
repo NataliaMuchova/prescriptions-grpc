@@ -59,11 +59,10 @@ message CreateDrugReply {
 
 message DrugList {
   string name = 1;
-  int32 id = 2;
-  int32 stock = 3;
-  double price = 4;
-  int32 reorderLevel = 5;
-  string description = 6;
+  int32 stock = 2;
+  double price = 3;
+  int32 reorderLevel = 4;
+  string description = 5;
 }
 
 message GetDrugStorageReply{
