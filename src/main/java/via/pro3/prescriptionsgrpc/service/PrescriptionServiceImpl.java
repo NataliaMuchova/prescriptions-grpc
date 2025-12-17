@@ -384,7 +384,7 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
     try {
       long cpr = request.getCpr();
 
-      User user = userRepository.findById((int) cpr).orElse(null);
+      User user = userRepository.findById(cpr).orElse(null);
 
       if (user == null) {
         responseObserver.onError(new NoSuchElementException("User not found with CPR: " + cpr));
