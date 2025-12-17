@@ -5,6 +5,7 @@ import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import via.pro3.prescriptionsgrpc.entities.hospital.Drug;
 import via.pro3.prescriptionsgrpc.entities.hospital.Prescription;
 import via.pro3.prescriptionsgrpc.entities.hospital.PrescriptionDrug;
@@ -25,24 +26,27 @@ import java.util.stream.Collectors;
 @GRpcService
 public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
 
-  private final IDatabasePrescriptionRepository prescriptionRepository;
+    private final IDatabasePrescriptionRepository prescriptionRepository;
 
-  private final IDatabaseUserRepository userRepository;
+    private final IDatabaseUserRepository userRepository;
 
-  private final IDatabasePrescriptionDrugRepository prescriptionDrugRepository;
+    private final IDatabasePrescriptionDrugRepository prescriptionDrugRepository;
 
-  private final IPharmacyDrugRepository drugStorageRepository;
+    private final IPharmacyDrugRepository drugStorageRepository;
 
-  private final IDatabaseDrugRepository drugRepository;
+    private final IDatabaseDrugRepository drugRepository;
+
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired public PrescriptionServiceImpl(IDatabasePrescriptionRepository prescriptionRepository,
-        IDatabaseUserRepository userRepository, IDatabasePrescriptionDrugRepository prescriptionDrugRepository, IPharmacyDrugRepository drugStorageRepository, IDatabaseDrugRepository drugRepository)
+                                              IDatabaseUserRepository userRepository, IDatabasePrescriptionDrugRepository prescriptionDrugRepository, IPharmacyDrugRepository drugStorageRepository, IDatabaseDrugRepository drugRepository, PasswordEncoder passwordEncoder)
     {
         this.prescriptionRepository = prescriptionRepository;
         this.userRepository = userRepository;
         this.prescriptionDrugRepository = prescriptionDrugRepository;
         this.drugStorageRepository = drugStorageRepository;
         this.drugRepository = drugRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     private LocalDate convertToLocalDate(Timestamp timestamp) {
@@ -98,32 +102,33 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
         return drugs;
     }
 
-  @Override
-  public void createPrescription(CreatePrescriptionRequest request,
-                                 StreamObserver<PrescriptionReply> responseObserver) {
-      User doctor = userRepository.findById(request.getDoctorId()).orElse(null);
-      User patient = userRepository.findById(request.getPatientId()).orElse(null);
 
-      if(doctor==null || patient==null){
-          System.out.println("doctor or patient not found");
-          responseObserver.onError(new NullPointerException("doctor or patient is null"));
-          return;
-      }
+    @Override
+    public void createPrescription(CreatePrescriptionRequest request,
+                                   StreamObserver<PrescriptionReply> responseObserver) {
+        Prescription p = new Prescription();
 
-      if(!doctor.getRole().equals(User.Roles.DOCTOR.role)){
-          System.out.println("doctor role not found");
-          responseObserver.onError(new IllegalAccessException("Doctor is not doctoooor"));
-          return;
-      }
+        User doctor = userRepository.findById(request.getDoctorId()).orElse(null);
+        User patient = userRepository.findById(request.getPatientId()).orElse(null);
 
-      Prescription p = new Prescription();
+            if(doctor==null || patient==null){
+                System.out.println("doctor or patient not found");
+                responseObserver.onError(new NullPointerException("doctor or patient is null"));
+                return;
+            }
 
-      Set<Drug> drugs = new HashSet<>();
+            if(!doctor.getRole().equals(User.Roles.DOCTOR.role)){
+                System.out.println("doctor role not found");
+                responseObserver.onError(new IllegalAccessException("Doctor is not doctoooor"));
+                return;
+            }
 
-      Set<PrescriptionDrug> prescriptionDrugs = new HashSet<>();
+          Set<Drug> drugs = new HashSet<>();
 
-      for(CreatePrescriptionDrug drug : request.getDrugsList()){
-          PharmacyDrug pharmacyDrug = drugStorageRepository.findById(drug.getName()).orElse(null);
+          Set<PrescriptionDrug> prescriptionDrugs = new HashSet<>();
+
+          for(CreatePrescriptionDrug drug : request.getDrugsList()){
+              PharmacyDrug pharmacyDrug = drugStorageRepository.findById(drug.getName()).orElse(null);
 
           Drug drugToSave;
 
@@ -188,9 +193,9 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
       responseObserver.onCompleted();
   }
 
-  @Override
-  public void getPrescriptions(PrescriptionsRequest request,
-                               StreamObserver<GetPrescriptionsReply> responseObserver) {
+    @Override
+    public void getPrescriptions(PrescriptionsRequest request,
+                                 StreamObserver<GetPrescriptionsReply> responseObserver) {
 
         long patientCpr = request.getPatientId();
         User patient = userRepository.findById(patientCpr).orElse(null);
@@ -224,13 +229,13 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
             .build())
         .collect(Collectors.toList());
 
-    GetPrescriptionsReply reply = GetPrescriptionsReply.newBuilder()
-        .addAllPrescriptions(items)
-        .build();
+        GetPrescriptionsReply reply = GetPrescriptionsReply.newBuilder()
+                .addAllPrescriptions(items)
+                .build();
 
-    responseObserver.onNext(reply);
-    responseObserver.onCompleted();
-  }
+        responseObserver.onNext(reply);
+        responseObserver.onCompleted();
+    }
 
     @Override public void updatePrescription(UpdatePrescriptionRequest request,
         StreamObserver<UpdatePrescriptionReply> responseObserver)
@@ -329,14 +334,13 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
     }
 
     @Override public void checkCredentials(
-        CheckCredentialsRequest request, io.grpc.stub.StreamObserver<CheckCredentialsReply> responseObserver)
+            CheckCredentialsRequest request, io.grpc.stub.StreamObserver<CheckCredentialsReply> responseObserver)
     {
         long cpr = request.getUserId();
 
         User user = userRepository.findById(cpr).orElse(null);
 
-        if (user != null && user.getPassword().equals(request.getPassword()))
-        {
+        if (user != null && passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             UserRoles role = getUserRole(user);
 
             CheckCredentialsReply reply = CheckCredentialsReply.newBuilder().setRole(role).build();
@@ -351,7 +355,7 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
     }
 
     @Override public void createUser(CreateUserRequest request,
-        StreamObserver<CreateUserReply> responseObserver)
+                                     StreamObserver<CreateUserReply> responseObserver)
     {
         //checks if user exists, without this you could continuously
         //create new users on 1 cpr to overwrite others
@@ -361,16 +365,17 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
             responseObserver.onError(new SQLException("User already exists"));
             return;
         }
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
 
         User user = new User(
-            request.getName(),
-            request.getSurname(),
-            request.getPassword(),
-            request.getPhone(),
-            request.getCpr(),
-            User.Roles.PATIENT,
-            convertToLocalDate(request.getBirthday()),
-            request.getGender()
+                request.getName(),
+                request.getSurname(),
+                encodedPassword,
+                request.getPhone(),
+                request.getCpr(),
+                User.Roles.PATIENT,
+                convertToLocalDate(request.getBirthday()),
+                request.getGender()
         );
 
         //useful for any generated fields (in this case role being set to patient)
@@ -399,10 +404,12 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
             return;
         }
 
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+
         User user = new User(
             request.getName(),
             request.getSurname(),
-            request.getPassword(),
+            encodedPassword,
             request.getPhone(),
             request.getCpr(),
             convertToDbRole(request.getRole()),
@@ -482,7 +489,7 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
     }
 
     @Override public void createDrugStorage(CreateDrugRequest request,
-        StreamObserver<CreateDrugReply> responseObserver)
+                                            StreamObserver<CreateDrugReply> responseObserver)
     {
         PharmacyDrug created = drugStorageRepository.save(new PharmacyDrug(
             request.getName(), request.getDescription(), request.getStock(), request.getPrice(), request.getReorderLevel()));
