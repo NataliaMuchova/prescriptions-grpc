@@ -3,6 +3,7 @@ syntax = "proto3";
 option java_multiple_files = true;
 option java_package = "via.pro3.prescriptionsgrpc.generated";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 
 package hospital;
 
@@ -16,37 +17,69 @@ enum UserRoles {
 service Hospital {
   rpc GetPrescriptions (PrescriptionsRequest) returns (GetPrescriptionsReply);
   rpc CreatePrescription (CreatePrescriptionRequest) returns (PrescriptionReply);
+  rpc UpdatePrescription (UpdatePrescriptionRequest) returns (UpdatePrescriptionReply);
   rpc CheckCredentials (CheckCredentialsRequest) returns (CheckCredentialsReply);
   rpc CreateUser (CreateUserRequest) returns (CreateUserReply);
-  rpc GetDrugStorage (GetDrugRequest) returns (GetDrugReply);
+  rpc GetUser (GetUserRequest) returns (GetUserReply);
+  rpc GetDrugStorage (google.protobuf.Empty) returns (GetDrugStorageReply);
   rpc CreateDrugStorage (CreateDrugRequest) returns (CreateDrugReply);
+  rpc UpdateDrugStorage (UpdateDrugRequest) returns (UpdateDrugReply);
+  rpc CreateRoleUser (CreateRoleUserRequest) returns (CreateUserReply);
+}
+
+message CreateRoleUserRequest {
+  string name = 1;
+  string surname = 2;
+  int64 cpr = 3;
+  string password = 4;
+  string phone = 5;
+  string gender = 6;
+  google.protobuf.Timestamp birthday = 7;
+  UserRoles role = 8;
+}
+
+message UpdateDrugRequest {
+  string name = 1;
+  string description = 2;
+  int32 stock = 3;
+  double price = 4;
+  int32 reorderLevel = 5;
+}
+
+message UpdateDrugReply {
+  string name = 1;
+  string description = 2;
+  int32 stock = 3;
+  double price = 4;
+  int32 reorderLevel = 5;
 }
 
 message CreateDrugRequest {
   string name = 1;
-  int32 stock = 2;
-  double price = 3;
-  int32 reorderLevel = 4;
+  string description = 2;
+  int32 stock = 3;
+  double price = 4;
+  int32 reorderLevel = 5;
 }
 
 message CreateDrugReply {
   string name = 1;
-  int32 id = 2;
+  string description = 2;
   int32 stock = 3;
   double price = 4;
   int32 reorderLevel = 5;
 }
 
-message GetDrugRequest {
-  int32 id = 1;
-}
-
-message GetDrugReply {
+message DrugList {
   string name = 1;
-  int32 id = 2;
-  int32 stock = 3;
-  double price = 4;
-  int32 reorderLevel = 5;
+  int32 stock = 2;
+  double price = 3;
+  int32 reorderLevel = 4;
+  string description = 5;
+}
+
+message GetDrugStorageReply{
+  repeated DrugList drugs = 1;
 }
 
 message CreateUserRequest {
@@ -70,8 +103,22 @@ message CreateUserReply {
   UserRoles role = 8;
 }
 
+message GetUserReply {
+  int64 cpr = 1;
+  string name = 2;
+  string surname = 3;
+  string phone = 4;
+  string gender = 5;
+  google.protobuf.Timestamp birthday = 6;
+  string role = 7;
+}
+
+message GetUserRequest {
+  int64 cpr = 1;
+}
+
 message CheckCredentialsRequest {
-  int32 user_id = 1;
+  int64 user_id = 1;
   string password = 2;
 }
 
@@ -79,14 +126,40 @@ message CheckCredentialsReply {
   UserRoles role = 1;
 }
 
+message UpdatePrescriptionRequest {
+  int32 id = 1;
+  int64 patient_id = 2;
+  int64 doctor_id = 3;
+  google.protobuf.Timestamp issue_date = 4;
+  google.protobuf.Timestamp expiration_date = 5;
+  repeated CreatePrescriptionDrug drugs = 6;
+}
+
+message UpdatePrescriptionReply {
+  int32 id = 1;
+  int64 patient_id = 2;
+  int64 doctor_id = 3;
+  google.protobuf.Timestamp issue_date = 4;
+  google.protobuf.Timestamp expiration_date = 5;
+  repeated Drug drugs = 6;
+}
+
 message CreatePrescriptionRequest {
-  int32 patient_id = 1;
-  int32 doctor_id = 2;
-  repeated Drug drugs = 3;
+  int64 patient_id = 1;
+  int64 doctor_id = 2;
+  google.protobuf.Timestamp expiration_date = 3;
+  repeated CreatePrescriptionDrug drugs = 4;
+}
+
+message CreatePrescriptionDrug {
+  string name = 1;
+  string note = 2;
+  int32 availability_count = 3;
+  int32 starting_amount = 4;
 }
 
 message PrescriptionsRequest {
-  int32 patient_id = 1;
+  int64 patient_id = 1;
 }
 
 message GetPrescriptionsReply {
@@ -94,18 +167,17 @@ message GetPrescriptionsReply {
 }
 
 message Drug {
-  int32 id = 1;
-  string name = 2;
-  string description = 3;
-  int32 amount = 4;
-  int32 availability_count = 5;
-  string note = 6;
+  string name = 1;
+  string description = 2;
+  int32 availability_count = 3;
+  string note = 4;
+  int32 starting_amount = 5;
 }
 
 message PrescriptionReply {
   int32 id = 1;
-  int32 patient_id = 2;
-  int32 doctor_id = 3;
+  int64 patient_id = 2;
+  int64 doctor_id = 3;
   google.protobuf.Timestamp issue_date = 4;
   google.protobuf.Timestamp expiration_date = 5;
   repeated Drug drugs = 6;

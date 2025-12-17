@@ -10,9 +10,13 @@ public class PrescriptionDrug {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "drug_id")
     private Drug drug;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "prescription_id")
+    private Prescription prescription;
 
     @Column(name = "note", length = 500)
     private String note;
@@ -20,9 +24,30 @@ public class PrescriptionDrug {
     @Column(name = "availability_count")
     private Integer availabilityCount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "prescription_id")
-    private Prescription prescription;
+    @Column (name = "starting_amount")
+    private Integer startingAmount;
+
+    public PrescriptionDrug(Drug drug, Prescription prescription, String note, int availabilityCount, int startingAmount)
+    {
+        this.drug = drug;
+        this.prescription = prescription;
+        this.note = note;
+        this.availabilityCount = availabilityCount;
+        this.startingAmount = startingAmount;
+    }
+
+    public PrescriptionDrug(){
+
+    }
+
+    public PrescriptionDrug(Drug drug, String note, Integer availabilityCount, Prescription prescription, int startingAmount)
+    {
+        this.drug = drug;
+        this.note = note;
+        this.availabilityCount = availabilityCount;
+        this.prescription = prescription;
+        this.startingAmount = startingAmount;
+    }
 
     public Integer getId() {
         return id;
@@ -56,12 +81,17 @@ public class PrescriptionDrug {
         this.availabilityCount = availabilityCount;
     }
 
-    public Prescription getPrescription() {
-        return prescription;
+    public void setPrescription(Prescription p)
+    {
+        this.prescription = p;
     }
 
-    public void setPrescription(Prescription prescription) {
-        this.prescription = prescription;
+    public Integer getStartingAmount() {
+    return startingAmount;
     }
 
+    public void setStartingAmount(Integer startingAmount)
+    {
+      this.startingAmount = startingAmount;
+    }
 }

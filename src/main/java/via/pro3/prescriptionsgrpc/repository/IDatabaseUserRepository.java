@@ -5,6 +5,6 @@ import org.springframework.stereotype.Repository;
 import via.pro3.prescriptionsgrpc.entities.hospital.User;
 
 @Repository
-public interface IDatabaseUserRepository extends JpaRepository<User, Integer>
+public interface IDatabaseUserRepository extends JpaRepository<User, Long>
 {
 }

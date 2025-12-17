@@ -2,29 +2,29 @@ package via.pro3.prescriptionsgrpc.entities.hospital;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "drug", schema = "hospital")
 public class Drug {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Integer id;
-
     @Column(name = "name", length = 100)
     private String name;
 
     @Column(name = "description", length = 200)
     private String description;
 
-    @Column(name = "amount")
-    private Integer amount;
+    @OneToMany(mappedBy = "drug")
+    private Set<PrescriptionDrug> prescriptionDrugs;
 
-    public Integer getId() {
-        return id;
+    public Drug(String name, String description)
+    {
+        this.name = name;
+        this.description = description;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Drug(){
+
     }
 
     public String getName() {
@@ -41,14 +41,6 @@ public class Drug {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Integer getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Integer amount) {
-        this.amount = amount;
     }
 
 }

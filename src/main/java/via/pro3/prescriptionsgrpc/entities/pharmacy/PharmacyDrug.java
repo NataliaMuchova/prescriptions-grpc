@@ -8,12 +8,11 @@ import jakarta.persistence.*;
 public class PharmacyDrug
 {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Integer id;
-
     @Column(name = "name", length = 100)
     private String name;
+
+    @Column(name = "description", length = 200)
+    private String description;
 
     @Column(name = "stock")
     private int stock;
@@ -33,9 +32,10 @@ public class PharmacyDrug
 
     }
 
-    public PharmacyDrug(String id, int stock, double price, int reorderLevel, Pharmacy pharmacy)
+    public PharmacyDrug(String id, String description, int stock, double price, int reorderLevel, Pharmacy pharmacy)
     {
         this.name = id;
+        this.description = description;
         this.stock = stock;
         this.price = price;
         this.reorderLevel = reorderLevel;
@@ -44,21 +44,15 @@ public class PharmacyDrug
 
 
 
-    public PharmacyDrug(String id, int stock, double price, int reorderLevel) {
+    public PharmacyDrug(String id, String description, int stock, double price, int reorderLevel) {
 
         this.name = id;
+        this.description = description;
         this.stock = stock;
         this.price = price;
         this.reorderLevel = reorderLevel;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
     public String getName()
     {
         return name;
@@ -67,6 +61,15 @@ public class PharmacyDrug
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    public String getDescription(){
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
     }
 
     public int getStock()
