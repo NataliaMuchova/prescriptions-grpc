@@ -24,6 +24,18 @@ service Hospital {
   rpc GetDrugStorage (google.protobuf.Empty) returns (GetDrugStorageReply);
   rpc CreateDrugStorage (CreateDrugRequest) returns (CreateDrugReply);
   rpc UpdateDrugStorage (UpdateDrugRequest) returns (UpdateDrugReply);
+  rpc CreateRoleUser (CreateRoleUserRequest) returns (CreateUserReply);
+}
+
+message CreateRoleUserRequest {
+  string name = 1;
+  string surname = 2;
+  int64 cpr = 3;
+  string password = 4;
+  string phone = 5;
+  string gender = 6;
+  google.protobuf.Timestamp birthday = 7;
+  UserRoles role = 8;
 }
 
 message UpdateDrugRequest {
