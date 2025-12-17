@@ -5,10 +5,10 @@ TRUNCATE drug CASCADE;
 
 INSERT INTO "user" VALUES(1234567890, 'patient', 'Millie','Magenta', '123', '58694725', '2000-09-19', 'M');
 INSERT INTO "user" VALUES(1122334455, 'patient', 'Jane','Doe', '112', '23548625', '1999-11-05', 'F');
-INSERT INTO "user" VALUES(123, 'doctor', 'John','Travolta', '998', '55224488', '1985-04-30', 'M');
-INSERT INTO "user" VALUES(111, 'doctor', 'Mike','Wazowski', '987', '42548745', '1995-06-15', 'M');
-INSERT INTO "user" VALUES(1, 'pharmacist', 'John','Travolta', '1', '55224488', '1985-04-30', 'M');
-INSERT INTO "user" VALUES(2, 'pharmacist', 'Mike','Wazowski', '2', '42548745', '1995-06-15', 'M');
+INSERT INTO "user" VALUES(1231231231, 'doctor', 'John','Travolta', '998', '55224488', '1985-04-30', 'M');
+INSERT INTO "user" VALUES(1111111111, 'doctor', 'Mike','Wazowski', '987', '42548745', '1995-06-15', 'M');
+INSERT INTO "user" VALUES(1212121212, 'pharmacist', 'John','Travolta', '1', '55224488', '1985-04-30', 'M');
+INSERT INTO "user" VALUES(2121212121, 'pharmacist', 'Mike','Wazowski', '2', '42548745', '1995-06-15', 'M');
 
 INSERT INTO drug VALUES ('Xanax', 'It is supposed to help');
 INSERT INTO drug VALUES ('Aulin', 'For severe pain');
