@@ -70,6 +70,18 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
         return role;
     }
 
+    private User.Roles convertToDbRole(UserRoles role)
+    {
+        User.Roles dbRole = switch (role){
+            case UserRoles.Patient -> User.Roles.PATIENT;
+            case UserRoles.Doctor -> User.Roles.DOCTOR;
+            case UserRoles.Pharmacist -> User.Roles.PHARMACIST;
+            case null, default -> null;
+        };
+
+        return dbRole;
+    }
+
     private List<via.pro3.prescriptionsgrpc.generated.Drug> convertPrescriptionDrugsToGRPCDrugs(Iterable<PrescriptionDrug> prescriptionDrugs){
         List<via.pro3.prescriptionsgrpc.generated.Drug> drugs = new ArrayList<>();
 
@@ -379,7 +391,44 @@ public class PrescriptionServiceImpl extends HospitalGrpc.HospitalImplBase {
         responseObserver.onCompleted();
     }
 
-  @Override public void getUser(GetUserRequest request, StreamObserver<GetUserReply> responseObserver)
+    @Override public void createRoleUser(CreateRoleUserRequest request,
+        StreamObserver<CreateUserReply> responseObserver)
+    {
+        if(userRepository.existsById(request.getCpr())){
+            responseObserver.onError(new SQLException("User already exists"));
+            return;
+        }
+
+        User user = new User(
+            request.getName(),
+            request.getSurname(),
+            request.getPassword(),
+            request.getPhone(),
+            request.getCpr(),
+            convertToDbRole(request.getRole()),
+            convertToLocalDate(request.getBirthday()),
+            request.getGender()
+        );
+
+        //useful for any generated fields (in this case role being set to patient)
+        User created = userRepository.save(user);
+
+        CreateUserReply response = CreateUserReply.newBuilder()
+            .setName(created.getName())
+            .setSurname(created.getSurname())
+            .setPassword(created.getPassword())
+            .setPhone(created.getPhone())
+            .setCpr(created.getId())
+            .setRole(getUserRole(created))
+            .setGender(created.getGender())
+            .setBirthday(convertToTimestamp(created.getBirthday()))
+            .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override public void getUser(GetUserRequest request, StreamObserver<GetUserReply> responseObserver)
   {
     try {
       long cpr = request.getCpr();
